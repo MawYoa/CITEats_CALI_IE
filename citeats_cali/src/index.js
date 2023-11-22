@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import { BrowserRouter , Router, Route, Switch ,Routes} from 'react-router-dom'; // Update this line
+import { BrowserRouter , Route ,Routes} from 'react-router-dom'; // Update this line
 
 import Home from './pages/Home';
 import BrowseRestaurants from './pages/BrowseRestaurants';
@@ -16,13 +16,16 @@ import Reviews from './pages/Reviews';
 import Menu from './pages/Menu';
 import Food from './pages/Food';
 import Ambience from './pages/Ambience';
+import AboutUs from './pages/AboutUs';
+import GetStarted from './pages/GetStarted';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login/>} />
+        <Route path="/" element={<GetStarted/>} />
+        <Route path="/Login" element={<Login/>} />
         <Route path="/Home" element={<Home/>} />
         <Route path="/BrowseRestaurants" element={<BrowseRestaurants/>} />
         <Route path="/Favorites" element={<Favorites/>} />
@@ -35,6 +38,7 @@ root.render(
         <Route path="/Menu" element={<Menu/>} />
         <Route path="/Food" element={<Food/>} />
         <Route path="/Ambience" element={<Ambience/>} /> 
+        <Route path="/AboutUs" element={<AboutUs/>} /> 
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

@@ -52,6 +52,7 @@ const Header = () => {
           <NavLink href="/Favorites">Favorites</NavLink>
           <NavLink href="/JoinUs">Join Us</NavLink>
           <NavLink href="/UserProfile">User</NavLink>
+          <NavLink href="/AboutUs">AboutUs</NavLink>
         </Navigation>
       </HeaderContainer>
     );
