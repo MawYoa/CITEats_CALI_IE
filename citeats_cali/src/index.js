@@ -18,6 +18,10 @@ import Food from './pages/Food';
 import Ambience from './pages/Ambience';
 import AboutUs from './pages/AboutUs';
 import GetStarted from './pages/GetStarted';
+import RestaurantProfile from './pages/RestaurantProfile';
+import EditRestaurant from './pages/EditRestaurant';
+
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -39,6 +43,10 @@ root.render(
         <Route path="/Food" element={<Food/>} />
         <Route path="/Ambience" element={<Ambience/>} /> 
         <Route path="/AboutUs" element={<AboutUs/>} /> 
+        <Route path="/RestaurantProfile" element={<RestaurantProfile/>} /> 
+        <Route path="/EditRestaurant" element={<EditRestaurant/>} /> 
+        <Route path="/GetStarted" element={<GetStarted/>} /> 
+
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
