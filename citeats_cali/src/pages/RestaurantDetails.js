@@ -152,13 +152,16 @@ const OverallRatingLabel = styled.label`
 font-size: 18px;
 margin-bottom: 10px;
 display: flex;
+margin-left:10px;
+margin-right:10px;
 align-items: center; /* Align items vertically in the flex container */
 `;
 
 const StarRatingContainer = styled.div`
   display: flex;
   align-items: center; /* Align items vertically in the center */
-  margin-left: 5px; /* Adjust the margin as needed */
+  margin-left: 20px; /* Adjust the margin as needed */
+  margin-right: 20px;
 `;
 
 const StarIcon = styled.span`
@@ -177,7 +180,7 @@ const ReviewTextarea = styled.textarea`
   border-radius: 15px;
   height: 190px;
   width: 550px; /* Adjust the width as needed */
-  margin-left: 200px; /* Set margin-left to 0 to align with the left */
+  margin-left: 150px; /* Set margin-left to 0 to align with the left */
   background-color: #f0f0f0; /* Set the background color to grey */
 `;
 
@@ -210,7 +213,7 @@ const FeedbackTitle = styled.h2`
   color: white; /* Set the text color to ensure readability */
   display: flex; /* Use flex display */
   align-items: center; /* Vertically align items */
-  width: 800px; /* Adjust the width as needed */
+  width: 850px; /* Adjust the width as needed */
   height: 100px; 
   text-align: left; /* Align text to the left */
   margin-left: 180px; /* Set margin-left to 0 to align with the left */
@@ -230,7 +233,7 @@ const InfoContainer = styled.div`
   padding: 20px;
   margin: 0 auto;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-left: 1000px; /* Align to the right */
+  margin-left: 1200px; /* Align to the right */
 `;
 
 const RatingContainer = styled.div`
@@ -251,7 +254,7 @@ const Container = styled.div`
 `;
 
 const IconImage = styled.img`
-  width: 340px; // Adjust the width and height as needed
+  width: 400px; // Adjust the width and height as needed
   height: 100px;
   margin-right: 10px; // Adjust the margin as needed
 `;
@@ -266,7 +269,6 @@ const RatingAndReviewContainer = styled.div`
   display: flex;
   justify-content: space-between;
   margin-right: 780px;
-  width: 45%;
 `;
 
 const OverallRatingInput = ({ onChange }) => {
@@ -278,7 +280,7 @@ const OverallRatingInput = ({ onChange }) => {
   };
 
   return (
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '10px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '10px' ,marginLeft:'-10px'}}>
         <OverallRatingLabel htmlFor="overallRating">Overall Rating</OverallRatingLabel>
             <StarRatingContainer>
             {[1, 2, 3, 4, 5].map((star) => (
