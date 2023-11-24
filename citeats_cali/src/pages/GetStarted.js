@@ -10,7 +10,7 @@ const GetStarted = () => {
         <div style={{ display: 'flex'}}>
           <div>
             <br />
-            <img src="GetStarted.png" alt="GetStarted" style={{ width: '500px', height: '700px', marginLeft: '300px' }} />
+            <img src="GetStarted.png" alt="GetStarted" style={{ width: '500px', height: '800px', marginLeft: '300px' }} />
           </div>
 
           <div style={{ width: '500px',height:'700px', marginLeft: '40px', marginTop: '100px' }}>
@@ -58,7 +58,6 @@ const GetStarted = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 };
