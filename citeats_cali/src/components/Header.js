@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import './Header.css';  // Import the CSS file
 
 const HeaderContainer = styled.div`
 width: 100%;
@@ -10,6 +11,7 @@ display: flex;
 align-items: center;
 justify-content: center;
 box-shadow: 0 2px 4px rgba(0.5, 0.5, 0.5, 0.5);
+font-family: Kumbh Sans;
 `;
 
 const Logo = styled.img`
@@ -30,6 +32,10 @@ const NavLink = styled.a`
   color: #000;
   font-weight: bold;
 
+  &:hover {
+    font-color:#E21B70;
+    cursor: pointer;
+  }
 `;
 
 const CITEatsLogo = styled.img`

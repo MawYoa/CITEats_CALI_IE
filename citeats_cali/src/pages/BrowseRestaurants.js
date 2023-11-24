@@ -102,7 +102,7 @@ const BrowseRestaurants = () => {
   return (
     <div>
       <Header />
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex" ,fontFamily: 'Kumbh Sans'}}>
         <RestaurantSection style={{ width: "20%" }}>
           <FilterSection>
             <h2>Filter</h2>

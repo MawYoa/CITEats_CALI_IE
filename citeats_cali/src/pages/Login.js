@@ -3,6 +3,7 @@ import './main.css';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import Header from '../components/Header';
+import "@fontsource/kumbh-sans"; 
 
 const Login = () => {
   const navigate = useNavigate();
@@ -47,7 +48,7 @@ const Login = () => {
     <div>
       <Header />
       <div className="login-container">
-        <h2>Login</h2>
+        <h2 style={{fontFamily:'Kumbh Sans'}}>Login</h2>
         <form onSubmit={handleLogIn}>
           <label>Email Address:</label>
           <input
@@ -90,7 +91,7 @@ const Login = () => {
           <button
             type="submit"
             className="login-button"
-            style={{ backgroundColor: 'maroon', color: '#fff', width: '300px', border: 'none' }}
+            style={{ backgroundColor: 'maroon', color: '#fff', width: '300px', border: 'none', fontFamily: 'Kumbh Sans' }}
           >
             Log in
           </button>

@@ -18,6 +18,8 @@ const HomeContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-Family: Kumbh Sans;
+
 `;
 
 const HeroImage = styled.img`

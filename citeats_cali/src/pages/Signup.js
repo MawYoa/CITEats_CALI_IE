@@ -63,7 +63,7 @@ const SignUp = () => {
   return (
     <div>
       <Header />
-      <div className="signup-container">
+      <div className="signup-container" style={{fontFamily:'Kumbh Sans'}}>
         <h1>Sign Up!</h1>
         <form className="form" onSubmit={handleSubmit}>
           <input

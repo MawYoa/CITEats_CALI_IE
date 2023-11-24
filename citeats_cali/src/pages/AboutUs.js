@@ -36,7 +36,7 @@ const WidePicture = ({ imageSrc, height }) => (
 const AboutUs = () => {
   return (
     <div> 
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' ,fontFamily: 'Kumbh Sans'}}>
       <Header />
       <WidePicture imageSrc="about.jpg" />
       <p style={{ color: 'black', textAlign: 'center', fontSize: '20px', marginTop: '20px',width:'1000px',fontWeight:'bold' }}>

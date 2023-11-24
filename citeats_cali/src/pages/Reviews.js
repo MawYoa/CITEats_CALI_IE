@@ -13,7 +13,7 @@ const ReviewsContainer = styled.div`
   width: 70%;
   margin: 0 auto;
   background-color: #fff;
-  font-family: 'Arial', sans-serif;
+  font-family: 'Kumbh Sans';
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;

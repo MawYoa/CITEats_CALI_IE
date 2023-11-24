@@ -1,22 +1,31 @@
-import React from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import styled from 'styled-components';
+import "@fontsource/kumbh-sans"; 
 import './GetStarted.css';  // Import the CSS file
 
 const GetStarted = () => {
+
+const StyledLink = styled(Link)`
+  text-decoration: none; /* Remove underline */
+  color: inherit; /* Inherit the color from the parent */
+`;
   return (
     <>
       <div>
+        <Header/>
         <div style={{ display: 'flex'}}>
           <div>
             <br />
             <img src="GetStarted.png" alt="GetStarted" style={{ width: '500px', height: '800px', marginLeft: '300px' }} />
           </div>
 
-          <div style={{ width: '500px',height:'700px', marginLeft: '40px', marginTop: '100px' }}>
+
+          <div style={{ width: '500px',height:'700px', marginLeft: '40px', marginTop: '100px' ,fontFamily: 'Kumbh Sans'}}>
             <div className="form-container">
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <h2 style={{ fontSize: '26px' }}>
+                <h2 style={{ fontFamily: 'Kumbh Sans',fontSize:'28px',letterSpacing:'-1px'}}>
                   Elevate Your Campus Dining:
                   <br />
                   Join CITEats Now!
@@ -25,29 +34,37 @@ const GetStarted = () => {
               <br/>
               <br/>
               <div className="button-container">
-                <button className="maroon-button" onClick={() => console.log('Sign in as Student')}>
+                <StyledLink to="/Login">
+                <button className="maroon-button" onClick={() => alert('Sign in as Student')}>
                   Sign in as Student
                 </button>
+                </StyledLink>
               </div>
 
               <div className="button-container">
-                <button className="maroon-button" onClick={() => console.log('Sign in as Restaurant Owner')}>
+              <StyledLink to="/Login">
+                <button className="maroon-button" onClick={() => alert('Sign in as Restaurant Owner')}>
                   Sign in as Restaurant Owner
                 </button>
+                </StyledLink>
               </div>
 
               <div className="button-container">
-                <button className="maroon-button" onClick={() => console.log('Sign in as Admin')}>
+              <StyledLink to="/Login">
+                <button className="maroon-button" onClick={() => alert('Sign in as Admin')}>
                   Sign in as Admin
                 </button>
+                </StyledLink>
               </div>
 
               <h4 style={{ textAlign: 'center', alignItems: 'center' }}>Or</h4>
 
               <div className="button-container">
-                <button className="maroon-button" onClick={() => console.log('Sign Up Now')}>
+              <StyledLink to="/SignUp">
+                <button className="maroon-button" onClick={() => alert('Sign Up Now')}>
                   Sign Up Now
                 </button>
+                </StyledLink>
                 
               </div>
               <br/>

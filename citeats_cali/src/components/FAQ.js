@@ -6,7 +6,7 @@ import styled from "styled-components";
 const FAQ = () => {
     return (
 <>
-<div style={{ textAlign: 'right',padding: '0 280px'  }}>
+<div style={{ textAlign: 'right',padding: '0 280px' ,fontFamily: 'Kumbh Sans'}}>
 <h2 style={{ textAlign: 'left' }}>Frequently Asked Questions</h2>
 <br></br>
 <p style={{ textAlign: 'left' ,fontWeight:'bold'}}>

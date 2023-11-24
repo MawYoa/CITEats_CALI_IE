@@ -11,6 +11,8 @@ const ForgotPasswordContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  font-Family: Kumbh Sans;
+
 `;
 
 const ForgotPasswordForm = styled.form`

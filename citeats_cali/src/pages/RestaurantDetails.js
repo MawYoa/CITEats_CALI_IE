@@ -15,6 +15,8 @@ const RestaurantDetailsContainer = styled.div`
   font-family: 'Arial', sans-serif;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Kumbh Sans';
+
 `;
 
 const RestaurantDetailsHeader = styled.div`
@@ -280,7 +282,7 @@ const OverallRatingInput = ({ onChange }) => {
   };
 
   return (
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '10px' ,marginLeft:'-10px'}}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '10px' ,marginLeft:'-10px',fontFamily:'Kumbh Sans'}}>
         <OverallRatingLabel htmlFor="overallRating">Overall Rating</OverallRatingLabel>
             <StarRatingContainer>
             {[1, 2, 3, 4, 5].map((star) => (
@@ -299,7 +301,7 @@ const OverallRatingInput = ({ onChange }) => {
 
 const RestaurantDetails = () => {
   return (
-    <div>
+    <div style={{fontFamily:'Kumbh Sans'}}>
       <Header />
       <br />
       <RestaurantDetailsContainer>

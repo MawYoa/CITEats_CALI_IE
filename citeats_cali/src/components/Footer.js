@@ -12,6 +12,7 @@ const FooterContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
+  font-family: Kumbh Sans;
   box-shadow: 0 2px 4px rgba(0.5, 0.5, 0.5, 0.5);
 `;
 
