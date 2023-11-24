@@ -1,0 +1,29 @@
+/* GetStarted.css */
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .maroon-button {
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 300px;
+    background-color: maroon;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-container {
+    padding: 20px;
+    margin: 20px;
+    border: 4px solid gold;
+    border-radius: 25px;
+  }
+  
+  /* Add more styles as needed */
+  

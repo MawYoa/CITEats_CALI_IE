@@ -28,7 +28,7 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<RestaurantProfile/>} />
+        <Route path="/" element={<GetStarted/>} />
         <Route path="/Login" element={<Login/>} />
         <Route path="/Home" element={<Home/>} />
         <Route path="/BrowseRestaurants" element={<BrowseRestaurants/>} />

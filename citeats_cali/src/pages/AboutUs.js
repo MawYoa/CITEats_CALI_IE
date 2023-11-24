@@ -35,18 +35,23 @@ const WidePicture = ({ imageSrc, height }) => (
 
 const AboutUs = () => {
   return (
+    <div> 
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <Header />
       <WidePicture imageSrc="about.jpg" />
-      <p style={{ color: 'black', textAlign: 'center', fontSize: '20px', marginTop: '20px' }}>
-        Welcome to the Campus Dining Guide!
-        <br />
-        We are thrilled to introduce you to the Campus Dining Guide, a project that goes beyond the ordinary to redefine your dining experiences on campus. Whether you're a student, faculty member, or visitor, we believe that every meal is an adventure, and we're here to guide you through it.
+      <p style={{ color: 'black', textAlign: 'center', fontSize: '20px', marginTop: '20px',width:'1000px',fontWeight:'bold' }}>
+        Welcome to CIT Eats our Campus Dining Guide!</p>
+        
+        <p style={{ color: 'black', textAlign: 'center', fontSize: '20px', marginTop: '20px',width:'1000px'}}>
+        We are thrilled to introduce you to CIT Eats, a project that goes beyond the ordinary to redefine your dining experiences on campus. Whether you're a student, faculty member, or visitor, we believe that every meal is an adventure, and we're here to guide you through it.
       </p>
       <p style={{ color: 'black', fontStyle: 'italic', textAlign: 'center', maxWidth: '600px', margin: 'auto', fontSize: '18px' }}>
         "Exploring Tastes, Building Connections: Where Every Meal is an Adventure!"
       </p>
       <div style={{ textAlign: 'center', maxWidth: '600px', margin: 'auto', color: 'maroon', fontSize: '20px' }}>
+        <br/>
+        <br/>
+        <br/>
         <h1>About Us</h1>
         <p style={{ color: 'black', fontSize: '16px' }}>
           We are a team of dedicated individuals passionate about bringing the best dining experiences to your campus.
@@ -59,9 +64,13 @@ const AboutUs = () => {
         <Member name="Mikkel Alphonse Y. Alfante" imageSrc="org3.png" />
         <Member name="Earl Joseph Claro" imageSrc="org4.png" />
       </div>
-      <p style={{ color: 'black', textAlign: 'center', fontSize: '18px', marginTop: '20px' }}>
+      <p style={{ color: 'black', textAlign: 'center', fontSize: '18px', marginTop: '20px' ,width:'1000px'}}>
+      <br/>
+      <br/>
         Our team is made up of individuals who share a common goal – to enhance your dining journey. Get to know the faces behind the project, each bringing a unique flavor to the mix.
       </p>
+      <br/>
+      <br/>
       <div style={{ marginTop: '20px', width: '100%' }}>
         {/* Vision section */}
         <div style={{ backgroundColor: 'white', border: '2px solid gold', padding: '20px', textAlign: 'center', maxWidth: '600px', margin: 'auto', fontSize: '16px', borderRadius: '10px' }}>
@@ -80,6 +89,9 @@ const AboutUs = () => {
             <p style={{ color: 'maroon' }}>People-oriented Organization</p>
           </div>
         </div>
+        <br/>
+        <br/>
+        <br/>
 
         {/* Mission section */}
         <div style={{ backgroundColor: 'white', border: '2px solid gold', padding: '20px', textAlign: 'center', maxWidth: '600px', margin: 'auto', fontSize: '16px', borderRadius: '10px', marginTop: '20px' }}>
@@ -103,6 +115,10 @@ const AboutUs = () => {
           </div>
         </div>
       </div>
+      <br/>
+      <br/>
+      <br/>
+      <div style={{width:'1000px'}}>
       <p style={{ color: 'black', textAlign: 'center', fontSize: '18px', marginTop: '20px' }}>
         Explore our About Us page to learn more about our project, values, and the dedicated team that makes it all possible. Your feedback is invaluable as we embark on this culinary adventure together.
       </p>
@@ -112,8 +128,17 @@ const AboutUs = () => {
       <p style={{ color: 'black', textAlign: 'center', fontSize: '18px' }}>
         Happy dining!
       </p>
-      <Footer />
+      </div>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      
     </div>
+    
+        <Footer/>
+    </div>
+   
   );
 };
 
