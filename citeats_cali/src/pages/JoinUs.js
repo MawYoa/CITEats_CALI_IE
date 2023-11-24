@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import './main.css';
 import Header from '../components/Header';
 import { FaUser, FaEnvelope, FaLock } from 'react-icons/fa'; // Import the icon components
+import "@fontsource/kumbh-sans"; 
 
 const JoinUs = () => {
   const [restaurantName, setRestaurantName] = useState('');
@@ -21,10 +21,12 @@ const JoinUs = () => {
   };
 
   return (
-    <div style={{ backgroundColor: '#F4F4F4', textAlign: 'center' }}> {/* Center align the entire form */}
+    <>
+    
+    <div style={{ backgroundColor: '#F4F4F4', textAlign: 'center' ,fontFamily:'Kumbh Sans'}}> {/* Center align the entire form */}
       <Header />
-      <div className="joinus-container">
-        <h1 className="heading">Boost your reputation with CIT Eats!</h1>
+      <div className="joinus-container" style={{fontFamily:'Kumbh Sans'}}>
+        <h1 className="heading" style={{fontFamily:'Kumbh Sans'}}>Boost your reputation with CIT Eats!</h1>
         <p className="paragraph">Sign up now and start gaining new customers to boost your restaurant growth.</p>
         <div style={{ position:'relative', right:'110px' }}>
         <form className="form" onSubmit={handleSubmit}>
@@ -83,7 +85,7 @@ const JoinUs = () => {
           <button
             type="submit"
             className="signup-button"
-            style={{ backgroundColor: '#E21B70', color: '#fff', marginTop: '20px', position:'relative', left:'110px' }} // Added margin-top for spacing
+            style={{ backgroundColor: '#E21B70', color: '#fff', marginTop: '20px', position:'relative', left:'110px',fontFamily:'Kumbh Sans' }} // Added margin-top for spacing
           
           >
             SIGN UP
@@ -94,6 +96,7 @@ const JoinUs = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

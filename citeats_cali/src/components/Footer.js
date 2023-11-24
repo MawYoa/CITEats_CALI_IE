@@ -2,16 +2,17 @@ import React from "react";
 import styled from "styled-components";
 
 const FooterContainer = styled.div`
-  width: 1450px;
+  width: 1460px;
   height: 120px;
-  margin-right:20px;
-  margin-left:20px;
+  margin-right:10px;
+  margin-left:10px;
   background-color: white;
   color: black;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
+  font-family: Kumbh Sans;
   box-shadow: 0 2px 4px rgba(0.5, 0.5, 0.5, 0.5);
 `;
 

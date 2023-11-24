@@ -12,6 +12,7 @@ const StyledLink = styled(Link)`
 const FavoriteContainer = styled.div`
   text-align: center;
   margin-top: 50px;
+  font-Family: Kumbh Sans;
 `;
 
 

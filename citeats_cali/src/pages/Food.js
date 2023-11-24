@@ -7,7 +7,7 @@ const FoodContainer = styled.div`
   width: 80%;
   margin: 0 auto;
   background-color: #fff;
-  font-family: 'Arial', sans-serif;
+  font-Family: Kumbh Sans;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;

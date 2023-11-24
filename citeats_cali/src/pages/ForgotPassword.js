@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import axios from "axios"; // Import Axios
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
@@ -10,6 +11,8 @@ const ForgotPasswordContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  font-Family: Kumbh Sans;
+
 `;
 
 const ForgotPasswordForm = styled.form`
@@ -53,10 +56,22 @@ const ForgotPassword = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // TODO: Submit the forgot password request to the server
+    try {
+      const response = await axios.post('http://localhost:8080/users/getAllUsers', {
+        email,
+        newPassword: password,
+        confirmPassword,
+      });
+
+      console.log('Password reset successful:', response.data);
+      // Handle success (redirect, show success message, etc.)
+    } catch (error) {
+      console.error('Error resetting password:', error);
+      // Handle error (show error message, etc.)
+    }
   };
 
   return (

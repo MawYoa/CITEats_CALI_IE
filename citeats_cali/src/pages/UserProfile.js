@@ -4,11 +4,12 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 const UserProfileContainer = styled.div`
-  width: 95%;
+  width: 85%;
   display: flex;
   justify-content: space-between;
   background-color: #fff;
   margin-top: 10px;
+  font-family: 'Kumbh Sans';
   padding: 20px;
 `;
 
