@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import { BrowserRouter , Route ,Routes,useNavigate} from 'react-router-dom'; // Update this line
+import { BrowserRouter , Route ,Routes} from 'react-router-dom'; // Update this line
 
 import Home from './pages/Home';
 import BrowseRestaurants from './pages/BrowseRestaurants';
@@ -28,7 +28,7 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login/>} />
+        <Route path="/" element={<RestaurantProfile/>} />
         <Route path="/Login" element={<Login/>} />
         <Route path="/Home" element={<Home/>} />
         <Route path="/BrowseRestaurants" element={<BrowseRestaurants/>} />
