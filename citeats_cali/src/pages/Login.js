@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useUserContext } from '../components/UserContext';
+
 import './main.css';
 import axios from 'axios';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link} from 'react-router-dom';
 import Header from '../components/Header';
 import "@fontsource/kumbh-sans"; 
 
@@ -10,22 +12,30 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { loginUser } = useUserContext();
 
   const handleLogIn = async (e) => {
     e.preventDefault();
-
+  
     try {
       const response = await axios.get('http://localhost:8080/users/getAllUsers');
-
+  
       const users = response.data;
-
+  
       const user = users.find(user => user.email === email && user.password === password);
-
+  
       if (user) {
         // Login successful
         setIsLoggedIn(true);
+        loginUser(user.userId);
         console.log('User logged in:', user);
-        alert('User logged in:', user);
+  
+        // Fetch userId from the user object
+        const userId = user.userId;
+        alert(`User ${userId} logged in`);
+  
+        // You can store userId in state or any other necessary logic
+  
       } else {
         alert('Invalid Email and Password.');
         // Handle invalid login (show error message, etc.)
@@ -35,6 +45,7 @@ const Login = () => {
       // Handle login failure, show error message, etc.
     }
   };
+  
 
   useEffect(() => {
     // Check if login is successful

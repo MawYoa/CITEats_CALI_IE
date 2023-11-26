@@ -1,6 +1,6 @@
 // Home.js
 
-import React from 'react';
+import React, { useState, useEffect,useUserContext } from 'react';
 import styled from 'styled-components';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -37,6 +37,13 @@ const BrowseButton = styled.button`
   cursor: pointer;
   margin-top: 20px;
   font-size: 20px;
+  font-family:'Kumbh Sans'
+  transition: background-color 0.3s ease; /* Add transition effect */
+
+  &:hover {
+    background-color: gold; /* Change color on hover */
+    color:white;
+  }
 `;
 
 const Tagline = styled.h3`
@@ -100,6 +107,7 @@ const RestaurantCard = styled.div`
   text-align: center;
 `;
 
+
 const PopularNearYou = () => (
   <PopularNearYouContainer>
     <RestaurantCard>
@@ -141,7 +149,8 @@ const PopularNearYou = () => (
 );
 
 export const Home = () => {
-  //const history = useHistory();
+  const { user } = useUserContext();
+
 
   const handleBrowseClick = () => {
     
@@ -193,6 +202,8 @@ cursor: pointer;
   return (
     <div>
       <Header />
+      <p>{user && <p>User ID: {user.userId} is logged in</p>}</p>
+
       <HomeContainer>
         <HeroImage src="/heropic.jpg" alt="hero pic" />
         <br></br>

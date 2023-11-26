@@ -9,6 +9,7 @@ const FoodInputContainer = styled.div`
   position: relative;
   width: 500px;
   margin-bottom: 20px;
+  font-family: 'Kumbh Sans';
 `;
 
 
@@ -69,6 +70,7 @@ const Content = styled.div`
   flex: 1;
   padding: 20px;
   display: flex;
+  font-family: 'Kumbh Sans';
 `;
 
 const ImageContainer = styled.div`
@@ -107,17 +109,19 @@ const Title = styled.h1`
 const EditButton = styled.button`
   margin-left: auto;
   /* Define oblong shape */
-  padding: 10px 20px; /* Adjust padding */
   border-radius: 100px; /* Adjust border radius */
   background-color: #ffb413; /* Button color */
   color: black; /* Text color */
   border: none; /* Remove default button border */
   cursor: pointer;
+  width:80px;
+  height:30px;
   font-weight: bold; /* Make the text bold */
   transition: background-color 0.3s ease; /* Add transition effect */
-
+  font-family: 'Kumbh Sans';
   &:hover {
     background-color: maroon; /* Change color on hover */
+    color:white;
   }
 `;
 
@@ -181,6 +185,7 @@ const RestaurantProfile = () => {
         <Container>
           <Title>
             General Information
+            <br/>
             <EditButton onClick={handleEdit}>Edit</EditButton>
           </Title>
           <RestaurantName>Restaurant Name: Unknown</RestaurantName>
