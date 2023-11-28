@@ -12,7 +12,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const { loginUser } = useUserContext();
+  const [userId, setUserId] = useState(null);
 
   const handleLogIn = async (e) => {
     e.preventDefault();
@@ -27,15 +27,13 @@ const Login = () => {
       if (user) {
         // Login successful
         setIsLoggedIn(true);
-        loginUser(user.userId);
-        console.log('User logged in:', user);
   
         // Fetch userId from the user object
         const userId = user.userId;
+        setUserId(userId); // Set userId in state
         alert(`User ${userId} logged in`);
   
         // You can store userId in state or any other necessary logic
-  
       } else {
         alert('Invalid Email and Password.');
         // Handle invalid login (show error message, etc.)
@@ -50,10 +48,10 @@ const Login = () => {
   useEffect(() => {
     // Check if login is successful
     if (isLoggedIn) {
-      // Redirect or show a success message as needed
-      navigate('/Home');
+      // Redirect to "/Home" with user's ID as state
+      navigate('/Home', { state: { userId } });
     }
-  }, [isLoggedIn, navigate]);
+  }, [isLoggedIn, navigate, userId]);
 
   return (
     <div>

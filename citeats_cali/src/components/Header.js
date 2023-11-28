@@ -23,6 +23,12 @@ const Navigation = styled.nav`
   display: flex;
   align-items: center;
   margin-left: 20px; /* Adjust the margin to your preference */
+
+  &:hover {
+    font-color:#E21B70;
+    cursor: pointer;
+
+  }
 `;
 
 
@@ -57,8 +63,9 @@ const Header = () => {
           <NavLink href="/BrowseRestaurants">Browse Restaurants</NavLink>
           <NavLink href="/Favorites">Favorites</NavLink>
           <NavLink href="/JoinUs">Join Us</NavLink>
-          <NavLink href="/UserProfile">User</NavLink>
           <NavLink href="/AboutUs">AboutUs</NavLink>
+          <NavLink href="/UserProfile">Profile</NavLink>
+          
         </Navigation>
       </HeaderContainer>
     );

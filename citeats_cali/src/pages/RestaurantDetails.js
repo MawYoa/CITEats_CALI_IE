@@ -235,7 +235,7 @@ const InfoContainer = styled.div`
   padding: 20px;
   margin: 0 auto;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-left: 1200px; /* Align to the right */
+  margin-left: 1000px; /* Align to the right */
 `;
 
 const RatingContainer = styled.div`
@@ -256,7 +256,7 @@ const Container = styled.div`
 `;
 
 const IconImage = styled.img`
-  width: 400px; // Adjust the width and height as needed
+  width: 340px; // Adjust the width and height as needed
   height: 100px;
   margin-right: 10px; // Adjust the margin as needed
 `;
@@ -326,6 +326,7 @@ const RestaurantDetails = () => {
             <br></br>
             <br></br>
             <br></br>
+            <br></br>
             <h3 style={{ color: 'black' ,textDecoration:'none'}}>Menu</h3>
             </StyledLink> 
           </RestaurantDetailsButton>
@@ -341,11 +342,13 @@ const RestaurantDetails = () => {
             <br></br>
             <br></br>
             <br></br>
+            <br></br>
             <h3 style={{ color: 'black',textDecoration:'none' }}>Ambience</h3>
             </StyledLink>
           </RestaurantDetailsButton>
           <RestaurantDetailsButton image="/foodimg.jpg" to="/Food" style={{textDecoration:'none'}}>
           <StyledLink to="/Food">
+            <br></br>
             <br></br>
             <br></br>
             <br></br>

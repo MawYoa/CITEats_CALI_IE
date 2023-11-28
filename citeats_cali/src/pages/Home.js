@@ -1,13 +1,12 @@
-// Home.js
 
-import React, { useState, useEffect,useUserContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import FAQ from '../components/FAQ';
+import { useNavigate, Link,useLocation} from 'react-router-dom';
 
 import './Home.css';
-import { Link } from 'react-router-dom';
 
 const StyledLink = styled(Link)`
   text-decoration: none; /* Remove underline */
@@ -149,18 +148,33 @@ const PopularNearYou = () => (
 );
 
 export const Home = () => {
-  const { user } = useUserContext();
-
+  const location = useLocation();
+  const userId = location.state?.userId;
+  const navigate = useNavigate();
 
   const handleBrowseClick = () => {
-    
-    //history.push('/BrowseRestaurants');
+    // Handle browse click
   };
 
   const handleSquareButtonClick = (category) => {
-    // TODO: Handle click for each category
     console.log(`Clicked on ${category}`);
   };
+
+  // Check if userId has a value
+  useEffect(() => {
+    if (!userId) {
+      // If userId is undefined, show a confirmation dialog
+      const isConfirmed = window.confirm(
+        "Invalid Entry. Do you want to go back to login?"
+      );
+        
+      // If the user clicks "OK," navigate to the login page
+      if (isConfirmed) {
+        navigate("/Login"); // Update the path as needed
+      }
+    }
+  }, [userId, navigate]);
+
 
   const ReviewCard = styled.div`
   background-color: #fff;
@@ -202,7 +216,7 @@ cursor: pointer;
   return (
     <div>
       <Header />
-      <p>{user && <p>User ID: {user.userId} is logged in</p>}</p>
+      
 
       <HomeContainer>
         <HeroImage src="/heropic.jpg" alt="hero pic" />
