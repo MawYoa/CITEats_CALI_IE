@@ -58,6 +58,9 @@ const ButtonsContainer = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   margin-top: 20px;
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.5); /* Transparent white on hover */
+  }
 `;
 
 const FoodCategoryContainer = styled.div`
@@ -85,6 +88,7 @@ const FoodImage = styled.img`
 `;
 
 const FoodCategory = ({ category, imageSrc, onClick }) => (
+  
   <FoodCategoryContainer onClick={onClick}>
     <FoodImage src={imageSrc} alt={category} />
     <SquareButton>{category}</SquareButton>
@@ -214,18 +218,11 @@ export const Home = () => {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    &:hover {
+      background-color: gold;
+      color: white;
+    }
   `;
-
-  const categories = [
-    { name: 'Milk Tea', imageSrc: '/milktea.png' },
-    { name: 'Asian', imageSrc: '/asian.png' },
-    { name: 'Coffee', imageSrc: '/coffee.png' },
-    { name: 'BBQ', imageSrc: '/bbq.png' },
-    { name: 'Japanese', imageSrc: '/japanese.png' },
-    { name: 'Fast Food', imageSrc: '/fastfood.png' },
-    { name: 'Chinese', imageSrc: '/chinese.png' },
-    { name: 'Dessert', imageSrc: '/dessert.png' },
-  ];
 
   const StyledText = styled.h2`
     display: inline;
