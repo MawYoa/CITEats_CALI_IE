@@ -148,9 +148,7 @@ const PopularNearYou = () => (
 );
 
 export const Home = () => {
-  const location = useLocation();
-  const userId = location.state?.userId;
-  const navigate = useNavigate();
+
 
   const handleBrowseClick = () => {
     // Handle browse click
@@ -160,20 +158,7 @@ export const Home = () => {
     console.log(`Clicked on ${category}`);
   };
 
-  // Check if userId has a value
-  useEffect(() => {
-    if (!userId) {
-      // If userId is undefined, show a confirmation dialog
-      const isConfirmed = window.confirm(
-        "Invalid Entry. Do you want to go back to login?"
-      );
-        
-      // If the user clicks "OK," navigate to the login page
-      if (isConfirmed) {
-        navigate("/Login"); // Update the path as needed
-      }
-    }
-  }, [userId, navigate]);
+  
 
 
   const ReviewCard = styled.div`
