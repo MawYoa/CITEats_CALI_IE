@@ -53,10 +53,25 @@ const RestaurantSection = styled.div`
 
 const CardRow = styled.div`
   display: flex;
-  gap: 20px;
+  gap: 10px;
   overflow-x: auto;
   white-space: nowrap;
+
+  /* Add the following styles for responsive wrapping */
+  flex-wrap: wrap;
+
+  /* Adjust the width based on the number of cards you want in each row */
+  & > * {
+    width: calc(20% - 20px); /* Adjust the width as needed */
+    flex: 0 0 auto;
+    margin-right: 10px;
+  }
+
+  &:last-child {
+    margin-right: 0; /* Remove margin for the last card in the row */
+  }
 `;
+
 
 const SearchBar = styled.input`
   width: 100%;
@@ -84,6 +99,7 @@ const BrowseRestaurants = () => {
         : [...prevCuisines, cuisine]
     );
   };
+  
 
   const renderRestaurantCards = (count) => {
     return Array.from({ length: count }, (_, index) => (
@@ -137,7 +153,7 @@ const BrowseRestaurants = () => {
 
           <RestaurantSection>
             <h2>Wild Pick</h2>
-            <CardRow>{renderRestaurantCards(5)}</CardRow>
+            <CardRow>{renderRestaurantCards(4)}</CardRow>
           </RestaurantSection>
 
           <RestaurantSection>
