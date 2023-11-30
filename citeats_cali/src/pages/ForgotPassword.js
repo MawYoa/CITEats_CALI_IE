@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import axios from "axios"; // Import Axios
+import axios from "axios";
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
@@ -12,7 +12,6 @@ const ForgotPasswordContainer = styled.div`
   justify-content: center;
   align-items: center;
   font-Family: Kumbh Sans;
-
 `;
 
 const ForgotPasswordForm = styled.form`
@@ -51,28 +50,46 @@ const CenteredText = styled.p`
   text-align: center;
 `;
 
+
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [changeSuccess, setChangeSuccess] = useState(false);
+  const [changeError, setChangeError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
-      const response = await axios.post('http://localhost:8080/users/getAllUsers', {
-        email,
+      // Fetch users
+      const response = await axios.get(`http://localhost:8080/users/getAllUsers`);
+      const users = response.data;
+  
+      // Find user by email
+      const user = users.find((user) => user.email === email);
+  
+      if (!user) {
+        setChangeError('User not found with the provided email.');
+        setChangeSuccess(false);
+        return;
+      }
+  
+      // Update user password
+      const responseUpdate = await axios.put(`http://localhost:8080/users/updateUser/1`, {
         newPassword: password,
-        confirmPassword,
       });
-
-      console.log('Password reset successful:', response.data);
-      // Handle success (redirect, show success message, etc.)
+  
+      console.log('Password reset successful:', responseUpdate.data);
+      setChangeSuccess(true);
+      setChangeError('');
     } catch (error) {
       console.error('Error resetting password:', error);
-      // Handle error (show error message, etc.)
+      setChangeSuccess(false);
+      setChangeError('Error resetting password. Please try again.');
     }
   };
+  
 
   return (
     <div>
@@ -108,6 +125,10 @@ const ForgotPassword = () => {
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
             <ForgotPasswordButton type="submit">Change</ForgotPasswordButton>
+
+            {/* Display success or error message */}
+            {changeSuccess && <p style={{ color: 'green' }}>Password changed successfully!</p>}
+            {changeError && <p style={{ color: 'red' }}>{changeError}</p>}
           </ForgotPasswordForm>
         </ForgotPasswordContainer>
       </div>

@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
-import { FaUser, FaEnvelope, FaLock } from 'react-icons/fa'; // Import the icon components
-import "@fontsource/kumbh-sans"; 
 
 const JoinUs = () => {
+  const navigate = useNavigate();
+  const [regis, setRegis] = useState(false);
   const [restaurantName, setRestaurantName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -17,86 +19,97 @@ const JoinUs = () => {
       return;
     }
 
-    // TODO: Submit the signup form to the server
+    // Password validation logic
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (password.length < 8 || !passwordRegex.test(password)) {
+      alert('Invalid password. Follow the password combination rule.');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      alert('Passwords do not match.');
+      return;
+    }
+
+    setRegis(true);
+  };
+
+  useEffect(() => {
+    // Check if registration is successful
+    if (regis) {
+      // Redirect or show a success message as needed
+      navigate('/Login');
+    }
+  }, [regis, navigate]);
+
+  const handleJoinUs = async () => {
+    try {
+      const response = await axios.post('http://localhost:8080/users/createUser', {
+        username: restaurantName,
+        password,
+        email,
+        userType: 'RestaurantOwner', // Set the userType to 'RestaurantOwner'
+      });
+      alert('Registration successful:', response.data);
+      // Redirect or show a success message as needed
+    } catch (error) {
+      alert('Error during registration:', error);
+      // Handle registration failure, show error message, etc.
+    }
   };
 
   return (
-    <>
-    
-    <div style={{ backgroundColor: '#F4F4F4', textAlign: 'center' ,fontFamily:'Kumbh Sans'}}> {/* Center align the entire form */}
+    <div>
       <Header />
-      <div className="joinus-container" style={{fontFamily:'Kumbh Sans'}}>
+      <div className="signup-container" style={{fontFamily:'Kumbh Sans'}}>
+      
         <h1 className="heading" style={{fontFamily:'Kumbh Sans'}}>Boost your reputation with CIT Eats!</h1>
         <p className="paragraph">Sign up now and start gaining new customers to boost your restaurant growth.</p>
-        <div style={{ position:'relative', right:'110px' }}>
         <form className="form" onSubmit={handleSubmit}>
-          {/* Inserting the account icon */}
-          <div style={{ position: 'relative', display: 'inline-block', textAlign: 'left' }}>
-            <FaUser style={{ position: 'absolute', left: '10px', top: '10px' }} />
-            <input
-              type="text"
-              name="restaurantName"
-              className="input"
-              placeholder="Restaurant Name"
-              value={restaurantName}
-              onChange={(e) => setRestaurantName(e.target.value)}
-              style={{ paddingLeft: '30px' }}
-            />
-          </div>
-          {/* Inserting the email icon */}
-          <div style={{ position: 'relative', display: 'inline-block', textAlign: 'left' }}>
-            <FaEnvelope style={{ position: 'absolute', left: '10px', top: '10px' }} />
-            <input
-              type="email"
-              name="email"
-              className="input"
-              placeholder="Email Address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              style={{ paddingLeft: '30px' }}
-            />
-          </div>
-          {/* Inserting the password icon */}
-          <div style={{ position: 'relative', display: 'inline-block', textAlign: 'left' }}>
-            <FaLock style={{ position: 'absolute', left: '10px', top: '10px' }} />
-            <input
-              type="password"
-              name="password"
-              className="input"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              style={{ paddingLeft: '30px' }}
-            />
-          </div>
-          {/* Inserting the password icon for confirm password */}
-          <div style={{ position: 'relative', display: 'inline-block', textAlign: 'left' }}>
-            <FaLock style={{ position: 'absolute', left: '10px', top: '10px' }} />
-            <input
-              type="password"
-              name="confirmPassword"
-              className="input"
-              placeholder="Confirm Password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              style={{ paddingLeft: '30px' }}
-            />
-          </div>
+          <input
+            type="text"
+            name="restaurantName"
+            className="input"
+            placeholder="Restaurant Name"
+            value={restaurantName}
+            onChange={(e) => setRestaurantName(e.target.value)}
+          />
+          <input
+            type="email"
+            name="email"
+            className="input"
+            placeholder="Email Address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            name="password"
+            className="input"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <input
+            type="password"
+            name="confirmPassword"
+            className="input"
+            placeholder="Confirm Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
           <button
             type="submit"
             className="signup-button"
-            style={{ backgroundColor: '#E21B70', color: '#fff', marginTop: '20px', position:'relative', left:'110px',fontFamily:'Kumbh Sans' }} // Added margin-top for spacing
-          
+            style={{ backgroundColor: 'maroon', color: '#fff' }}
+            onClick={handleJoinUs}
           >
-            SIGN UP
+            JOIN US
           </button>
-        
         </form>
-        
-        </div>
       </div>
     </div>
-    </>
   );
 };
 
