@@ -31,6 +31,7 @@ const FindFav = styled.button`
 const Favorites = () => {
 
   const location = useLocation();
+  
   return (
     <div>
       <Header userId={location.state.userId}/>
