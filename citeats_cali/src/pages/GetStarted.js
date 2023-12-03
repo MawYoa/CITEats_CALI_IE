@@ -13,16 +13,15 @@ const StyledLink = styled(Link)`
 `;
   return (
     <>
-      <div>
-        <Header/>
+      <div style={{backgroundColor:'#e9e9e9'}}>
         <div style={{ display: 'flex'}}>
           <div>
             <br />
-            <img src="GetStarted.png" alt="GetStarted" style={{ width: '500px', height: '800px', marginLeft: '300px' }} />
+            <img src="GetStarted.png" alt="GetStarted" style={{ width: '480px', height: '700px', marginLeft: '300px', marginTop:'10px'}} />
           </div>
 
 
-          <div style={{ width: '500px',height:'700px', marginLeft: '40px', marginTop: '100px' ,fontFamily: 'Kumbh Sans'}}>
+          <div style={{ width: '500px',height:'800px', marginLeft: '-10px', marginTop: '20px' ,fontFamily: 'Kumbh Sans'}}>
             <div className="form-container">
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <h2 style={{ fontFamily: 'Kumbh Sans',fontSize:'28px',letterSpacing:'-1px'}}>
@@ -35,7 +34,7 @@ const StyledLink = styled(Link)`
               <br/>
               <div className="button-container">
                 <StyledLink to="/Login">
-                <button className="maroon-button" onClick={() => alert('Sign in as Student')}>
+                <button className="maroon-button">
                   Sign in as Student
                 </button>
                 </StyledLink>
@@ -43,7 +42,7 @@ const StyledLink = styled(Link)`
 
               <div className="button-container">
               <StyledLink to="/Login">
-                <button className="maroon-button" onClick={() => alert('Sign in as Restaurant Owner')}>
+                <button className="maroon-button">
                   Sign in as Restaurant Owner
                 </button>
                 </StyledLink>
@@ -51,7 +50,7 @@ const StyledLink = styled(Link)`
 
               <div className="button-container">
               <StyledLink to="/Login">
-                <button className="maroon-button" onClick={() => alert('Sign in as Admin')}>
+                <button className="maroon-button">
                   Sign in as Admin
                 </button>
                 </StyledLink>
@@ -61,7 +60,7 @@ const StyledLink = styled(Link)`
 
               <div className="button-container">
               <StyledLink to="/SignUp">
-                <button className="maroon-button" onClick={() => alert('Sign Up Now')}>
+                <button className="maroon-button">
                   Sign Up Now
                 </button>
                 </StyledLink>

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
+import './GetStarted.css';  
+
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -10,7 +12,7 @@ const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [userType, setUserType] = useState(''); // Default value is an empty string
+  const [userType, setUserType] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -62,14 +64,14 @@ const SignUp = () => {
 
   return (
     <div>
-      <Header />
+      
       <div className="signup-container" style={{fontFamily:'Kumbh Sans'}}>
         <h1>Sign Up!</h1>
         <form className="form" onSubmit={handleSubmit}>
           <input
             type="text"
             name="userName"
-            className="input"
+            style={{width:'400px'}}
             placeholder="Username"
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
@@ -77,7 +79,7 @@ const SignUp = () => {
           <input
             type="email"
             name="email"
-            className="input"
+            style={{width:'400px'}}
             placeholder="Email Address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -85,7 +87,7 @@ const SignUp = () => {
           <input
             type="password"
             name="password"
-            className="input"
+            style={{width:'400px'}}
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -93,13 +95,14 @@ const SignUp = () => {
           <input
             type="password"
             name="confirmPassword"
-            className="input"
+            style={{width:'400px'}}
             placeholder="Confirm Password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
           <br></br> 
           <label>User Type:</label>
+          <div style={{width:'200px',marginLeft:'-200px'}}>
           <select
             name="userType"
             className="input"
@@ -111,17 +114,18 @@ const SignUp = () => {
             <option value="Admin">Admin</option>
             <option value="RestaurantOwner">Restaurant Owner</option>
           </select>
+          </div>
+          <br/>
+          <br/>
           <button
             type="submit"
-            className="signup-button"
-            style={{ backgroundColor: 'maroon', color: '#fff' }}
+            className="maroon-button"
             onClick={handleSignUp}
           >
             SIGN UP
           </button>
           <br></br>
-          <br></br>
-          <br></br>
+
         </form>
       </div>
     </div>
