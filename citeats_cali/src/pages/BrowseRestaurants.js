@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import styled from "styled-components";
@@ -91,6 +91,22 @@ const FilterSection = styled.div`
 const BrowseRestaurants = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCuisines, setSelectedCuisines] = useState([]);
+  const [cuisineTypes, setCuisineTypes] = useState([]);
+
+  useEffect(() => {
+    // Fetch cuisine types from the backend
+    const fetchCuisineTypes = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/cuisinetypes/getAllCuisineTypes");
+        const data = await response.json();
+        setCuisineTypes(data);
+      } catch (error) {
+        console.error("Error fetching cuisine types:", error);
+      }
+    };
+
+    fetchCuisineTypes();
+  }, []); // Run this effect only once when the component mounts
   const location = useLocation();
 
   const handleCheckboxChange = (cuisine) => {
@@ -100,7 +116,22 @@ const BrowseRestaurants = () => {
         : [...prevCuisines, cuisine]
     );
   };
+
+  const renderCuisineCheckboxes = () => {
+    return cuisineTypes.map((cuisine) => (
+      <div key={cuisine.cuisineTypeId}>
+        <input
+          type="checkbox"
+          id={cuisine.typeName}
+          checked={selectedCuisines.includes(cuisine.typeName)}
+          onChange={() => handleCheckboxChange(cuisine.typeName)}
+        />
+        <label htmlFor={cuisine.typeName}>{cuisine.typeName}</label>
+      </div>
+    ));
+  };
   
+
 
   const renderRestaurantCards = (count) => {
     return Array.from({ length: count }, (_, index) => (
@@ -120,28 +151,13 @@ const BrowseRestaurants = () => {
   return (
     
     <div>
-      <Header userId={location.state.userId} />
+      <Header />
       <div style={{ display: "flex" ,fontFamily: 'Kumbh Sans'}}>
         <RestaurantSection style={{ width: "20%" }}>
           <FilterSection>
             <h2>Filter</h2>
             <h3>Cuisines</h3>
-            {[
-              "American", "Asian", "BBQ", "Beverages", "Bread", "Burgers", "Cakes", "Chicken",
-              "Coffee", "Desserts", "Donut", "Fast Food", "Filipino", "Fish", "Fries", "Ice Cream",
-              "Indian", "Italian", "Japanese", "Korean", "Pizza", "Sisig", "Western", "Noodles",
-              "Lechon", "Milk Tea", "Meat",
-            ].map((cuisine) => (
-              <div key={cuisine}>
-                <input
-                  type="checkbox"
-                  id={cuisine}
-                  checked={selectedCuisines.includes(cuisine)}
-                  onChange={() => handleCheckboxChange(cuisine)}
-                />
-                <label htmlFor={cuisine}>{cuisine}</label>
-              </div>
-            ))}
+            {renderCuisineCheckboxes()}
           </FilterSection>
         </RestaurantSection>
 

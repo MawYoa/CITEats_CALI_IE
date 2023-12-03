@@ -1,28 +1,32 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import Header from '../components/Header';
-import Footer from '../components/Footer';
 
 const ForgotPasswordContainer = styled.div`
-  width: 100%;
-  height: 100vh;
+
   background-color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin-top: 30px;
+  margin-bottom: 100px;
+  margin-left: 450px;
+  margin-right: 450px;
   font-Family: Kumbh Sans;
 `;
 
 const ForgotPasswordForm = styled.form`
-  width: 400px;
-  padding: 20px;
-  border: 1px solid #ccc;
+  width: 500px;
+  padding: 40px;
+  border: 4px solid #FAD247;
+  border-radius: 25px;
   background-color: #FAD247;
+  font-family: Kumbh Sans;
+  height: 600px;
+  
 `;
 
 const ForgotPasswordHeading = styled.h1`
   text-align: center;
+  font-family: Kumbh Sans;
+
   margin-bottom: 20px;
 `;
 
@@ -33,17 +37,28 @@ const ForgotPasswordInput = styled.input`
   margin-bottom: 10px;
   margin-left: 10px;
   margin-right: 10px;
+  font-family: Kumbh Sans;
+
   align-items: center;
 `;
 
 const ForgotPasswordButton = styled.button`
-  width: 100%;
+  width: 80%;
   padding: 10px;
+  margin-left:40px;
+  margin-right:40px;
   background-color: #E21B70;
   align-items: center;
   color: #fff;
-  border: none;
-  border-radius: 5px;
+  border: 4px solid #FAD247;
+  border-radius: 25px;
+  font-family: Kumbh Sans;
+
+  &:hover {
+    background-color: white;
+    
+    color:black;
+  }
 `;
 
 const CenteredText = styled.p`
@@ -92,13 +107,13 @@ const ForgotPassword = () => {
   
 
   return (
-    <div>
-      <Header />
-      <div>
+      
         <ForgotPasswordContainer>
           <ForgotPasswordForm onSubmit={handleSubmit}>
             <ForgotPasswordHeading>Forgot Password?</ForgotPasswordHeading>
+            <br/>
             <CenteredText>Enter your email address.</CenteredText>
+            <br/>
             <ForgotPasswordInput
               type="email"
               name="email"
@@ -106,10 +121,12 @@ const ForgotPassword = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
+            <br/>
             <ForgotPasswordHeading>New Password</ForgotPasswordHeading>
             <CenteredText>
               Please create a new password that you don’t use on any other site.
             </CenteredText>
+            <br/>
             <ForgotPasswordInput
               type="password"
               name="newPassword"
@@ -117,6 +134,7 @@ const ForgotPassword = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+            <br/>
             <ForgotPasswordInput
               type="password"
               name="confirmPassword"
@@ -124,6 +142,8 @@ const ForgotPassword = () => {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
+            <br/>
+            <br/>
             <ForgotPasswordButton type="submit">Change</ForgotPasswordButton>
 
             {/* Display success or error message */}
@@ -131,9 +151,7 @@ const ForgotPassword = () => {
             {changeError && <p style={{ color: 'red' }}>{changeError}</p>}
           </ForgotPasswordForm>
         </ForgotPasswordContainer>
-      </div>
-      <Footer />
-    </div>
+      
   );
 };
 
