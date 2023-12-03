@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import FAQ from '../components/FAQ';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 import './Home.css';
@@ -137,12 +137,14 @@ const PopularNearYou = ({ restaurants }) => (
 export const Home = () => {
   const [cuisineCategories, setCuisineCategories] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
+  const location = useLocation();
 
-  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch cuisine categories from the API
+    console.log(location.state);
     const fetchCuisineCategories = async () => {
+      
       try {
         const response = await axios.get('http://localhost:8080/cuisinetypes/getAllCuisineTypes');
 
@@ -231,9 +233,11 @@ export const Home = () => {
     font-size: 30px;
   `;
 
+  
   return (
+
     <div>
-      <Header />
+       <Header userId={location.state.userId} />
 
       <HomeContainer>
         <HeroImage src="/heropic.jpg" alt="hero pic" />

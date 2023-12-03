@@ -34,7 +34,7 @@ root.render(
         <Route path="/BrowseRestaurants" element={<BrowseRestaurants/>} />
         <Route path="/Favorites" element={<Favorites/>} />
         <Route path="/JoinUs" element={<JoinUs/>} />
-        <Route path="/UserProfile" element={<UserProfile/>} />
+        <Route exact path="/UserProfile/:userId" element={<UserProfile/>} />
         <Route path="/Signup" element={<Signup/>} />
         <Route path="/ForgotPassword" element={<ForgotPassword/>} />
         <Route path="/RestaurantDetails" element={<RestaurantDetails/>} />

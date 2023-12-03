@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 
 const JoinUs = () => {
@@ -10,6 +10,7 @@ const JoinUs = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const location = useLocation ();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -61,7 +62,7 @@ const JoinUs = () => {
 
   return (
     <div>
-      <Header />
+      <Header userId={location.state.userId}/>
       <div className="signup-container" style={{fontFamily:'Kumbh Sans'}}>
       
         <h1 className="heading" style={{fontFamily:'Kumbh Sans'}}>Boost your reputation with CIT Eats!</h1>

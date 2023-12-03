@@ -2,6 +2,7 @@
 import React from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { useLocation } from 'react-router';
 
 const Member = ({ name, imageSrc }) => (
   <div style={{ textAlign: 'center', marginRight: '20px', marginBottom: '20px' }}>
@@ -34,10 +35,14 @@ const WidePicture = ({ imageSrc, height }) => (
 );
 
 const AboutUs = () => {
-  return (
+
+  const location = useLocation();
+
+    return (
     <div> 
+      <Header userId={location.state.userId} />
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' ,fontFamily: 'Kumbh Sans'}}>
-      <Header />
+      
       <WidePicture imageSrc="about.jpg" />
       <p style={{ color: 'black', textAlign: 'center', fontSize: '20px', marginTop: '20px',width:'1000px',fontWeight:'bold' }}>
         Welcome to CIT Eats our Campus Dining Guide!</p>

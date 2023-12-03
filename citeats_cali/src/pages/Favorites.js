@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Header from '../components/Header';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const StyledLink = styled(Link)`
   text-decoration: none; /* Remove underline */
@@ -29,9 +29,11 @@ const FindFav = styled.button`
 `;
 
 const Favorites = () => {
+
+  const location = useLocation();
   return (
     <div>
-      <Header />
+      <Header userId={location.state.userId}/>
       <FavoriteContainer>
         
         <h1 style={{color:'gold',textAlign:'left',padding:'0 300px'}}>My Favorites</h1>

@@ -2,6 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useLocation, useParams } from "react-router";
 
 const UserProfileContainer = styled.div`
   width: 85%;
@@ -13,7 +16,7 @@ const UserProfileContainer = styled.div`
   padding: 20px;
 `;
 
-const UserProfileHeader = styled.div`
+const UserProfileHeader = styled.div`     
   display: flex;
   align-items: center;
   justify-content: center; /* Add this line to center the content horizontally */
@@ -45,6 +48,8 @@ const UserProfileButton = styled.button`
   border-radius: 90px;
   margin-top: 10px;
   cursor: pointer;
+  align-self: flex-end;
+  margin-bottom: 20px;
 `;
 
 
@@ -97,7 +102,7 @@ const UserReviewsContainer = styled.div`
   text-align: left;
   padding: 0 0px;
   height: 500px;
-  width: 1300px;
+  width: 1200 px;
   margin-top: 20px;
   display: flex;
   flex-direction: column;
@@ -168,27 +173,115 @@ const AdditionalTextContainer = styled.div`
 `;
 
 
+
 const UserProfile = () => {
+
+  const [userData, setUserData] = useState({});
+  const [editMode, setEditMode] = useState(false);
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState(''); // Initialize with an empty string  
+  const { userId } = useParams() ?? {};
+  const location = useLocation();
+
+  useEffect(() => {
+    console.log("User ID:", userId); // Add this line for debugging
+    const fetchData = async () => {
+      try {
+        const result = await axios.get(`http://localhost:8080/users/${userId}`);
+        setUserData(result.data);
+
+        // Set the initial name, handling the case where it might be null or undefined
+        setUsername(result.data.username ?? '');
+        setEmail(result.data.email ?? '');
+
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, [userId]);
+
+  const handleEditClick = () => {
+    setEditMode(!editMode);
+  };
+
+  const handleNameChange = (e) => {
+    setUsername(e.target.value);
+  };
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handleSaveProfile = async () => {
+    try {
+      const response = await axios.put(`http://localhost:8080/users/updateUser/${userId}`, {
+        userId,
+        username,
+        email,
+        // Add other fields as needed
+      });
+  
+      // Update the user data state using the response data
+      setUserData(response.data);
+  
+      handleEditClick();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
+
+  
+  
   return (
     <div>
-      <Header />
+      <Header userId={location.state.userId}/>
       <UserProfileContainer>
         <UserProfileHeader>
           <UserProfileImage src="user.png" alt="User Profile Image" />
         </UserProfileHeader>
-        <UserProfileInfo>
-          <UserProfileInfoContainer>
-            <UserProfileInfoHeader>General Information</UserProfileInfoHeader>
-            <UserProfileButton>Edit Profile</UserProfileButton>
-          </UserProfileInfoContainer>
-          <UserProfileInfoItem>
-            <UserProfileInfoLabel>Name:</UserProfileInfoLabel>
-            <UserProfileInfoValue>John Doe</UserProfileInfoValue>
-          </UserProfileInfoItem>
-          <UserProfileInfoItem>
-            <UserProfileInfoLabel>Email:</UserProfileInfoLabel>
-            <UserProfileInfoValue>john.doe@example.com</UserProfileInfoValue>
-          </UserProfileInfoItem>
+            <UserProfileInfo>
+            <UserProfileInfoContainer>
+            <UserProfileInfoHeader>General Information </UserProfileInfoHeader>
+              <UserProfileButton onClick={handleEditClick}>
+                {editMode ? 'Cancel Changes' : 'Edit Profile'}          
+              </UserProfileButton>
+              </UserProfileInfoContainer>
+              <UserProfileInfoItem>
+                <UserProfileInfoLabel>Name:</UserProfileInfoLabel>
+                {editMode ? (
+                  <input
+                    type="text"
+                    value={username}
+                    placeholder={userData.username}
+                    onChange={handleNameChange}
+                  />
+                ) : (
+                  <UserProfileInfoValue>{userData.username}</UserProfileInfoValue>
+                )}
+              </UserProfileInfoItem>
+              <UserProfileInfoItem>
+                <UserProfileInfoLabel>Email:</UserProfileInfoLabel>
+                {editMode ? (
+                  <input 
+                  type="text"
+                  value={email}
+                  placeholder={userData.email}
+                  onChange={handleEmailChange}
+                  />
+                ) : (
+                  <UserProfileInfoValue>{userData.email}</UserProfileInfoValue>
+
+                )}
+                
+              </UserProfileInfoItem>
+              {editMode && (
+                <UserProfileButton onClick={handleSaveProfile}>
+                  Save Profile
+                </UserProfileButton>
+              )}
 
           <UserReviewsContainer>
             <ReviewsHeader>Your Reviews</ReviewsHeader>
