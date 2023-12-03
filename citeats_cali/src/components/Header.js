@@ -72,7 +72,6 @@ const Header = ({userId}) => {
         <NavLink to={`/JoinUs`} state={{ userId:userId  }}>Join Us</NavLink>
         <NavLink to={`/AboutUs`} state={{ userId:userId  }}>About Us</NavLink>
         <NavLink to={`/UserProfile/${userId}`} state={{ userId:userId  }}> Profile </NavLink>
-
       </Navigation>
     </HeaderContainer>
   );

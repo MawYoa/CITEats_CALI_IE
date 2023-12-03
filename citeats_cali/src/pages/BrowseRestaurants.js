@@ -2,7 +2,7 @@ import React, { useState ,useEffect } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import styled from "styled-components";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation} from "react-router-dom";
 
 const RestaurantCard = styled(Link)`
   text-decoration: none;
@@ -92,6 +92,7 @@ const BrowseRestaurants = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCuisines, setSelectedCuisines] = useState([]);
   const [cuisineTypes, setCuisineTypes] = useState([]);
+  const location = useLocation();
 
   useEffect(() => {
     // Fetch cuisine types from the backend
@@ -107,7 +108,6 @@ const BrowseRestaurants = () => {
 
     fetchCuisineTypes();
   }, []); // Run this effect only once when the component mounts
-  const location = useLocation();
 
   const handleCheckboxChange = (cuisine) => {
     setSelectedCuisines((prevCuisines) =>
@@ -151,7 +151,7 @@ const BrowseRestaurants = () => {
   return (
     
     <div>
-      <Header />
+      <Header userId={location.state.userId} />
       <div style={{ display: "flex" ,fontFamily: 'Kumbh Sans'}}>
         <RestaurantSection style={{ width: "20%" }}>
           <FilterSection>
