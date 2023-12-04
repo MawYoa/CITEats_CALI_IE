@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import styled from "styled-components";
 import { Link, useLocation} from "react-router-dom";
+import axios from "axios";
 
 const RestaurantCard = styled(Link)`
   text-decoration: none;
@@ -89,10 +90,13 @@ const FilterSection = styled.div`
 `;
 
 const BrowseRestaurants = () => {
+  
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCuisines, setSelectedCuisines] = useState([]);
   const [cuisineTypes, setCuisineTypes] = useState([]);
   const location = useLocation();
+
+  
 
   useEffect(() => {
     // Fetch cuisine types from the backend
@@ -130,23 +134,65 @@ const BrowseRestaurants = () => {
       </div>
     ));
   };
+
+  const [wildPickCards, setWildPickCards] = useState([]);
+  const [topRatedCards, setTopRatedCards] = useState([]);
+  const [allRestaurantsCards, setAllRestaurantsCards] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const wildPickData = await renderRestaurantCards(4);
+      const topRatedData = await renderTopRatedRestaurants(10);
+      const allRestaurantsData = await renderRestaurantCards(20);
+
+      setWildPickCards(wildPickData);
+      setTopRatedCards(topRatedData);
+      setAllRestaurantsCards(allRestaurantsData);
+    };
+
+    fetchData();
+  }, []);
   
 
+  const renderTopRatedRestaurants = async (count) => {
+    // Replace with your Spring Boot backend URL
+    const response = await axios.get('http://localhost:8080/restaurants/getAllRestaurants');
+    
+    // Filter and take only the top-rated restaurants with rating > 4
+    const topRatedRestaurants = response.data
+      .filter((restaurant) => parseFloat(restaurant.rating) >= 4)
+      .slice(0, count);
 
-  const renderRestaurantCards = (count) => {
-    return Array.from({ length: count }, (_, index) => (
-      
+    return topRatedRestaurants.map((restaurant, index) => (
       <RestaurantCard key={index}>
-        <Link to="/RestaurantDetails" style={{textDecoration:'none'}}>
-        <img src={`chickfront${index + 1}.jpg`} alt={`Restaurant ${index + 1}`} />
-        <h4>Restaurant {index + 1}</h4>
-        <p>3.4/5 (300+)</p>
-        <p>₱₱₱, Asian</p>
+        <Link to="/RestaurantDetails" style={{ textDecoration: 'none' }}>
+          <img src={`chickfront${index + 1}.jpg`} alt={`Restaurant ${index + 1}`} />
+          <h4>{restaurant.name}</h4>
+          <p>{restaurant.rating}/5 ({restaurant.restaurantOpeningHours})</p>
+          <p>{restaurant.locationId}, {restaurant.cuisineType}</p>
+          <p>{restaurant.phoneNumber}</p>
         </Link>
       </RestaurantCard>
     ));
   };
-
+  const renderRestaurantCards = async (count) => {
+    
+    const response = await axios.get('http://localhost:8080/restaurants/getAllRestaurants');
+    const restaurants = response.data.slice(0, count); // Take only the first 'count' items
+    
+  
+    return restaurants.map((restaurant, index) => (
+      <RestaurantCard key={index}>
+        <Link to="/RestaurantDetails" style={{textDecoration:'none'}}>
+          <img src={`chickfront${index + 1}.jpg`} alt={`Restaurant ${index + 1}`} />
+          <h4>{restaurant.name}</h4>
+          <p>{restaurant.rating}/5 ({restaurant.restaurantOpeningHours})</p>
+          <p>{restaurant.locationId}, {restaurant.cuisineType}</p>
+          <p>{restaurant.phoneNumber}</p>
+        </Link>
+      </RestaurantCard>
+    ));
+  };
 
   return (
     
@@ -172,17 +218,17 @@ const BrowseRestaurants = () => {
 
           <RestaurantSection>
             <h2>Wild Pick</h2>
-            <CardRow>{renderRestaurantCards(4)}</CardRow>
+            <CardRow>{wildPickCards}</CardRow>
           </RestaurantSection>
 
           <RestaurantSection>
             <h2>Top 10 Rated Restaurants</h2>
-            <CardRow>{renderRestaurantCards(10)}</CardRow>
+            <CardRow>{topRatedCards}</CardRow>
           </RestaurantSection>
 
           <RestaurantSection>
             <h2>All Restaurants</h2>
-            <CardRow>{renderRestaurantCards(20)}</CardRow>
+            <CardRow>{allRestaurantsCards}</CardRow>
           </RestaurantSection>
         </div>
       </div>
