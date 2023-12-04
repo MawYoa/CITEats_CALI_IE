@@ -109,9 +109,9 @@ const RestaurantCard = styled.div`
 `;
 
 const restaurantIdImages = {
-  1: 'mcdo.jpg',
-  2: 'tataysisig.png',
-  // Add more mappings as needed
+  1: 'milkteahouse.jpg',
+  2: 'mcdo.jpg',
+  3: 'tataysisig.png',
 };
 
 const PopularNearYou = ({ restaurants }) => (
