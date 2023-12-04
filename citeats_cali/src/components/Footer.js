@@ -67,7 +67,7 @@ const SearchBar = styled.input`
 const Footer = () => {
   return (
     <FooterContainer>
-      <FooterImage src="logo.png" alt="CIT Logo" />
+      <FooterImage src="../logo.png" alt="CIT Logo" />
       <div>
         <FooterText> Contact Us</FooterText>
         <FooterAdditionalText>
