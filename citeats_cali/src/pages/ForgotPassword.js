@@ -72,6 +72,7 @@ const ForgotPassword = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [changeSuccess, setChangeSuccess] = useState(false);
   const [changeError, setChangeError] = useState("");
+  const [userId, setUserId] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -91,7 +92,7 @@ const ForgotPassword = () => {
       }
   
       // Update user password
-      const responseUpdate = await axios.put(`http://localhost:8080/users/updateUser/1`, {
+      const responseUpdate = await axios.put(`http://localhost:8080/users/updateUser/${userId}`, {
         newPassword: password,
       });
   

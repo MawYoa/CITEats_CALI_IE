@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import axios from 'axios';
+import { useEffect } from "react";
 
 const StyledLink = styled(Link)`
   text-decoration: none; /* Remove underline */
@@ -300,15 +302,36 @@ const OverallRatingInput = ({ onChange }) => {
     };
 
 const RestaurantDetails = () => {
+
+  const [restaurant, setRestaurant] = useState({}); 
+  const { restaurantId } = useParams();
+
+  
+  useEffect(() => {
+    // Fetch restaurant details from the backend
+    const fetchRestaurantDetails = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/restaurants/${restaurantId}`);
+        setRestaurant(response.data);
+      } catch (error) {
+        console.error('Error fetching restaurant details:', error);
+        // Handle error (show error message, etc.)
+      }
+    };
+
+    fetchRestaurantDetails();
+  }, [restaurantId]);
+
+
   return (
     <div style={{fontFamily:'Kumbh Sans'}}>
       <Header />
       <br />
       <RestaurantDetailsContainer>
         <RestaurantDetailsHeader />
-        <RestaurantDetailsName>McDonald's - Cebu Southroad</RestaurantDetailsName>
+        <RestaurantDetailsName>{restaurant.name}</RestaurantDetailsName>
         <>
-        <Star>★</Star> 4.4
+        <Star>★</Star> {restaurant.rating}
         <span style={{ color: 'grey' }}>(3015)</span></>
       </RestaurantDetailsContainer>
 
@@ -378,12 +401,12 @@ const RestaurantDetails = () => {
     <br></br>
     <br></br>
     <RestaurantDetailsInfoLabel><SecondIconImage src="/houricon.png" alt="Second Icon" />Opening Hours:</RestaurantDetailsInfoLabel>
-    <RestaurantDetailsInfoValue>Mon - Sun 6:00 AM - 12:00 PM</RestaurantDetailsInfoValue>
+    <RestaurantDetailsInfoValue>{restaurant.restaurantOpeningHours}</RestaurantDetailsInfoValue>
   </RestaurantDetailsInfoItem>
 
   <RestaurantDetailsInfoItem>
     <RestaurantDetailsInfoLabel><SecondIconImage src="/addressicon.png" alt="Second Icon" />Address:</RestaurantDetailsInfoLabel>
-    <RestaurantDetailsInfoValue>Mambaling Cebu 5 Rd, Cebu City, Philippines</RestaurantDetailsInfoValue>
+    <RestaurantDetailsInfoValue>{restaurant.address}</RestaurantDetailsInfoValue>
   </RestaurantDetailsInfoItem>
 
   <RestaurantDetailsInfoItem>

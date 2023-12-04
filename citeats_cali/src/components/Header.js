@@ -67,7 +67,7 @@ const Header = ({userId}) => {
 
       <Navigation>
         <NavLink to={`/Home`} state={{ userId:userId  }}> Home </NavLink>
-        <NavLink to={`/BrowseRestaurants/`} state={{ userId:userId  }}>Browse Restaurants</NavLink>
+        <NavLink to={`/BrowseRestaurants`} state={{ userId:userId  }}>Browse Restaurants</NavLink>
         <NavLink to={`/Favorites`} state={{ userId:userId  }}>Favorites</NavLink>
         <NavLink to={`/JoinUs`} state={{ userId:userId  }}>Join Us</NavLink>
         <NavLink to={`/AboutUs`} state={{ userId:userId  }}>About Us</NavLink>

@@ -1,8 +1,8 @@
 import React, { useState ,useEffect } from "react";
 import Header from "../components/Header";
-import Footer from "../components/Footer";
+import Footer from "../components/Footer"
 import styled from "styled-components";
-import { Link, useLocation} from "react-router-dom";
+import { Link, useLocation, useParams} from "react-router-dom";
 import axios from "axios";
 
 const RestaurantCard = styled(Link)`
@@ -175,6 +175,7 @@ const BrowseRestaurants = () => {
       </RestaurantCard>
     ));
   };
+
   const renderRestaurantCards = async (count) => {
     
     const response = await axios.get('http://localhost:8080/restaurants/getAllRestaurants');
@@ -183,7 +184,7 @@ const BrowseRestaurants = () => {
   
     return restaurants.map((restaurant, index) => (
       <RestaurantCard key={index}>
-        <Link to="/RestaurantDetails" style={{textDecoration:'none'}}>
+        <Link to={`/RestaurantDetails/${restaurant.restaurantId}`} style={{textDecoration:'none'}}>
           <img src={`chickfront${index + 1}.jpg`} alt={`Restaurant ${index + 1}`} />
           <h4>{restaurant.name}</h4>
           <p>{restaurant.rating}/5 ({restaurant.restaurantOpeningHours})</p>

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import FAQ from '../components/FAQ';
-import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 import './Home.css';
@@ -193,7 +193,7 @@ export const Home = () => {
     // Call the functions to fetch data
     fetchCuisineCategories();
     fetchRestaurants();
-  }, []);
+  }, [location.state]);
 
   const handleBrowseClick = () => {
     // Handle browse click
