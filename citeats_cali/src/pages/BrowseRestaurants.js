@@ -11,7 +11,7 @@ const RestaurantCard = styled(Link)`
   border: 1px solid #ddd;
   padding: 15px;
   margin: 10px;
-  width: 200px;
+  width: 300px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease-in-out;
@@ -89,6 +89,30 @@ const FilterSection = styled.div`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
+const imageMapping = {
+  1: 'milkteahouse.jpg',
+  2: 'samueleatery.png',
+  3: 'tataysisig.png',
+  4: 'hazelbakery.jpg',
+  5: 'jasonlounge.jfif',
+  6: 'deliciousbite.jpg',
+  7: 'spicynoodlehouse.jfif',
+  8:'mediterranean.jpg',
+  9:'sushihaven.jpg',
+  10: 'tastytandoor.png',
+  11: 'seafood.jpg',
+  12: 'veggie.jpg',
+  13: 'bbqresto.jpg',
+  14: 'frenchbistro.webp',
+  15: 'burgerhaven.jpg',
+  16: 'healthtea.jpg',
+  17: '',
+  18: '',
+  19: '',
+  20: '',
+  // Add more mappings as needed
+};
+
 const BrowseRestaurants = () => {
   
   const [searchTerm, setSearchTerm] = useState("");
@@ -155,40 +179,36 @@ const BrowseRestaurants = () => {
   
 
   const renderTopRatedRestaurants = async (count) => {
-    // Replace with your Spring Boot backend URL
     const response = await axios.get('http://localhost:8080/restaurants/getAllRestaurants');
-    
-    // Filter and take only the top-rated restaurants with rating > 4
     const topRatedRestaurants = response.data
       .filter((restaurant) => parseFloat(restaurant.rating) >= 4)
       .slice(0, count);
 
     return topRatedRestaurants.map((restaurant, index) => (
       <RestaurantCard key={index}>
-        <Link to="/RestaurantDetails" style={{ textDecoration: 'none' }}>
-          <img src={`chickfront${index + 1}.jpg`} alt={`Restaurant ${index + 1}`} />
+        <Link to={`/RestaurantDetails/${restaurant.restaurantId}`} style={{ textDecoration: 'none' }}>
+          <img src={process.env.PUBLIC_URL + '/' + imageMapping[restaurant.restaurantId]} alt={`Restaurant ${index + 1}`} />
           <h4>{restaurant.name}</h4>
-          <p>{restaurant.rating}/5 ({restaurant.restaurantOpeningHours})</p>
-          <p>{restaurant.locationId}, {restaurant.cuisineType}</p>
-          <p>{restaurant.phoneNumber}</p>
+          <p style={{ fontSize: '14px' }}>{restaurant.rating}/5</p>
+          <p style={{ fontSize: '14px' }}>{restaurant.cuisineType}</p>
+          <p style={{ fontSize: '10px' }}>{restaurant.restaurantOpeningHours}</p>
         </Link>
       </RestaurantCard>
     ));
   };
+
   const renderRestaurantCards = async (count) => {
-    
     const response = await axios.get('http://localhost:8080/restaurants/getAllRestaurants');
-    const restaurants = response.data.slice(0, count); // Take only the first 'count' items
-    
-  
+    const restaurants = response.data.slice(0, count);
+
     return restaurants.map((restaurant, index) => (
       <RestaurantCard key={index}>
-        <Link to="/RestaurantDetails" style={{textDecoration:'none'}}>
-          <img src={`chickfront${index + 1}.jpg`} alt={`Restaurant ${index + 1}`} />
+        <Link to={`/RestaurantDetails/${restaurant.restaurantId}`} style={{ textDecoration: 'none' }}>
+          <img src={process.env.PUBLIC_URL + '/' + imageMapping[restaurant.restaurantId]} alt={`Restaurant ${index + 1}`} />
           <h4>{restaurant.name}</h4>
-          <p>{restaurant.rating}/5 ({restaurant.restaurantOpeningHours})</p>
-          <p>{restaurant.locationId}, {restaurant.cuisineType}</p>
-          <p>{restaurant.phoneNumber}</p>
+          <p style={{ fontSize: '14px' }}>{restaurant.rating}/5</p>
+          <p style={{ fontSize: '14px' }}>{restaurant.cuisineType}</p>
+          <p style={{ fontSize: '10px' }}>{restaurant.restaurantOpeningHours}</p>
         </Link>
       </RestaurantCard>
     ));

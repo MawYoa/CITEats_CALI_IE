@@ -67,22 +67,22 @@ const SearchBar = styled.input`
 const Footer = () => {
   return (
     <FooterContainer>
-      <FooterImage src="logo.png" alt="CIT Logo" />
+      <FooterImage src="../logo.png" alt="CIT Logo" />
       <div>
         <FooterText> Contact Us</FooterText>
         <FooterAdditionalText>
-        <img src="addressicon2.png" alt="Phone Icon" style={{ marginRight: '10px' }} />N. Bacalso Avenue, Cebu City, Philippines 6000<br/>
-        <img src="phoneicon.png" alt="Phone Icon" style={{ marginRight: '10px' }} /> +63 32 411 2000 (trunkline)<br/>
-        <img src="msgicon.png" alt="Phone Icon" style={{ marginRight: '10px' }} />  info@cit.edu
+        <img src="../addressicon2.png" alt="Phone Icon" style={{ marginRight: '10px' }} />N. Bacalso Avenue, Cebu City, Philippines 6000<br/>
+        <img src="../phoneicon.png" alt="Phone Icon" style={{ marginRight: '10px' }} /> +63 32 411 2000 (trunkline)<br/>
+        <img src="../msgicon.png" alt="Phone Icon" style={{ marginRight: '10px' }} />  info@cit.edu
         </FooterAdditionalText>
       </div>
       <div>
         <AnotherText>Get in Touch</AnotherText>
         <SocialIconsContainer>
-          <SocialIcon src="fbicon.png" alt="Facebook Icon" />
-          <SocialIcon src="igicon.png" alt="Instagram Icon" />
-          <SocialIcon src="tiktokicon.png" alt="Twitter Icon" />
-          <SocialIcon src="yticon.png" alt="YouTube Icon" />
+          <SocialIcon img src="../fbicon.png" alt="Facebook Icon" />
+          <SocialIcon img src="../igicon.png" alt="Instagram Icon" />
+          <SocialIcon img src="../tiktokicon.png" alt="Twitter Icon" />
+          <SocialIcon img src="../yticon.png" alt="YouTube Icon" />
         </SocialIconsContainer>
         <SearchBar type="text" placeholder="Search..." />
       </div>

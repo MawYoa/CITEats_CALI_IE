@@ -114,24 +114,30 @@ const restaurantIdImages = {
   3: 'tataysisig.png',
 };
 
-const PopularNearYou = ({ restaurants }) => (
-  <PopularNearYouContainer>
-    {restaurants.map((restaurant) => (
-      <RestaurantCard key={restaurant.restaurantId}>
-        <StyledLink to={`/RestaurantDetails/${restaurant.restaurantId}`}>
-        <img
-            src={process.env.PUBLIC_URL + '/' + (restaurantIdImages[restaurant.restaurantId])}
-            alt={restaurant.name}
-            style={{ width: '250px', height: '150px' }}
-          />
-          <h4 style={{ color: 'maroon', fontWeight: 'bold' }}>{restaurant.name}</h4>
-          <p style={{ color: 'gold' }}>{restaurant.rating}/5 ({restaurant.reviewsCount || 0}+)</p>
-          <p>₱₱₱, {restaurant.cuisineType}</p>
-        </StyledLink>
-      </RestaurantCard>
-    ))}
-  </PopularNearYouContainer>
-);
+const PopularNearYou = ({ restaurants }) => {
+  // Filter restaurants to include only those with restaurantId in the range 1-5
+  const filteredRestaurants = restaurants.filter(restaurant => restaurant.restaurantId >= 1 && restaurant.restaurantId <= 5);
+
+  return (
+    <PopularNearYouContainer>
+      {filteredRestaurants.map((restaurant) => (
+        <RestaurantCard key={restaurant.restaurantId}>
+          <StyledLink to={`/RestaurantDetails/${restaurant.restaurantId}`}>
+            <img
+              src={process.env.PUBLIC_URL + '/' + (restaurantIdImages[restaurant.restaurantId])}
+              alt={restaurant.name}
+              style={{ width: '250px', height: '150px' }}
+            />
+            <h4 style={{ color: 'maroon', fontWeight: 'bold' }}>{restaurant.name}</h4>
+            <p style={{ color: 'gold' }}>{restaurant.rating}/5 ({restaurant.reviewsCount || 0}+)</p>
+            <p>₱₱₱, {restaurant.cuisineType}</p>
+          </StyledLink>
+        </RestaurantCard>
+      ))}
+    </PopularNearYouContainer>
+  );
+};
+
 
 
 export const Home = () => {
