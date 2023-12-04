@@ -23,7 +23,7 @@ const RestaurantDetailsContainer = styled.div`
 
 const RestaurantDetailsHeader = styled.div`
   height: 300px;
-  background-image: url('/Image 1.jpg'); 
+  
   background-size: cover;
   background-position: center;
   color: #fff;
@@ -275,6 +275,30 @@ const RatingAndReviewContainer = styled.div`
   margin-right: 780px;
 `;
 
+const imageMapping = {
+  1: 'milkteahouse.jpg',
+  2: 'samueleatery.png',
+  3: 'tataysisig.png',
+  4: 'hazelbakery.jpg',
+  5: 'jasonlounge.jfif',
+  6: 'deliciousbite.jpg',
+  7: 'spicynoodlehouse.jfif',
+  8:'mediterranean.jpg',
+  9:'sushihaven.jpg',
+  10: 'tastytandoor.png',
+  11: 'seafood.jpg',
+  12: 'veggie.jpg',
+  13: 'bbqresto.jpg',
+  14: 'frenchbistro.webp',
+  15: 'burgerhaven.jpg',
+  16: 'healthtea.jpg',
+  17: '',
+  18: '',
+  19: '',
+  20: '',
+  // Add more mappings as needed
+};
+
 const OverallRatingInput = ({ onChange }) => {
   const [selectedStars, setSelectedStars] = useState(0);
 
@@ -328,7 +352,13 @@ const RestaurantDetails = () => {
       <Header />
       <br />
       <RestaurantDetailsContainer>
-        <RestaurantDetailsHeader />
+      {[restaurant].map((restaurant, index) => (
+// Your code here
+<img src={process.env.PUBLIC_URL + '/' + imageMapping[restaurant.restaurantId]} alt={`Restaurant ${index + 1}`} />
+))}
+
+
+      
         <RestaurantDetailsName>{restaurant.name}</RestaurantDetailsName>
         <>
         <Star>★</Star> {restaurant.rating}
