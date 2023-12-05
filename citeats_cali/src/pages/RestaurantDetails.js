@@ -23,7 +23,6 @@ const RestaurantDetailsContainer = styled.div`
 
 const RestaurantDetailsHeader = styled.div`
   height: 300px;
-  
   background-size: cover;
   background-position: center;
   color: #fff;
@@ -231,13 +230,13 @@ const FoodIcon = styled.img`
 
 const InfoContainer = styled.div`
   position: absolute;
-  top: 560px; /* Adjust the negative top value to move it up */
+  top: 760px; /* Adjust the negative top value to move it up */
   margin-top: 20px;
-  width: 22%;
+  width: 18.5%;
   padding: 20px;
   margin: 0 auto;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-left: 1000px; /* Align to the right */
+  margin-left: 1200px; /* Align to the right */
 `;
 
 const RatingContainer = styled.div`
@@ -276,27 +275,96 @@ const RatingAndReviewContainer = styled.div`
 `;
 
 const imageMapping = {
-  1: 'milkteahouse.jpg',
-  2: 'samueleatery.png',
-  3: 'tataysisig.png',
-  4: 'hazelbakery.jpg',
-  5: 'jasonlounge.jfif',
-  6: 'deliciousbite.jpg',
-  7: 'spicynoodlehouse.jfif',
-  8:'mediterranean.jpg',
-  9:'sushihaven.jpg',
-  10: 'tastytandoor.png',
-  11: 'seafood.jpg',
-  12: 'veggie.jpg',
-  13: 'bbqresto.jpg',
-  14: 'frenchbistro.webp',
-  15: 'burgerhaven.jpg',
-  16: 'healthtea.jpg',
-  17: '',
-  18: '',
-  19: '',
-  20: '',
+  1: 'teahouse.jpg',
+  2: 'samuel.jpg',
+  3: 'sisignitatay.jpg',
+  4: 'hazel.jpg',
+  5: 'jason.jpg',
+  6: 'db.png',
+  7: 'noodles.png',
+  8: 'mediterraneancover.jpg',
+  9: 'sushihavencover.jpg',
+  10: 'tandoorcover.jpg',
+  11: 'seafoodcover.jpg',
+  12: 'veggies.jpg',
+  13: 'bbqjunc.jpg',
+  14: 'frenchcover.jpg',
+  15: 'burgercover.jpg',
+  16: 'green.jpg',
+  17: 'mex.jpg',
+  18: 'cozycover.jpg',
+  19: 'thaicover.png',
+  20: 'mongolcover.jpg',
   // Add more mappings as needed
+};
+
+const menuImageMapping = {
+  1: 'menuteahouse.jpg',
+  2: 'menu2.jpg',
+  3: 'menusisignitatay.jpg',
+  4: 'menuhazel.jpg',
+  5: 'jasonmenu.jpg',
+  6: 'menudb.jpg',
+  7: 'menunoodles.jpg',
+  8: 'mediterraneanmenu.jpg',
+  9: 'sushihavenmenu.jpg',
+  10: 'tandoormenu.jpg',
+  11: 'seafoodmenu.jpg',
+  12: 'veggiesmenu.jpg',
+  13: 'bbqjuncmenu.jpg',
+  14: 'frenchmenu.jpg',
+  15: 'burgermenu.jpg',
+  16: 'greenmenu.jpg',
+  17: 'texmenu.jpg',
+  18: 'cozymenu.jpg',
+  19: 'thaimenu.gif',
+  20: 'mongolmenu.jpg',
+};
+
+const ambienceImageMapping = {
+  1: 'ambienceteahouse.jpg',
+  2: 'ambiencesameul.png',
+  3: 'ambiencesisignitatay.jpg',
+  4: 'ambiencehazel.jpg',
+  5: 'jasonambience.jpg',
+  6: 'ambiencedb.jpg',
+  7: 'ambiencenoodles.jpg',
+  8: 'mediterraneanambience.jpg',
+  9: 'ambiencesushi.png',
+  10: 'tandoorambience.jpg',
+  11: 'seafoodambience.jpg',
+  12: 'veggiesambience.jpeg',
+  13: 'bbqjuncamb.jpg',
+  14: 'frenchamb.jpg',
+  15: 'burgeramb.jpg',
+  16: 'greenamb.jpg',
+  17: 'texamb.jpg',
+  18: 'cozyamb.jpg',
+  19: 'thaiamb.jpg',
+  20: 'mongolamb.jpg',
+};
+
+const foodImageMapping = {
+  1: 'foodteahouse.jpg',
+  2: 'foodsameul.jpg',
+  3: 'foodsisignitatay.jpg',
+  4: 'foodhazel.jpg',
+  5: 'foodjason.jpg',
+  6: 'dbfood.jpg',
+  7: 'noodlesfood.jpg',
+  8: 'mediterraneanfood.jpg',
+  9: 'sushifood.jpg',
+  10: 'tandoorfood.jpg',
+  11: 'seafoodfood.jpg',
+  12: 'veggiesfood.jpg',
+  13: 'bbqfood.jpg',
+  14: 'frenchfood.jpg',
+  15: 'burgerfood.jpeg',
+  16: 'greenfood.jpg',
+  17: 'texfood.jpg',
+  18: 'cozyfood.png',
+  19: 'thaifood.jpg',
+  20: 'mongolfood.jpg',
 };
 
 const OverallRatingInput = ({ onChange }) => {
@@ -353,9 +421,14 @@ const RestaurantDetails = () => {
       <br />
       <RestaurantDetailsContainer>
       {[restaurant].map((restaurant, index) => (
-// Your code here
-<img src={process.env.PUBLIC_URL + '/' + imageMapping[restaurant.restaurantId]} alt={`Restaurant ${index + 1}`} />
-))}
+      // Your code here
+      <img
+        src={process.env.PUBLIC_URL + '/' + imageMapping[restaurant.restaurantId]}
+        alt={`Restaurant ${index + 1}`}
+        style={{ width: '1470px', height: '500px' }}
+      />
+
+      ))}
 
 
       
@@ -367,7 +440,9 @@ const RestaurantDetails = () => {
 
       <RestaurantDetailsInfo>
         <RestaurantDetailsButtonContainer>
-          <RestaurantDetailsButton image="/menuimg.jpg"  style={{textDecoration:'none'}}>
+        <RestaurantDetailsButton
+            image={process.env.PUBLIC_URL + '/' + menuImageMapping[restaurant.restaurantId]}
+            style={{ textDecoration: 'none' }}>
             <StyledLink to="/Menu">
             <br></br>
             <br></br>
@@ -383,7 +458,10 @@ const RestaurantDetails = () => {
             <h3 style={{ color: 'black' ,textDecoration:'none'}}>Menu</h3>
             </StyledLink> 
           </RestaurantDetailsButton>
-          <RestaurantDetailsButton image="/ambienceimg.jpg" style={{textDecoration:'none'}}>
+          <RestaurantDetailsButton
+            image={process.env.PUBLIC_URL + '/' + ambienceImageMapping[restaurant.restaurantId]}
+            style={{ textDecoration: 'none' }}
+          >
           <StyledLink to="/Ambience">
             <br></br>
             <br></br>
@@ -399,7 +477,11 @@ const RestaurantDetails = () => {
             <h3 style={{ color: 'black',textDecoration:'none' }}>Ambience</h3>
             </StyledLink>
           </RestaurantDetailsButton>
-          <RestaurantDetailsButton image="/foodimg.jpg" to="/Food" style={{textDecoration:'none'}}>
+          <RestaurantDetailsButton
+            image={process.env.PUBLIC_URL + '/' + foodImageMapping[restaurant.restaurantId]}
+            to="/Food"
+            style={{ textDecoration: 'none' }}
+          >
           <StyledLink to="/Food">
             <br></br>
             <br></br>

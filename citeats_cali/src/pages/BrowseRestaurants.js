@@ -106,10 +106,10 @@ const imageMapping = {
   14: 'frenchbistro.webp',
   15: 'burgerhaven.jpg',
   16: 'healthtea.jpg',
-  17: '',
-  18: '',
-  19: '',
-  20: '',
+  17: 'Tex-Mex-Fiesta-Bake.jpg',
+  18: 'Cozy.jpg',
+  19: 'thai.jpg',
+  20: 'mongol.jpg',
   // Add more mappings as needed
 };
 
