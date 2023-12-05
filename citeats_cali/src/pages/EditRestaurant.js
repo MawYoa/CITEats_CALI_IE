@@ -2,7 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-
+import axios from 'axios';
+import { useState, useEffect } from "react";
+import { useParams } from "react-router";
 const UserProfileContainer = styled.div`
   width: 85%;
   display: flex;
@@ -95,9 +97,11 @@ const UserProfileInfoValue = styled.span`
 const UserReviewsContainer = styled.div`
   width: 100%;
   text-align: left;
+  max-height: 500px; /* Set a maximum height */
+  overflow-y: auto;
   padding: 0 0px;
   height: 500px;
-  width: 1300px;
+  width: 100%;
   margin-top: 20px;
   display: flex;
   flex-direction: column;
@@ -115,13 +119,15 @@ const ReviewsHeader = styled.h1`
 const Review = styled.div`
   margin-bottom: 15px;
   border-radius: 20px;
-  background-color: gold; /* Added gold background color */
-  padding: 15px; /* Added padding for spacing */
+  background-color: white;
+  border: 2px solid black; /* Add yellow borders */
+  padding: 15px;
 `;
 
 const Star = styled.span`
   font-size: 26px;
   color: yellow; /* Set the color to gold or any other color you prefer */
+  
 `;
 
 const ReviewTitle = styled.h2`
@@ -132,8 +138,7 @@ const ReviewTitle = styled.h2`
 const ReviewRating = styled.span`
   font-size: 20px;
   margin-right: 100px;
-  text-align: right;
-  padding: 0 200px;
+  text-align: left;
 `;
 
 const ReviewText = styled.p`
@@ -168,13 +173,127 @@ const AdditionalTextContainer = styled.div`
 `;
 
 const handleFileUpload = (e, section) => {
-    const file = e.target.files[0]; // Get the first file from the selected files
-  
-    // Perform actions with the file, such as updating state or sending it to the server
+    const file = e.target.files[0];
     console.log(`File uploaded for ${section}:`, file);
+    // Perform actions with the file, such as updating state or sending it to the server
   };
   
-const EditRestaurant = () => {
+  const EditRestaurant = () => {
+    const [restaurantData, setRestaurantData] = useState({});
+    const [editMode, setEditMode] = useState(false);
+    const [name, setName] = useState('');
+    const [address, setAddress] = useState('');
+    const [website, setWebsite] = useState('');
+    const [cuisineType, setCuisineType] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [restaurantOpeningHours, setrestaurantOpeningHours] = useState('');
+    const { restaurantId } = useParams();
+    const [reviews, setReviews] = useState([]);
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const result = await axios.get(`http://localhost:8080/restaurants/${restaurantId}`); // Update the API endpoint
+          setRestaurantData(result.data);
+  
+          // Set the initial values, handling the case where they might be null or undefined
+          setName(result.data.name ?? '');
+          setAddress(result.data.address ?? '');
+          setCuisineType(result.data.cuisineType ?? '');
+          setPhoneNumber(result.data.phoneNumber ?? '');
+          setrestaurantOpeningHours(result.data.restaurantOpeningHours ?? '');
+          setWebsite(result.data.website ?? '');
+
+        } catch (error) {
+          console.error(error);
+        }
+      };
+  
+      fetchData();
+    }, []);
+  
+    const handleNameChange = (e) => {
+      setName(e.target.value);
+    };
+  
+    const handleWebsiteChange = (e) => {
+      setWebsite(e.target.value);
+    };
+  
+    const handleAddressChange = (e) => {
+      setAddress(e.target.value);
+    };
+  
+    const handleCuisineTypeChange = (e) => {
+      setCuisineType(e.target.value);
+    };
+  
+    const handlePhoneNumberChange = (e) => {
+      setPhoneNumber(e.target.value);
+    };
+  
+    const handlerestaurantOpeningHoursChange = (e) => {
+      setrestaurantOpeningHours(e.target.value);
+    };
+  
+    const handleToggleEdit = () => {
+      setEditMode(!editMode);
+    };
+  
+    const handleSaveProfile = async () => {
+      try {
+        const response = await axios.put(`http://localhost:8080/restaurants/updateRestaurantsProfile/${restaurantId}`, {
+          
+          restaurantId: restaurantData.restaurantId,
+          name,
+          website,
+          address,
+          cuisineType,
+          phoneNumber,
+          restaurantOpeningHours,
+        });
+  
+        // Update the restaurant data state using the response data
+        setRestaurantData(response.data);
+  
+        handleToggleEdit(); // Toggle back to view mode after saving
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  
+    const handleFileUpload = (e, section) => {
+      const file = e.target.files[0];
+      console.log(`File uploaded for ${section}:`, file);
+      // Perform actions with the file, such as updating state or sending it to the server
+    };
+
+    console.log(reviews);
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const reviewsResult = await axios.get(`http://localhost:8080/reviews/getReviewsByRestaurantId/${restaurantId}`);
+          const filteredReviews = reviewsResult.data.filter(review => {
+            console.log('Review.restaurantId Type:', typeof review.restaurantId);
+            console.log('restaurantId Type:', typeof restaurantId);
+            return review.restaurantId.toString() === restaurantId;
+          });
+          
+          console.log('Filtered Reviews:', filteredReviews);
+          setReviews(filteredReviews);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+    
+      fetchData();
+    }, [restaurantId]);
+    
+
+
+    
+
   return (
     <div>
       <Header />
@@ -183,34 +302,98 @@ const EditRestaurant = () => {
           <UserProfileImage src="user.png" alt="User Profile Image" />
         </UserProfileHeader>
         <UserProfileInfo>
-          <UserProfileInfoContainer>
+        <UserProfileInfoContainer>
             <UserProfileInfoHeader>General Information</UserProfileInfoHeader>
-            <UserProfileButton>Edit Profile</UserProfileButton>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <UserProfileButton onClick={handleToggleEdit} style={{ marginRight: '10px' }}>
+                {editMode ? 'Cancel Changes' : 'Edit Profile'}
+              </UserProfileButton>
+              {editMode && (
+                <UserProfileButton onClick={handleSaveProfile}>
+                  Save Changes
+                </UserProfileButton>
+              )}
+            </div>
           </UserProfileInfoContainer>
           <UserProfileInfoItem>
-            <UserProfileInfoLabel>Restaurant Name:</UserProfileInfoLabel>
-            <UserProfileInfoValue>Sisig ni Tatay</UserProfileInfoValue>
+          <UserProfileInfoLabel>Restaurant Name:</UserProfileInfoLabel>
+          {editMode ? (
+            <input
+              type="text"
+              value={name}
+              placeholder={restaurantData.name}
+              onChange={handleNameChange}
+            />
+          ) : (
+            <UserProfileInfoValue>{restaurantData.name}</UserProfileInfoValue>
+          )}
+        </UserProfileInfoItem>
+          <UserProfileInfoItem>
+          <UserProfileInfoLabel>Website:</UserProfileInfoLabel>
+          {editMode ? (
+            <input
+              type="text"
+              value={website}
+              placeholder={restaurantData.website}
+              onChange={handleWebsiteChange}
+            />
+          ) : (
+            <UserProfileInfoValue>{restaurantData.website}</UserProfileInfoValue>
+          )}
+        </UserProfileInfoItem>
+        <UserProfileInfoItem>
+          <UserProfileInfoLabel>Address:</UserProfileInfoLabel>
+          {editMode ? (
+            <input
+              type="text"
+              value={address}
+              placeholder={restaurantData.address}
+              onChange={handleAddressChange}
+            />
+          ) : (
+            <UserProfileInfoValue>{restaurantData.address}</UserProfileInfoValue>
+          )}
           </UserProfileInfoItem>
           <UserProfileInfoItem>
-            <UserProfileInfoLabel>Email:</UserProfileInfoLabel>
-            <UserProfileInfoValue>tatay@example.com</UserProfileInfoValue>
-          </UserProfileInfoItem>
-          <UserProfileInfoItem>
-            <UserProfileInfoLabel>Address:</UserProfileInfoLabel>
-            <UserProfileInfoValue>Mariano Abella St, Cebu City, 6000 Cebu</UserProfileInfoValue>
-          </UserProfileInfoItem>
-          <UserProfileInfoItem>
-            <UserProfileInfoLabel>CuisineType:</UserProfileInfoLabel>
-            <UserProfileInfoValue>Sisig</UserProfileInfoValue>
-          </UserProfileInfoItem>
-          <UserProfileInfoItem>
-            <UserProfileInfoLabel>PhoneNumber:</UserProfileInfoLabel>
-            <UserProfileInfoValue>09270393950</UserProfileInfoValue>
-          </UserProfileInfoItem>
-          <UserProfileInfoItem>
-            <UserProfileInfoLabel>Operning Hours:</UserProfileInfoLabel>
-            <UserProfileInfoValue>8:00AM-10:00PM Mon-Sat</UserProfileInfoValue>
-          </UserProfileInfoItem>
+                <UserProfileInfoLabel>CuisineType:</UserProfileInfoLabel>
+                {editMode ? (
+                  <input
+                    type="text"
+                    value={cuisineType}
+                    placeholder={restaurantData.cuisineType}
+                    onChange={handleCuisineTypeChange}
+                  />
+                ) : (
+                  <UserProfileInfoValue>{restaurantData.cuisineType}</UserProfileInfoValue>
+                )}
+              </UserProfileInfoItem>
+              <UserProfileInfoItem>
+                <UserProfileInfoLabel>PhoneNumber:</UserProfileInfoLabel>
+                {editMode ? (
+                  <input
+                    type="text"
+                    value={phoneNumber}
+                    placeholder={restaurantData.phoneNumber}
+                    onChange={handlePhoneNumberChange}
+                  />
+                ) : (
+                  <UserProfileInfoValue>{restaurantData.phoneNumber}</UserProfileInfoValue>
+                )}
+              </UserProfileInfoItem>
+              <UserProfileInfoItem>
+                <UserProfileInfoLabel>Opening Hours:</UserProfileInfoLabel>
+                {editMode ? (
+                  <input
+                    type="text"
+                    value={restaurantOpeningHours}
+                    placeholder={restaurantData.restaurantOpeningHours}
+                    onChange={handlerestaurantOpeningHoursChange}
+                  />
+                ) : (
+                  <UserProfileInfoValue>{restaurantData.restaurantOpeningHours}</UserProfileInfoValue>
+                )}
+              </UserProfileInfoItem>
+
 
           <UserProfileInfoItem>
             <UserProfileInfoLabel>Menu:</UserProfileInfoLabel>
@@ -245,11 +428,22 @@ const EditRestaurant = () => {
             </UserProfileInfoValue>
             </UserProfileInfoItem>
 
-
-          <UserReviewsContainer>
             <ReviewsHeader>Your Restaurant Reviews</ReviewsHeader>
-            
-          </UserReviewsContainer>
+            <UserReviewsContainer>
+              {reviews.map((review) => (
+                <Review key={review.reviewId}>
+                    <ReviewText><b>User ID: </b>{review.userId}</ReviewText>
+                  <ReviewRating>
+                    <Star>⭐</Star> {review.rating}
+                  </ReviewRating>
+                  <ReviewText><b>Comment:</b></ReviewText>
+                  <ReviewText>{review.comment}</ReviewText>
+                  <ReviewText><b>Date Posted: </b>{review.datePosted}</ReviewText>
+
+                  {/* Add other review details as needed */}
+                </Review>
+              ))}
+            </UserReviewsContainer>
 
         </UserProfileInfo>
       </UserProfileContainer>

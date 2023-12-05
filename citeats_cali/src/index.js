@@ -44,7 +44,7 @@ root.render(
         <Route path="/Ambience" element={<Ambience/>} /> 
         <Route path="/AboutUs" element={<AboutUs/>} /> 
         <Route path="/RestaurantProfile" element={<RestaurantProfile/>} /> 
-        <Route path="/EditRestaurant" element={<EditRestaurant/>} /> 
+        <Route path="/EditRestaurant/:restaurantId" element={<EditRestaurant/>} /> 
         <Route path="/GetStarted" element={<GetStarted/>} /> 
 
       </Routes>
