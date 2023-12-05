@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const FooterContainer = styled.div`
-  width: 1460px;
+  width: 90%;
   height: 120px;
   margin-right:10px;
   margin-left:10px;
@@ -13,7 +13,6 @@ const FooterContainer = styled.div`
   justify-content: space-between;
   padding: 0 20px;
   font-family: Kumbh Sans;
-  box-shadow: 0 2px 4px rgba(0.5, 0.5, 0.5, 0.5);
 `;
 
 const FooterImage = styled.img`

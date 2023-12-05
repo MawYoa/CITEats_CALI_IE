@@ -61,9 +61,9 @@ const JoinUs = () => {
   };
 
   return (
-    <div>
+    <div >
       <Header userId={location.state.userId}/>
-      <div className="signup-container" style={{fontFamily:'Kumbh Sans'}}>
+      <div className="signup-container" style={{fontFamily:'Kumbh Sans', textAlign: 'center', position: 'relative', left:"150px"}}>
       
         <h1 className="heading" style={{fontFamily:'Kumbh Sans'}}>Boost your reputation with CIT Eats!</h1>
         <p className="paragraph">Sign up now and start gaining new customers to boost your restaurant growth.</p>

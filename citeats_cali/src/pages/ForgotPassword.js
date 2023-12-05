@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import { Navigate, useNavigate } from "react-router";
 
 const ForgotPasswordContainer = styled.div`
 
@@ -73,36 +74,41 @@ const ForgotPassword = () => {
   const [changeSuccess, setChangeSuccess] = useState(false);
   const [changeError, setChangeError] = useState("");
   const [userId, setUserId] = useState("");
+  const navigate = useNavigate('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
-      // Fetch users
-      const response = await axios.get(`http://localhost:8080/users/getAllUsers`);
-      const users = response.data;
-  
       // Find user by email
-      const user = users.find((user) => user.email === email);
-  
+      const response = await axios.get(`http://localhost:8080/users/by-email/${email}`);
+      const user = response.data;
+
       if (!user) {
-        setChangeError('User not found with the provided email.');
+        setChangeError("User not found with the provided email.");
         setChangeSuccess(false);
         return;
       }
-  
+
+      // Update userId state with the ID of the retrieved user
+      setUserId(userId);
+
       // Update user password
-      const responseUpdate = await axios.put(`http://localhost:8080/users/updateUser/${userId}`, {
+      const responseUpdate = await axios.put(`http://localhost:8080/users/updatePassword/${user.userId}`, {
         newPassword: password,
       });
-  
-      console.log('Password reset successful:', responseUpdate.data);
+
+      console.log("Password reset successful:", responseUpdate.data);
       setChangeSuccess(true);
-      setChangeError('');
+      setChangeError("");
+
+      alert(`User ${user.userId} successfully changed password!`);
+      navigate("/");
+
     } catch (error) {
-      console.error('Error resetting password:', error);
+      console.error("Error resetting password:", error);
       setChangeSuccess(false);
-      setChangeError('Error resetting password. Please try again.');
+      setChangeError("Error resetting password. Please try again.");
     }
   };
   

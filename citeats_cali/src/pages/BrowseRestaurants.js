@@ -2,7 +2,7 @@ import React, { useState ,useEffect } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer"
 import styled from "styled-components";
-import { Link, useLocation, useParams} from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
 
 const RestaurantCard = styled(Link)`
@@ -114,13 +114,13 @@ const imageMapping = {
 };
 
 const BrowseRestaurants = () => {
-  
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCuisines, setSelectedCuisines] = useState([]);
   const [cuisineTypes, setCuisineTypes] = useState([]);
+  const [wildPickCards, setWildPickCards] = useState([]);
+  const [topRatedCards, setTopRatedCards] = useState([]);
+  const [allRestaurantsCards, setAllRestaurantsCards] = useState([]);
   const location = useLocation();
-
-  
 
   useEffect(() => {
     // Fetch cuisine types from the backend
@@ -136,6 +136,20 @@ const BrowseRestaurants = () => {
 
     fetchCuisineTypes();
   }, []); // Run this effect only once when the component mounts
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const wildPickData = await renderRestaurantCards(4);
+      const topRatedData = await renderTopRatedRestaurants(10);
+      const allRestaurantsData = await renderRestaurantCards(20);
+
+      setWildPickCards(wildPickData);
+      setTopRatedCards(topRatedData);
+      setAllRestaurantsCards(allRestaurantsData);
+    };
+
+    fetchData();
+  }, [searchTerm, selectedCuisines ]); // Update when searchTerm or selectedCuisines change
 
   const handleCheckboxChange = (cuisine) => {
     setSelectedCuisines((prevCuisines) =>
@@ -159,66 +173,65 @@ const BrowseRestaurants = () => {
     ));
   };
 
-  const [wildPickCards, setWildPickCards] = useState([]);
-  const [topRatedCards, setTopRatedCards] = useState([]);
-  const [allRestaurantsCards, setAllRestaurantsCards] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const wildPickData = await renderRestaurantCards(4);
-      const topRatedData = await renderTopRatedRestaurants(10);
-      const allRestaurantsData = await renderRestaurantCards(20);
-
-      setWildPickCards(wildPickData);
-      setTopRatedCards(topRatedData);
-      setAllRestaurantsCards(allRestaurantsData);
-    };
-
-    fetchData();
-  }, []);
-  
-
   const renderTopRatedRestaurants = async (count) => {
+  try {
     const response = await axios.get('http://localhost:8080/restaurants/getAllRestaurants');
-    const topRatedRestaurants = response.data
-      .filter((restaurant) => parseFloat(restaurant.rating) >= 4)
+    const allRestaurants = response.data;
+
+    // Filter top-rated restaurants
+    const topRatedRestaurants = allRestaurants
+      .filter((restaurant) => parseFloat(restaurant.rating) >= 4);
+
+    // Filter top-rated restaurants based on searchTerm
+    const filteredTopRatedRestaurants = topRatedRestaurants
+      .filter((restaurant) =>
+        restaurant.name.toLowerCase().includes(searchTerm.toLowerCase())
+      )
       .slice(0, count);
 
-    return topRatedRestaurants.map((restaurant, index) => (
+    return filteredTopRatedRestaurants.map((restaurant, index) => (
       <RestaurantCard key={index}>
         <Link to={`/RestaurantDetails/${restaurant.restaurantId}`} style={{ textDecoration: 'none' }}>
           <img src={process.env.PUBLIC_URL + '/' + imageMapping[restaurant.restaurantId]} alt={`Restaurant ${index + 1}`} />
           <h4>{restaurant.name}</h4>
-          <p style={{ fontSize: '14px' }}>{restaurant.rating}/5</p>
+          <p style={{ fontSize: '14px' }}>{parseFloat(restaurant.rating).toFixed(1)}/5.0</p>
           <p style={{ fontSize: '14px' }}>{restaurant.cuisineType}</p>
           <p style={{ fontSize: '10px' }}>{restaurant.restaurantOpeningHours}</p>
         </Link>
       </RestaurantCard>
     ));
-  };
-
+  } catch (error) {
+    console.error("Error fetching top-rated restaurants:", error);
+    return []; // Return an empty array in case of an error
+  }
+};
   const renderRestaurantCards = async (count) => {
-    const response = await axios.get('http://localhost:8080/restaurants/getAllRestaurants');
-    const restaurants = response.data.slice(0, count);
+    const response = await axios.get("http://localhost:8080/restaurants/getAllRestaurants");
+    const restaurants = response.data
+      .filter(
+        (restaurant) =>
+          restaurant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          restaurant.cuisineType.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+      .slice(0, count);
 
-    return restaurants.map((restaurant, index) => (
-      <RestaurantCard key={index}>
-        <Link to={`/RestaurantDetails/${restaurant.restaurantId}`} style={{ textDecoration: 'none' }}>
-          <img src={process.env.PUBLIC_URL + '/' + imageMapping[restaurant.restaurantId]} alt={`Restaurant ${index + 1}`} />
-          <h4>{restaurant.name}</h4>
-          <p style={{ fontSize: '14px' }}>{restaurant.rating}/5</p>
-          <p style={{ fontSize: '14px' }}>{restaurant.cuisineType}</p>
-          <p style={{ fontSize: '10px' }}>{restaurant.restaurantOpeningHours}</p>
-        </Link>
-      </RestaurantCard>
-    ));
+      return restaurants.map((restaurant, index) => (
+        <RestaurantCard key={index}>
+          <Link to={`/RestaurantDetails/${restaurant.restaurantId}`} style={{ textDecoration: 'none' }}>
+            <img src={process.env.PUBLIC_URL + '/' + imageMapping[restaurant.restaurantId]} alt={`Restaurant ${index + 1}`} />
+            <h4>{restaurant.name}</h4>
+            <p style={{ fontSize: '14px' }}>{parseFloat(restaurant.rating).toFixed(1)}/5.0</p>
+            <p style={{ fontSize: '14px' }}>{restaurant.cuisineType}</p>
+            <p style={{ fontSize: '10px' }}>{restaurant.restaurantOpeningHours}</p>
+          </Link>
+        </RestaurantCard>
+      ));
   };
 
   return (
-    
     <div>
       <Header userId={location.state.userId} />
-      <div style={{ display: "flex" ,fontFamily: 'Kumbh Sans'}}>
+      <div style={{ display: "flex", fontFamily: "Kumbh Sans" }}>
         <RestaurantSection style={{ width: "20%" }}>
           <FilterSection>
             <h2>Filter</h2>
