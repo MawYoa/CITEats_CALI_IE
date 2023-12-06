@@ -232,11 +232,11 @@ const InfoContainer = styled.div`
   position: absolute;
   top: 760px; /* Adjust the negative top value to move it up */
   margin-top: 20px;
-  width: 18.5%;
+  width: 22.5%;
   padding: 20px;
   margin: 0 auto;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-left: 1200px; /* Align to the right */
+  margin-left: 800px; /* Align to the right */
 `;
 
 const RatingContainer = styled.div`
@@ -298,74 +298,42 @@ const imageMapping = {
   // Add more mappings as needed
 };
 
-const menuImageMapping = {
-  1: 'menuteahouse.jpg',
-  2: 'menu2.jpg',
-  3: 'menusisignitatay.jpg',
-  4: 'menuhazel.jpg',
-  5: 'jasonmenu.jpg',
-  6: 'menudb.jpg',
-  7: 'menunoodles.jpg',
-  8: 'mediterraneanmenu.jpg',
-  9: 'sushihavenmenu.jpg',
-  10: 'tandoormenu.jpg',
-  11: 'seafoodmenu.jpg',
-  12: 'veggiesmenu.jpg',
-  13: 'bbqjuncmenu.jpg',
-  14: 'frenchmenu.jpg',
-  15: 'burgermenu.jpg',
-  16: 'greenmenu.jpg',
-  17: 'texmenu.jpg',
-  18: 'cozymenu.jpg',
-  19: 'thaimenu.gif',
-  20: 'mongolmenu.jpg',
-};
+const MenuItemCard = styled.div`
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin: 10px;
+  width: 300px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
 
-const ambienceImageMapping = {
-  1: 'ambienceteahouse.jpg',
-  2: 'ambiencesameul.png',
-  3: 'ambiencesisignitatay.jpg',
-  4: 'ambiencehazel.jpg',
-  5: 'jasonambience.jpg',
-  6: 'ambiencedb.jpg',
-  7: 'ambiencenoodles.jpg',
-  8: 'mediterraneanambience.jpg',
-  9: 'ambiencesushi.png',
-  10: 'tandoorambience.jpg',
-  11: 'seafoodambience.jpg',
-  12: 'veggiesambience.jpeg',
-  13: 'bbqjuncamb.jpg',
-  14: 'frenchamb.jpg',
-  15: 'burgeramb.jpg',
-  16: 'greenamb.jpg',
-  17: 'texamb.jpg',
-  18: 'cozyamb.jpg',
-  19: 'thaiamb.jpg',
-  20: 'mongolamb.jpg',
-};
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
 
-const foodImageMapping = {
-  1: 'foodteahouse.jpg',
-  2: 'foodsameul.jpg',
-  3: 'foodsisignitatay.jpg',
-  4: 'foodhazel.jpg',
-  5: 'foodjason.jpg',
-  6: 'dbfood.jpg',
-  7: 'noodlesfood.jpg',
-  8: 'mediterraneanfood.jpg',
-  9: 'sushifood.jpg',
-  10: 'tandoorfood.jpg',
-  11: 'seafoodfood.jpg',
-  12: 'veggiesfood.jpg',
-  13: 'bbqfood.jpg',
-  14: 'frenchfood.jpg',
-  15: 'burgerfood.jpeg',
-  16: 'greenfood.jpg',
-  17: 'texfood.jpg',
-  18: 'cozyfood.png',
-  19: 'thaifood.jpg',
-  20: 'mongolfood.jpg',
-};
+  img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px 8px 0 0;
+  }
+
+  div {
+    padding: 15px;
+  }
+
+  h4 {
+    color: #333;
+    font-size: 1.2rem;
+    margin: 10px 0;
+  }
+
+  p {
+    color: #777;
+    margin: 5px 0;
+  }
+`;
 
 const OverallRatingInput = ({ onChange }) => {
   const [selectedStars, setSelectedStars] = useState(0);
@@ -459,6 +427,30 @@ const RestaurantDetails = () => {
     fetchRestaurantDetails();
   }, [restaurantId]);
 
+  const [menuItems, setMenuItems] = useState([]);
+
+  useEffect(() => {
+    // Fetch menu items for the restaurant
+    const fetchMenuItems = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/menuitems/getByRestaurantId/${restaurantId}`);
+        
+        // Check if the response data is an array before setting state
+        if (Array.isArray(response.data)) {
+          setMenuItems(response.data);
+        } else {
+          console.error('Invalid menu items data:', response.data);
+        }
+      } catch (error) {
+        console.error('Error fetching menu items:', error);
+        // Handle error (show error message, etc.)
+      }
+    };
+  
+    fetchMenuItems();
+  }, [restaurantId]);
+  
+  
 
   return (
     <div style={{fontFamily:'Kumbh Sans'}}>
@@ -484,72 +476,25 @@ const RestaurantDetails = () => {
       </RestaurantDetailsContainer>
 
       <RestaurantDetailsInfo>
-        <RestaurantDetailsButtonContainer>
-        <RestaurantDetailsButton
-            image={process.env.PUBLIC_URL + '/' + menuImageMapping[restaurant.restaurantId]}
-            style={{ textDecoration: 'none' }}>
-            <StyledLink to="/Menu">
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <h3 style={{ color: 'black' ,textDecoration:'none'}}>Menu</h3>
-            </StyledLink> 
-          </RestaurantDetailsButton>
-          <RestaurantDetailsButton
-            image={process.env.PUBLIC_URL + '/' + ambienceImageMapping[restaurant.restaurantId]}
-            style={{ textDecoration: 'none' }}
-          >
-          <StyledLink to="/Ambience">
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <h3 style={{ color: 'black',textDecoration:'none' }}>Ambience</h3>
-            </StyledLink>
-          </RestaurantDetailsButton>
-          <RestaurantDetailsButton
-            image={process.env.PUBLIC_URL + '/' + foodImageMapping[restaurant.restaurantId]}
-            to="/Food"
-            style={{ textDecoration: 'none' }}
-          >
-          <StyledLink to="/Food">
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <h3 style={{ color: 'black',textDecoration:'none' }}>Food</h3>
-            </StyledLink>
-          </RestaurantDetailsButton>
-        </RestaurantDetailsButtonContainer>
-
+      <div style={{marginLeft:'300px'}}>
+      <h4>Menu Items</h4>
+      {menuItems.map((menuItem) => (
+        <MenuItemCard key={menuItem.id}>
+          <img src={`chickfront${menuItem.id}.jpg`} alt={menuItem.name} />
+          <div>
+            <p>{menuItem.name}</p>
+            <p>P {menuItem.price}</p>
+            <p style={{fontSize:'12px'}}>{menuItem.description}</p>
+          </div>
+        </MenuItemCard>
+      ))}
+      </div>
         <br></br>
         <br></br>
         <br></br>
         <br></br>
         <RestaurantDetailsInfoItem>
-</RestaurantDetailsInfoItem>
+  </RestaurantDetailsInfoItem>
 
 <InfoContainer>
   <RestaurantDetailsInfoItem>
