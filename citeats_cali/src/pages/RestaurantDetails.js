@@ -467,8 +467,6 @@ const RestaurantDetails = () => {
 
       ))}
 
-
-      
         <RestaurantDetailsName>{restaurant.name}</RestaurantDetailsName>
         <>
         <Star>★</Star> {restaurant.rating}
