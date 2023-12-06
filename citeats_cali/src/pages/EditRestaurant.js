@@ -130,10 +130,6 @@ const Star = styled.span`
   
 `;
 
-const ReviewTitle = styled.h2`
-  font-size: 20px;
-  text-align: left;
-`;
 
 const ReviewRating = styled.span`
   font-size: 20px;
@@ -143,22 +139,6 @@ const ReviewRating = styled.span`
 
 const ReviewText = styled.p`
   font-size: 20px;
-`;
-
-const ReviewIcon = styled.img`
-  width: 70px; // Adjust the width as needed
-  height: 15px; // Adjust the height as needed
-  margin-top: 10px; // Adjust the margin-top as needed
-  margin-left: auto; // Center the image horizontally
-  margin-right: auto;
-`;
-
-const ReviewButton = styled.button`
-  cursor: pointer;
-  background: none;
-  border: none;
-  padding: 0;
-  margin: 0;
 `;
 
 const AdditionalTextBelowUserProfile = styled.p`
@@ -438,9 +418,7 @@ const handleFileUpload = (e, section) => {
                   </ReviewRating>
                   <ReviewText><b>Comment:</b></ReviewText>
                   <ReviewText>{review.comment}</ReviewText>
-                  <ReviewText><b>Date Posted: </b>{review.datePosted}</ReviewText>
-
-                  {/* Add other review details as needed */}
+                  <ReviewText><b>Date Posted: </b>{new Date(review.datePosted).toLocaleString()}</ReviewText>
                 </Review>
               ))}
             </UserReviewsContainer>

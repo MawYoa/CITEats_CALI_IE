@@ -152,12 +152,12 @@ const ReviewForm = styled.form`
 `;
 
 const OverallRatingLabel = styled.label`
-font-size: 18px;
-margin-bottom: 10px;
-display: flex;
-margin-left:10px;
-margin-right:10px;
-align-items: center; /* Align items vertically in the flex container */
+  font-size: 18px;
+  margin-bottom: 10px;
+  display: flex;
+  margin-left:10px;
+  margin-right:10px;
+  align-items: center; /* Align items vertically in the flex container */
 `;
 
 const StarRatingContainer = styled.div`

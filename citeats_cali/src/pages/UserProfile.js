@@ -100,9 +100,10 @@ const UserProfileInfoValue = styled.span`
 const UserReviewsContainer = styled.div`
   width: 100%;
   text-align: left;
-  padding: 0 0px;
+  padding: 0 20px; /* Adjust padding as needed */
   height: 500px;
-  width: 1200 px;
+  max-height: 500px; /* Added max-height to limit the height */
+  overflow-y: auto; /* Added overflow-y to add vertical scrollbar if needed */
   margin-top: 20px;
   display: flex;
   flex-direction: column;
@@ -120,45 +121,25 @@ const ReviewsHeader = styled.h1`
 const Review = styled.div`
   margin-bottom: 15px;
   border-radius: 20px;
-  background-color: gold; /* Added gold background color */
+  border: 2px solid black;
+  background-color: white; /* Added gold background color */
   padding: 15px; /* Added padding for spacing */
 `;
 
 const Star = styled.span`
   font-size: 26px;
+  margin-right: 10px;
   color: yellow; /* Set the color to gold or any other color you prefer */
-`;
-
-const ReviewTitle = styled.h2`
-  font-size: 20px;
-  text-align: left;
 `;
 
 const ReviewRating = styled.span`
   font-size: 20px;
   margin-right: 100px;
   text-align: right;
-  padding: 0 200px;
 `;
 
 const ReviewText = styled.p`
   font-size: 20px;
-`;
-
-const ReviewIcon = styled.img`
-  width: 70px; // Adjust the width as needed
-  height: 15px; // Adjust the height as needed
-  margin-top: 10px; // Adjust the margin-top as needed
-  margin-left: auto; // Center the image horizontally
-  margin-right: auto;
-`;
-
-const ReviewButton = styled.button`
-  cursor: pointer;
-  background: none;
-  border: none;
-  padding: 0;
-  margin: 0;
 `;
 
 const AdditionalTextBelowUserProfile = styled.p`
@@ -179,7 +160,8 @@ const UserProfile = () => {
   const [userData, setUserData] = useState({});
   const [editMode, setEditMode] = useState(false);
   const [username, setUsername] = useState('');
-  const [email, setEmail] = useState(''); // Initialize with an empty string  
+  const [email, setEmail] = useState(''); 
+  const [userReviews, setUserReviews] = useState([]); 
   const { userId } = useParams() ?? {};
   const location = useLocation();
 
@@ -193,6 +175,9 @@ const UserProfile = () => {
         // Set the initial name, handling the case where it might be null or undefined
         setUsername(result.data.username ?? '');
         setEmail(result.data.email ?? '');
+
+        const reviewsResult = await axios.get(`http://localhost:8080/reviews/getReviewsByUserId/${userId}`);
+        setUserReviews(reviewsResult.data);
 
       } catch (error) {
         console.error(error);
@@ -282,31 +267,21 @@ const UserProfile = () => {
                   Save Profile
                 </UserProfileButton>
               )}
+          <ReviewsHeader>Your Reviews</ReviewsHeader>
+           <UserReviewsContainer>
 
-          <UserReviewsContainer>
-            <ReviewsHeader>Your Reviews</ReviewsHeader>
-            <Review>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <ReviewTitle>Cebu's Original…</ReviewTitle>
-              <ReviewRating><Star>★</Star>4.3/5</ReviewRating></div>
-              <ReviewText>
-                It’s a great experience. The ambiance is very welcoming and charming. Amazing wines, food, and service.
-                Staff is extremely knowledgeable and makes great recommendations...
-              </ReviewText>
-            </Review>
-            <Review>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <ReviewTitle>McDonald's...</ReviewTitle>
-              <ReviewRating><Star>★</Star>4.6/5</ReviewRating></div>
-              <ReviewText>
-                This place is great! The atmosphere is chill and cool, but the staff is also really friendly.
-                They know what they’re doing and what they’re talking about, and you can tell they're making the customers happy.
-              </ReviewText>
-            </Review>
-          </UserReviewsContainer>
-          <ReviewButton>
-            <ReviewIcon src="seemoreicon.png" alt="Your Icon" />
-          </ReviewButton>
+              {userReviews.map((review) => (
+                <Review key={review.reviewId}>
+                    <ReviewText><b>User ID: </b>{review.userId}</ReviewText>
+                  <ReviewRating>
+                    <Star>⭐</Star> {review.rating}
+                  </ReviewRating>
+                  <ReviewText><b>Comment:</b></ReviewText>
+                  <ReviewText>{review.comment}</ReviewText>
+                  <ReviewText><b>Date Posted: </b>{new Date(review.datePosted).toLocaleString()}</ReviewText>
+                </Review>
+              ))}
+            </UserReviewsContainer>
         </UserProfileInfo>
       </UserProfileContainer>
       <AdditionalTextContainer>
