@@ -88,7 +88,6 @@ const FoodImage = styled.img`
 `;
 
 const FoodCategory = ({ category, imageSrc, onClick }) => (
-  
   <FoodCategoryContainer onClick={onClick}>
     <FoodImage src={imageSrc} alt={category} />
     <SquareButton>{category}</SquareButton>
@@ -140,26 +139,50 @@ const PopularNearYou = ({ restaurants }) => {
   );
 };
 
+const ReviewCard = styled.div`
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+  width: 900px;
+  height: 150px;
+`;
 
+const SeeAllReviewsButton = styled.button`
+  background-color: maroon;
+  color: #fff;
+  font-size: 12px;
+  padding: 10px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  &:hover {
+    background-color: gold;
+    color: white;
+  }
+`;
 
-export const Home = () => {
+const StyledText = styled.h2`
+  display: inline;
+  margin: 0;
+  text-shadow: 1px 2px 2px rgba(0.2, 0.2, 0.2, 0.2);
+  font-size: 30px;
+`;
+
+const Home = () => {
   const [cuisineCategories, setCuisineCategories] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
+  const [latestReviews, setLatestReviews] = useState([]);
   const location = useLocation();
 
-
   useEffect(() => {
-    // Fetch cuisine categories from the API
-    console.log(location.state);
     const fetchCuisineCategories = async () => {
-      
       try {
         const response = await axios.get('http://localhost:8080/cuisinetypes/getAllCuisineTypes');
+        const filteredCategories = response.data.filter(
+          (category) => category.cuisineTypeId >= 1 && category.cuisineTypeId <= 10
+        );
 
-        // Filter cuisine types based on cuisineTypeId 1-10
-        const filteredCategories = response.data.filter((category) => category.cuisineTypeId >= 1 && category.cuisineTypeId <= 10);
-
-        // Define a mapping of cuisine types to image sources
         const cuisineTypeImages = {
           1: '/american.png',
           2: '/asian.png',
@@ -173,34 +196,40 @@ export const Home = () => {
           10: '/desserts.png',
         };
 
-        // Map cuisine types to include image sources
         const categoriesWithImages = filteredCategories.map((category) => ({
           ...category,
-          imageSrc: cuisineTypeImages[category.cuisineTypeId] || '/default.png', // Use a default image if not found
+          imageSrc: cuisineTypeImages[category.cuisineTypeId] || '/default.png',
         }));
 
-        // Set the state with the mapped categories
         setCuisineCategories(categoriesWithImages);
       } catch (error) {
         alert('Error fetching cuisine categories:', error);
-        // Handle error (show error message, etc.)
       }
     };
 
-    // Fetch restaurant data from the API
     const fetchRestaurants = async () => {
       try {
         const response = await axios.get('http://localhost:8080/restaurants/getAllRestaurants');
         setRestaurants(response.data);
       } catch (error) {
         alert('Error fetching restaurants:', error);
-        // Handle error (show error message, etc.)
       }
     };
 
-    // Call the functions to fetch data
+    const fetchLatestReviews = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/reviews/getAllReviews');
+        const sortedReviews = response.data.sort((a, b) => new Date(b.postedDate) - new Date(a.postedDate));
+        const latestReviewsData = sortedReviews.slice(0, 3);
+        setLatestReviews(latestReviewsData);
+      } catch (error) {
+        alert('Error fetching latest reviews:', error);
+      }
+    };
+
     fetchCuisineCategories();
     fetchRestaurants();
+    fetchLatestReviews();
   }, [location.state]);
 
   const handleBrowseClick = () => {
@@ -211,41 +240,9 @@ export const Home = () => {
     console.log(`Clicked on ${category}`);
   };
 
-  const ReviewCard = styled.div`
-    background-color: #fff;
-    border: 1px solid #ddd;
-    padding: 10px;
-    margin-bottom: 10px;
-    width: 900px;
-    height: 150px;
-  `;
-
-  const SeeAllReviewsButton = styled.button`
-    background-color: maroon;
-    color: #fff;
-    font-size: 12px;
-    padding: 10px 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    &:hover {
-      background-color: gold;
-      color: white;
-    }
-  `;
-
-  const StyledText = styled.h2`
-    display: inline;
-    margin: 0;
-    text-shadow: 1px 2px 2px rgba(0.2, 0.2, 0.2, 0.2);
-    font-size: 30px;
-  `;
-
-  
   return (
-
     <div>
-       <Header userId={location.state.userId} />
+      <Header userId={location.state.userId} />
 
       <HomeContainer>
         <HeroImage src="/heropic.jpg" alt="hero pic" />
@@ -305,34 +302,25 @@ export const Home = () => {
           <br></br>
           <br></br>
 
-          <ReviewCard>
-            <p style={{ color: 'maroon', fontWeight: 'bold' }}>YEZETH</p>
-            <p style={{ color: 'gold' }}>5.0</p>
-            <p>1 minute ago, reviewed on LockDown BU ...</p>
-            <p>Great food! Great food!</p>
-          </ReviewCard>
-          <ReviewCard>
-            <p style={{ color: 'maroon', fontWeight: 'bold' }}>Kristhyn</p>
-            <p style={{ color: 'gold' }}>5.0</p>
-            <p>2 minutes ago, reviewed on Mcdonalds So-...</p>
-            <p>Awesome as always!</p>
-          </ReviewCard>
-          <ReviewCard>
-            <p style={{ color: 'maroon', fontWeight: 'bold' }}>Nikka</p>
-            <p style={{ color: 'gold' }}>5.0</p>
-            <p>3 minutes ago, reviewed on Elsa Silogan-...</p>
-            <p>Gamay ra kaayo ang creamy scallops</p>
-          </ReviewCard>
-          <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
+          {latestReviews.map((review) => (
+            <ReviewCard key={review.reviewId}>
+              <p style={{ color: 'maroon', fontWeight: 'bold' }}>{review.reviewerName}</p>
+              <p style={{ color: 'gold' }}>{review.rating}/5</p>
+              <p>{formatDate(review.postedDate)}</p>
+              <p>{review.reviewText}</p>
+            </ReviewCard>
+          ))}
         </div>
       </HomeContainer>
       <FAQ />
       <Footer />
     </div>
   );
+};
+
+const formatDate = (dateString) => {
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  return new Date(dateString).toLocaleDateString(undefined, options);
 };
 
 export default Home;
