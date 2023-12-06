@@ -112,6 +112,8 @@ const restaurantIdImages = {
   1: 'milkteahouse.jpg',
   2: 'mcdo.jpg',
   3: 'tataysisig.png',
+  4: 'hazelbakery.jpg',
+  5: 'jasonlounge.jfif',
 };
 
 const PopularNearYou = ({ restaurants }) => {

@@ -398,6 +398,47 @@ const RestaurantDetails = () => {
   const [restaurant, setRestaurant] = useState({}); 
   const { restaurantId } = useParams();
 
+  const [comment, setComment] = useState("");
+  const [star,setStar] =useState(0);
+  const starHandler = (value) => {
+    setStar(value)
+  }
+
+  const onCommentChange = (e) => {
+    setComment(e.target.value)
+    console.log(comment)
+    console.log("para maiba "+star)
+  }
+
+  const onWriteReview = async () => {
+    try {
+      // TODO: CHANGE THIS INTO VARIABLES NA MAKUHA GIKAN SA LAST PAGE USING <LINK> PARAMETER PASSING
+      const userId = "4"; // Replace with your actual userId
+      const restaurantId = "4"; // Replace with your actual restaurantId
+  
+      // Get the current date in ISO format
+      const currentDate = new Date().toISOString();
+  
+      // Create the review data object
+      const reviewData = {
+        comment: comment,
+        rating: star,
+        userId: userId,
+        restaurantId: restaurantId,
+        // TODO: MAKE FUNCTION THAT GETS CURRENT DATE AND TIME AND CONVERT DATA TYPE SA API TO STRING
+        date: "10/11/2023"
+      };
+  
+      // Make the POST request using Axios
+      const response = await axios.post('http://localhost:8080/reviews/createReview', reviewData);
+  
+      console.log('Review submitted:', response.data);
+      // Handle success (you can perform further actions here)
+    } catch (error) {
+      console.error('Error submitting review:', error);
+      // Handle error
+    }
+  };
   
   useEffect(() => {
     // Fetch restaurant details from the backend
@@ -580,14 +621,19 @@ const RestaurantDetails = () => {
       <Container>
       <RatingAndReviewContainer>
       <ReviewForm>
-        <ReviewTextarea placeholder="Write here your review..." />
+        <ReviewTextarea 
+        value = {comment}
+        onChange={onCommentChange}
+        placeholder="Write here your review..." />
       </ReviewForm>
       <Container>
         <RatingContainer>
-          <OverallRatingInput onChange={(rating) => console.log("Selected Rating:", rating)} />
+          <OverallRatingInput 
+          starHandler={starHandler}
+          onChange={(rating) => console.log("Selected Rating:", rating)} />
         </RatingContainer>
         <br></br>
-        <WriteReviewButton>Write Review</WriteReviewButton>
+        <WriteReviewButton onClick={onWriteReview}>Write Review</WriteReviewButton>
       </Container>
          </RatingAndReviewContainer>
       </Container>

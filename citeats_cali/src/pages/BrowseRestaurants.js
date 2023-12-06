@@ -1,6 +1,6 @@
-import React, { useState ,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
-import Footer from "../components/Footer"
+import Footer from "../components/Footer";
 import styled from "styled-components";
 import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
@@ -20,8 +20,8 @@ const RestaurantCard = styled(Link)`
     transform: scale(1.05);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   }
-  
-  link{
+
+  link {
     text-decoration: none;
   }
 
@@ -73,7 +73,6 @@ const CardRow = styled.div`
   }
 `;
 
-
 const SearchBar = styled.input`
   width: 100%;
   padding: 10px;
@@ -90,26 +89,26 @@ const FilterSection = styled.div`
 `;
 
 const imageMapping = {
-  1: 'milkteahouse.jpg',
-  2: 'samueleatery.png',
-  3: 'tataysisig.png',
-  4: 'hazelbakery.jpg',
-  5: 'jasonlounge.jfif',
-  6: 'deliciousbite.jpg',
-  7: 'spicynoodlehouse.jfif',
-  8:'mediterranean.jpg',
-  9:'sushihaven.jpg',
-  10: 'tastytandoor.png',
-  11: 'seafood.jpg',
-  12: 'veggie.jpg',
-  13: 'bbqresto.jpg',
-  14: 'frenchbistro.webp',
-  15: 'burgerhaven.jpg',
-  16: 'healthtea.jpg',
-  17: 'Tex-Mex-Fiesta-Bake.jpg',
-  18: 'Cozy.jpg',
-  19: 'thai.jpg',
-  20: 'mongol.jpg',
+  1: "milkteahouse.jpg",
+  2: "samueleatery.png",
+  3: "tataysisig.png",
+  4: "hazelbakery.jpg",
+  5: "jasonlounge.jfif",
+  6: "deliciousbite.jpg",
+  7: "spicynoodlehouse.jfif",
+  8: "mediterranean.jpg",
+  9: "sushihaven.jpg",
+  10: "tastytandoor.png",
+  11: "seafood.jpg",
+  12: "veggie.jpg",
+  13: "bbqresto.jpg",
+  14: "frenchbistro.webp",
+  15: "burgerhaven.jpg",
+  16: "healthtea.jpg",
+  17: "Tex-Mex-Fiesta-Bake.jpg",
+  18: "Cozy.jpg",
+  19: "thai.jpg",
+  20: "mongol.jpg",
   // Add more mappings as needed
 };
 
@@ -149,7 +148,7 @@ const BrowseRestaurants = () => {
     };
 
     fetchData();
-  }, [searchTerm, selectedCuisines ]); // Update when searchTerm or selectedCuisines change
+  }, [searchTerm, selectedCuisines]); // Update when searchTerm or selectedCuisines change
 
   const handleCheckboxChange = (cuisine) => {
     setSelectedCuisines((prevCuisines) =>
@@ -174,58 +173,71 @@ const BrowseRestaurants = () => {
   };
 
   const renderTopRatedRestaurants = async (count) => {
-  try {
-    const response = await axios.get('http://localhost:8080/restaurants/getAllRestaurants');
-    const allRestaurants = response.data;
-
-    // Filter top-rated restaurants
-    const topRatedRestaurants = allRestaurants
-      .filter((restaurant) => parseFloat(restaurant.rating) >= 4);
-
-    // Filter top-rated restaurants based on searchTerm
-    const filteredTopRatedRestaurants = topRatedRestaurants
-      .filter((restaurant) =>
-        restaurant.name.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-      .slice(0, count);
-
-    return filteredTopRatedRestaurants.map((restaurant, index) => (
-      <RestaurantCard key={index}>
-        <Link to={`/RestaurantDetails/${restaurant.restaurantId}`} style={{ textDecoration: 'none' }}>
-          <img src={process.env.PUBLIC_URL + '/' + imageMapping[restaurant.restaurantId]} alt={`Restaurant ${index + 1}`} />
-          <h4>{restaurant.name}</h4>
-          <p style={{ fontSize: '14px' }}>{parseFloat(restaurant.rating).toFixed(1)}/5.0</p>
-          <p style={{ fontSize: '14px' }}>{restaurant.cuisineType}</p>
-          <p style={{ fontSize: '10px' }}>{restaurant.restaurantOpeningHours}</p>
-        </Link>
-      </RestaurantCard>
-    ));
-  } catch (error) {
-    console.error("Error fetching top-rated restaurants:", error);
-    return []; // Return an empty array in case of an error
-  }
-};
-  const renderRestaurantCards = async (count) => {
-    const response = await axios.get("http://localhost:8080/restaurants/getAllRestaurants");
-    const restaurants = response.data
-      .filter(
-        (restaurant) =>
-          restaurant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          restaurant.cuisineType.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-      .slice(0, count);
-
-      return restaurants.map((restaurant, index) => (
+    try {
+      const response = await axios.get("http://localhost:8080/restaurants/getAllRestaurants");
+      const allRestaurants = response.data;
+  
+      // Filter top-rated restaurants
+      const topRatedRestaurants = allRestaurants.filter((restaurant) => parseFloat(restaurant.rating) >= 4);
+  
+      // Filter top-rated restaurants based on searchTerm
+      const filteredTopRatedRestaurants = topRatedRestaurants
+        .filter((restaurant) => restaurant.name.toLowerCase().includes(searchTerm.toLowerCase()))
+        .slice(0, count);
+  
+      return filteredTopRatedRestaurants.map((restaurant, index) => (
         <RestaurantCard key={index}>
-          <Link to={`/RestaurantDetails/${restaurant.restaurantId}`} style={{ textDecoration: 'none' }}>
-            <img src={process.env.PUBLIC_URL + '/' + imageMapping[restaurant.restaurantId]} alt={`Restaurant ${index + 1}`} />
+          <Link to={`/RestaurantDetails/${restaurant.restaurantId}`} style={{ textDecoration: "none" }}>
+            <img
+              src={process.env.PUBLIC_URL + "/" + imageMapping[restaurant.restaurantId]}
+              alt={`Restaurant ${index + 1}`}
+            />
             <h4>{restaurant.name}</h4>
-            <p style={{ fontSize: '14px' }}>{parseFloat(restaurant.rating).toFixed(1)}/5.0</p>
-            <p style={{ fontSize: '14px' }}>{restaurant.cuisineType}</p>
-            <p style={{ fontSize: '10px' }}>{restaurant.restaurantOpeningHours}</p>
+            <p style={{ fontSize: "14px" }}>{parseFloat(restaurant.rating).toFixed(1)}/5.0</p>
+            <p style={{ fontSize: "14px" }}>{restaurant.cuisineType}</p>
+            <p style={{ fontSize: "10px" }}>{restaurant.restaurantOpeningHours}</p>
           </Link>
         </RestaurantCard>
       ));
+    } catch (error) {
+      console.error("Error fetching top-rated restaurants:", error);
+      return []; // Return an empty array in case of an error
+    }
+  };
+  
+  const renderRestaurantCards = async (count) => {
+    try {
+      const response = await axios.get("http://localhost:8080/restaurants/getAllRestaurants");
+      const restaurants = response.data
+        .filter(
+          (restaurant) =>
+            restaurant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            restaurant.cuisineType.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+        .filter((restaurant) =>
+          selectedCuisines.length === 0 || // If no cuisines selected, show all
+          selectedCuisines.includes(restaurant.cuisineType)
+        )
+        .slice(0, count);
+
+      return restaurants.map((restaurant, index) => (
+        <RestaurantCard key={index}>
+          <Link to={`/RestaurantDetails/${restaurant.restaurantId}`} style={{ textDecoration: "none" }}>
+            <img
+              src={process.env.PUBLIC_URL + "/" + imageMapping[restaurant.restaurantId]}
+              alt={`Restaurant ${index + 1}`}
+            />
+            <h4>{restaurant.name}</h4>
+            <p style={{ fontSize: "14px" }}>{parseFloat(restaurant.rating).toFixed(1)}/5.0</p>
+            <p style={{ fontSize: "14px" }}>{restaurant.cuisineType}</p>
+            <p style={{ fontSize: "10px" }}>{restaurant.restaurantOpeningHours}</p>
+          </Link>
+        </RestaurantCard>
+      ));
+    } catch (error) {
+      console.error("Error fetching restaurants:", error);
+      return []; // Return an empty array in case of an error
+    }
   };
 
   return (
