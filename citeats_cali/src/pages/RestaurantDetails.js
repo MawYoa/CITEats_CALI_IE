@@ -376,22 +376,22 @@ const OverallRatingInput = ({ onChange }) => {
   };
 
   return (
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '10px' ,marginLeft:'-10px',fontFamily:'Kumbh Sans'}}>
-        <OverallRatingLabel htmlFor="overallRating">Overall Rating</OverallRatingLabel>
-            <StarRatingContainer>
-            {[1, 2, 3, 4, 5].map((star) => (
-              <StarIcon
-                key={star}
-                selected={star <= selectedStars}
-                onClick={() => handleStarClick(star)}
-              >
-                ★
-              </StarIcon>
-            ))}
-          </StarRatingContainer>
-        </div>
-        );
-    };
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '10px' ,marginLeft:'-10px',fontFamily:'Kumbh Sans'}}>
+      <OverallRatingLabel htmlFor="overallRating">Overall Rating</OverallRatingLabel>
+      <StarRatingContainer>
+        {[1, 2, 3, 4, 5].map((star) => (
+          <StarIcon
+            key={star}
+            selected={star <= selectedStars}
+            onClick={() => handleStarClick(star)}
+          >
+            ★
+          </StarIcon>
+        ))}
+      </StarRatingContainer>
+    </div>
+  );
+};
 
 const RestaurantDetails = () => {
 
@@ -399,7 +399,7 @@ const RestaurantDetails = () => {
   const { restaurantId } = useParams();
 
   const [comment, setComment] = useState("");
-  const [star,setStar] =useState(0);
+  const [star, setStar] = useState(0);
   const starHandler = (value) => {
     setStar(value)
   }
@@ -407,7 +407,7 @@ const RestaurantDetails = () => {
   const onCommentChange = (e) => {
     setComment(e.target.value)
     console.log(comment)
-    console.log("para maiba "+star)
+    console.log("para maiba "+ star)
   }
 
   const onWriteReview = async () => {
@@ -418,6 +418,7 @@ const RestaurantDetails = () => {
   
       // Get the current date in ISO format
       const currentDate = new Date().toISOString();
+
   
       // Create the review data object
       const reviewData = {
@@ -426,13 +427,16 @@ const RestaurantDetails = () => {
         userId: userId,
         restaurantId: restaurantId,
         // TODO: MAKE FUNCTION THAT GETS CURRENT DATE AND TIME AND CONVERT DATA TYPE SA API TO STRING
-        date: "10/11/2023"
+        datePosted: currentDate
       };
   
       // Make the POST request using Axios
       const response = await axios.post('http://localhost:8080/reviews/createReview', reviewData);
+
+      
   
       console.log('Review submitted:', response.data);
+      alert(`Review successfully submitted!`)
       // Handle success (you can perform further actions here)
     } catch (error) {
       console.error('Error submitting review:', error);
@@ -628,9 +632,11 @@ const RestaurantDetails = () => {
       </ReviewForm>
       <Container>
         <RatingContainer>
-          <OverallRatingInput 
-          starHandler={starHandler}
-          onChange={(rating) => console.log("Selected Rating:", rating)} />
+        <OverallRatingInput
+                starHandler={starHandler}
+                onChange={(rating) => setStar(rating)}
+
+              />
         </RatingContainer>
         <br></br>
         <WriteReviewButton onClick={onWriteReview}>Write Review</WriteReviewButton>
