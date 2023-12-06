@@ -21,17 +21,17 @@ const RestaurantDetailsContainer = styled.div`
 
 `;
 
-const RestaurantDetailsHeader = styled.div`
-  height: 300px;
-  background-size: cover;
-  background-position: center;
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-`;
+// const RestaurantDetailsHeader = styled.div`
+//   height: 300px;
+//   background-size: cover;
+//   background-position: center;
+//   color: #fff;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+//   text-align: center;
+// `;
 
 const RestaurantDetailsName = styled.h1`
   font-size: 24px;
@@ -191,7 +191,7 @@ const WriteReviewButton = styled.button`
   width: 40%;
   height: 50px;
   margin-left: 300px;
-  background-color: #e21b70;
+  background-color: #e21b70;c
   color: white;
   
   border-radius: 25px;

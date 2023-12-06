@@ -182,7 +182,14 @@ const BrowseRestaurants = () => {
 
       // Filter top-rated restaurants based on selected cuisines
       const filteredTopRatedRestaurants = topRatedRestaurants
-        .filter((restaurant) => cuisines.length === 0 || cuisines.includes(restaurant.cuisineType))
+        .filter((restaurant) =>
+          restaurant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          restaurant.cuisineType.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+        .filter((restaurant) =>
+        selectedCuisines.length === 0 || // If no cuisines selected, show all
+        selectedCuisines.includes(restaurant.cuisineType)
+        )
         .slice(0, count);
 
       return filteredTopRatedRestaurants.map((restaurant, index) => (
