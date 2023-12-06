@@ -139,7 +139,7 @@ const BrowseRestaurants = () => {
   useEffect(() => {
     const fetchData = async () => {
       const wildPickData = await renderRestaurantCards(4);
-      const topRatedData = await renderTopRatedRestaurants(10);
+      const topRatedData = await renderTopRatedRestaurants(10, selectedCuisines);
       const allRestaurantsData = await renderRestaurantCards(20);
 
       setWildPickCards(wildPickData);
@@ -148,7 +148,7 @@ const BrowseRestaurants = () => {
     };
 
     fetchData();
-  }, [searchTerm, selectedCuisines]); // Update when searchTerm or selectedCuisines change
+  }, [searchTerm, selectedCuisines]); 
 
   const handleCheckboxChange = (cuisine) => {
     setSelectedCuisines((prevCuisines) =>
@@ -172,19 +172,19 @@ const BrowseRestaurants = () => {
     ));
   };
 
-  const renderTopRatedRestaurants = async (count) => {
+  const renderTopRatedRestaurants = async (count, cuisines) => {
     try {
       const response = await axios.get("http://localhost:8080/restaurants/getAllRestaurants");
       const allRestaurants = response.data;
-  
+
       // Filter top-rated restaurants
       const topRatedRestaurants = allRestaurants.filter((restaurant) => parseFloat(restaurant.rating) >= 4);
-  
-      // Filter top-rated restaurants based on searchTerm
+
+      // Filter top-rated restaurants based on selected cuisines
       const filteredTopRatedRestaurants = topRatedRestaurants
-        .filter((restaurant) => restaurant.name.toLowerCase().includes(searchTerm.toLowerCase()))
+        .filter((restaurant) => cuisines.length === 0 || cuisines.includes(restaurant.cuisineType))
         .slice(0, count);
-  
+
       return filteredTopRatedRestaurants.map((restaurant, index) => (
         <RestaurantCard key={index}>
           <Link to={`/RestaurantDetails/${restaurant.restaurantId}`} style={{ textDecoration: "none" }}>
