@@ -365,6 +365,9 @@ const RestaurantDetails = () => {
 
   const [restaurant, setRestaurant] = useState({}); 
   const { restaurantId } = useParams();
+  const [menuItems, setMenuItems] = useState([]);
+  const [reviews, setReviews] = useState([]);
+
 
   const [comment, setComment] = useState("");
   const [star, setStar] = useState(0);
@@ -413,29 +416,19 @@ const RestaurantDetails = () => {
   };
   
   useEffect(() => {
-    // Fetch restaurant details from the backend
     const fetchRestaurantDetails = async () => {
       try {
         const response = await axios.get(`http://localhost:8080/restaurants/${restaurantId}`);
         setRestaurant(response.data);
       } catch (error) {
         console.error('Error fetching restaurant details:', error);
-        // Handle error (show error message, etc.)
       }
     };
 
-    fetchRestaurantDetails();
-  }, [restaurantId]);
-
-  const [menuItems, setMenuItems] = useState([]);
-
-  useEffect(() => {
-    // Fetch menu items for the restaurant
     const fetchMenuItems = async () => {
       try {
         const response = await axios.get(`http://localhost:8080/menuitems/getByRestaurantId/${restaurantId}`);
-        
-        // Check if the response data is an array before setting state
+
         if (Array.isArray(response.data)) {
           setMenuItems(response.data);
         } else {
@@ -443,13 +436,22 @@ const RestaurantDetails = () => {
         }
       } catch (error) {
         console.error('Error fetching menu items:', error);
-        // Handle error (show error message, etc.)
       }
     };
-  
+
+    const fetchReviews = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/reviews/getReviewsByRestaurantId/${restaurantId}`);
+        setReviews(response.data);
+      } catch (error) {
+        console.error('Error fetching reviews:', error);
+      }
+    };
+
+    fetchRestaurantDetails();
     fetchMenuItems();
+    fetchReviews();
   }, [restaurantId]);
-  
   
 
   return (
@@ -516,48 +518,36 @@ const RestaurantDetails = () => {
       </RestaurantDetailsInfo>
 
       <ReviewContainer>
-        <ReviewCard>
+      <ReviewCard>
+        {/* Review Highlights */}
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <RestaurantDetailsName>Review Highlights</RestaurantDetailsName>
-        <p style={{ color: 'black', fontWeight: 'bold', fontSize: '20px'}}><Star>★</Star>4.4</p></div>
-        <SeeAllReviewsButton><StyledLink to="/Reviews">
-          See All Reviews
-          </StyledLink>
-          </SeeAllReviewsButton>
-        <br></br>
-        <br></br>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <p style={{ color: 'black', fontWeight: 'bold' }}>YEZETH</p>
-          <p style={{ color: 'black' }}><Star>★</Star>5.0</p></div>
-          <p style={{ color: 'grey' }}>1 month ago</p>
-          <p style={{ color: 'grey', borderBottom: '1px solid grey', paddingBottom: '5px' }}>Great service! Great food!</p>
+          <RestaurantDetailsName>Review Highlights</RestaurantDetailsName>
+          <p style={{ color: 'black', fontWeight: 'bold', fontSize: '20px' }}>
+            <Star>★</Star>4.4
+          </p>
+        </div>
+        <SeeAllReviewsButton>
+          <StyledLink to="/Reviews">See All Reviews</StyledLink>
+        </SeeAllReviewsButton>
 
-        
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <p style={{ color: 'black', fontWeight: 'bold' }}>Kristhyn</p>
-          <p style={{ color: 'black' }}><Star>★</Star>5.0</p></div>
-          <p style={{ color: 'grey' }}>2 months ago</p>
-          <p style={{ color: 'grey', borderBottom: '1px solid grey', paddingBottom: '5px' }}>Awesome as always!</p>
-        
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <p style={{ color: 'black', fontWeight: 'bold' }}>Nikka</p>
-          <p style={{ color: 'black' }}><Star>★</Star>5.0</p></div>
-          <p style={{ color: 'grey' }}>2 months ago</p>
-          <p style={{ color: 'grey', borderBottom: '1px solid grey', paddingBottom: '5px' }}>Gamay ra kaayo ang chicken</p>
-        
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <p style={{ color: 'black', fontWeight: 'bold' }}>Therese</p>
-          <p style={{ color: 'black' }}><Star>★</Star>5.0</p></div>
-          <p style={{ color: 'grey' }}>3 months ago</p>
-          <p style={{ color: 'grey', borderBottom: '1px solid grey', paddingBottom: '5px' }}>Excellent Food</p>
-        
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <p style={{ color: 'black', fontWeight: 'bold' }}>Melanie</p>
-          <p style={{ color: 'black' }}><Star>★</Star>3.0</p></div>
-          <p style={{ color: 'grey' }}>3 months ago</p>
-          <p style={{ color: 'grey' }}>Dry ra gamay ang chicken</p>
-        </ReviewCard>
-      </ReviewContainer>
+        {/* Dynamic Reviews */}
+        {reviews.map((review) => (
+          <div key={review.reviewId}>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <p style={{ color: 'black', fontWeight: 'bold' }}>{review.userName}</p>
+              <p style={{ color: 'black', position:'relative', left:'-97%'  }}>
+                <Star>★</Star>
+                {review.rating}
+              </p>
+            </div>
+            <p style={{ color: 'grey' }}>{new Date(review.datePosted).toLocaleString()}</p>
+            <p style={{ color: 'grey', borderBottom: '1px solid grey', paddingBottom: '5px' }}>
+              {review.comment}
+            </p>
+          </div>
+        ))}
+      </ReviewCard>
+    </ReviewContainer>
 
       <ReviewFormContainer>
         <FeedbackTitle><FoodIcon src="/pinkstar.png" alt="Food Icon" />Tell us about our food</FeedbackTitle>
