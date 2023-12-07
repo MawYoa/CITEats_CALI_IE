@@ -368,7 +368,8 @@ const RestaurantDetails = () => {
   const [menuItems, setMenuItems] = useState([]);
   const [reviews, setReviews] = useState([]);
   const  location = useLocation();
-
+  const [ratingDetails, setRatingDetails] = useState({});
+  const [rating, setRating] = useState(null);
 
   const [comment, setComment] = useState("");
   const [star, setStar] = useState(0);
@@ -418,14 +419,36 @@ const RestaurantDetails = () => {
   };
   
   useEffect(() => {
+    const fetchRating = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/ratings/getRatingByRestaurant/${restaurantId}`);
+        setRating(response.data.rating); // Assuming the rating is available in response.data.rating
+      } catch (error) {
+        console.error('Error fetching rating:', error);
+      }
+    };
+
+    fetchRating();
+  }, [restaurantId]);
+
+  useEffect(() => {
     const fetchRestaurantDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/restaurants/${restaurantId}`);
-        setRestaurant(response.data);
+        const [restaurantResponse, ratingResponse] = await Promise.all([
+          axios.get(`http://localhost:8080/restaurants/${restaurantId}`),
+          axios.get(`http://localhost:8080/ratings/getRatingByRestaurant/${restaurantId}`)
+        ]);
+  
+        console.log('Restaurant response:', restaurantResponse.data);
+        console.log('Rating response:', ratingResponse.data);
+  
+        setRestaurant(restaurantResponse.data);
+        setRatingDetails(ratingResponse.data);
       } catch (error) {
         console.error('Error fetching restaurant details:', error);
       }
     };
+  
 
     const fetchMenuItems = async () => {
       try {
@@ -477,7 +500,7 @@ const RestaurantDetails = () => {
         <RestaurantDetailsName>{restaurant.name}</RestaurantDetailsName>
         <>
         <Star>★</Star> {restaurant.rating}
-        <span style={{ color: 'grey' }}>(3015)</span></>
+        <span style={{ color: 'grey' }}>({ratingDetails[0]?.numberOfRatings })</span></>
       </RestaurantDetailsContainer>
 
       <RestaurantDetailsInfo>
