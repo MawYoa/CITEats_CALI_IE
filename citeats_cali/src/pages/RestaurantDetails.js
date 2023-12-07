@@ -33,6 +33,23 @@ const RestaurantDetailsContainer = styled.div`
 //   text-align: center;
 // `;
 
+const FavoriteButton = styled.button`
+  background-color: #fff;
+  color: #e21b70;
+  border: 2px solid #e21b70;
+  border-radius: 10%;
+  width: 80px;
+  height: 50px;
+  cursor: pointer;
+  margin-left: auto;
+  display: block;
+  &:hover {
+    background-color: #e21b70;
+    color: #fff; /* Change text color to white on hover */
+  }
+`;
+
+
 const RestaurantDetailsName = styled.h1`
   font-size: 24px;
   margin: 10px 0 0;
@@ -495,12 +512,15 @@ const RestaurantDetails = () => {
         style={{ width: '1470px', height: '500px' }}
       />
 
+
       ))}
 
         <RestaurantDetailsName>{restaurant.name}</RestaurantDetailsName>
         <>
         <Star>★</Star> {restaurant.rating}
         <span style={{ color: 'grey' }}>({ratingDetails[0]?.numberOfRatings })</span></>
+        {/* Favorite button */}
+        <FavoriteButton>Add to Favorites</FavoriteButton>
       </RestaurantDetailsContainer>
 
       <RestaurantDetailsInfo>
