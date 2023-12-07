@@ -54,9 +54,6 @@ const CITEatsLogo = styled.img`
 const Header = ({userId}) => {
   const location = useLocation();
 
-  useEffect(() => {
-    console.log(userId)
-  });
   return (
     
     <HeaderContainer>

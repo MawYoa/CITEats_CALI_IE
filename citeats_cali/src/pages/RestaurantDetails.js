@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import axios from 'axios';
 import { useEffect } from "react";
 
@@ -367,6 +367,7 @@ const RestaurantDetails = () => {
   const { restaurantId } = useParams();
   const [menuItems, setMenuItems] = useState([]);
   const [reviews, setReviews] = useState([]);
+  const  location = useLocation();
 
 
   const [comment, setComment] = useState("");
@@ -382,10 +383,11 @@ const RestaurantDetails = () => {
   }
 
   const onWriteReview = async () => {
+    const userId = location.state.userId;
+
     try {
       // TODO: CHANGE THIS INTO VARIABLES NA MAKUHA GIKAN SA LAST PAGE USING <LINK> PARAMETER PASSING
-      const userId = "4"; // Replace with your actual userId
-      const restaurantId = "4"; // Replace with your actual restaurantId
+       // Replace with your actual userId // Replace with your actual restaurantId
   
       // Get the current date in ISO format
       const currentDate = new Date().toISOString();
@@ -452,11 +454,14 @@ const RestaurantDetails = () => {
     fetchMenuItems();
     fetchReviews();
   }, [restaurantId]);
+
+  console.log(location.state);
   
 
   return (
+
     <div style={{fontFamily:'Kumbh Sans'}}>
-      <Header />
+      <Header userId={location.state.userId} />
       <br />
       <RestaurantDetailsContainer>
       {[restaurant].map((restaurant, index) => (
