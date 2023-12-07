@@ -194,7 +194,11 @@ const BrowseRestaurants = () => {
 
       return filteredTopRatedRestaurants.map((restaurant, index) => (
         <RestaurantCard key={index}>
-          <Link to={`/RestaurantDetails/${restaurant.restaurantId}`} style={{ textDecoration: "none" }}>
+          <Link to={`/RestaurantDetails/${restaurant.restaurantId}`} 
+            state={{
+              userId:location.state.userId,
+              restaurantId:restaurant.restaurantId
+              }}style={{ textDecoration: "none" }}>
             <img
               src={process.env.PUBLIC_URL + "/" + imageMapping[restaurant.restaurantId]}
               alt={`Restaurant ${index + 1}`}
@@ -229,7 +233,7 @@ const BrowseRestaurants = () => {
 
       return restaurants.map((restaurant, index) => (
         <RestaurantCard key={index}>
-          <Link to={`/RestaurantDetails/${restaurant.restaurantId}`}state={{
+          <Link to={`/RestaurantDetails/${restaurant.restaurantId}`} state={{
               userId:location.state.userId,
               restaurantId:restaurant.restaurantId
               }}

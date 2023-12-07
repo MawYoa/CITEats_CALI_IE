@@ -97,18 +97,6 @@ const UserProfileInfoValue = styled.span`
   font-size: 26px;
 `;
 
-const UserReviewsContainer = styled.div`
-  width: 100%;
-  text-align: left;
-  padding: 0 20px; /* Adjust padding as needed */
-  height: 500px;
-  max-height: 500px; /* Added max-height to limit the height */
-  overflow-y: auto; /* Added overflow-y to add vertical scrollbar if needed */
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-`;
-
 const ReviewsHeader = styled.h1`
   font-size: 42px;
   font-weight: bold;
@@ -121,10 +109,13 @@ const ReviewsHeader = styled.h1`
 const Review = styled.div`
   margin-bottom: 15px;
   border-radius: 20px;
+  background-color: white;
   border: 2px solid black;
-  background-color: white; /* Added gold background color */
-  padding: 15px; /* Added padding for spacing */
-`;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;;
 
 const Star = styled.span`
   font-size: 26px;
@@ -153,15 +144,87 @@ const AdditionalTextContainer = styled.div`
   font-weight: bold;
 `;
 
+const UserReviewsContainer = styled.div`
+  width: 100%;
+  text-align: left;
+  max-height: 500px;
+  overflow-y: auto;
+  padding: 0 20px; /* Adjusted padding for spacing */
+  height: 500px;
+  width: 100%;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+`;
+
+// ... (Other styled components remain unchanged)
+
+const ReviewButtonsContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const ReviewCancelButton = styled.button`
+  background-color: blue;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: darkblue; /* Change the color on hover */
+  }
+`;
+
+const ReviewUpdateButton = styled.button`
+  background-color: green;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+
+  &:hover {
+    background-color: #4a7c47; /* Change the color on hover */
+  }
+`;
+
+const ReviewDeleteButton = styled.button`
+  background-color: red;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: darkred; /* Change the color on hover */
+  }
+`;
+
+const ReviewRestaurantId = styled.span`
+  font-size: 20px;
+  margin-right: 10px;
+`;
 
 
 const UserProfile = () => {
-
   const [userData, setUserData] = useState({});
   const [editMode, setEditMode] = useState(false);
   const [username, setUsername] = useState('');
-  const [email, setEmail] = useState(''); 
-  const [userReviews, setUserReviews] = useState([]); 
+  const [email, setEmail] = useState('');
+  const [userReviews, setUserReviews] = useState([]);
+  const [reviews, setReviews] = useState([]);
+  const [editableReview, setEditableReview] = useState({
+    reviewId: '',
+    userId: '',
+    rating: 0,
+    comment: '',
+    datePosted: '',
+  });
+
+  const [editedRating, setEditedRating] = useState(0);
+  const [editedComment, setEditedComment] = useState('');
+
   const { userId } = useParams() ?? {};
   const location = useLocation();
 
@@ -216,9 +279,96 @@ const UserProfile = () => {
       console.error(error);
     }
   };
+
+  const handleUpdateReview = (review) => {
+    setEditableReview({
+      reviewId: review.reviewId,
+      userId: review.userId,
+      rating: review.rating,
+      comment: review.comment,
+      datePosted: review.datePosted,
+      restaurantId: review.restaurantId,
+    });
+
+    // Set the initial values for editedRating and editedComment
+    setEditedRating(review.rating);
+    setEditedComment(review.comment);
+  };
+
+  const handleCancelUpdate = () => {
+    // Reset the state values to their original values
+    setEditedRating(editableReview.rating);
+    setEditedComment(editableReview.comment);
+
+    // Close the edit mode
+    setEditableReview({
+      reviewId: '',
+      userId: '',
+      rating: 0,
+      comment: '',
+      datePosted: '',
+      restaurantId: '',
+    });
+  };
+
+
+  const handleSaveReviewUpdate = async () => {
+    try {
+      const currentDate = new Date().toISOString(); // Get the current date and time
+      const response = await axios.put(
+        `http://localhost:8080/reviews/updateReview/${editableReview.reviewId}`,
+        {
+          userId: editableReview.userId,
+          rating: editedRating,
+          comment: editedComment,
+          datePosted: currentDate,
+          restaurantId: editableReview.restaurantId, // Add this line
+          // other fields as needed
+        }
+      );
+  
+      // Update the reviews state with the updated review
+      setUserReviews((prevReviews) =>
+        prevReviews.map((item) =>
+          item.reviewId === editableReview.reviewId
+            ? {
+                ...item,
+                rating: editedRating,
+                comment: editedComment,
+                datePosted: currentDate,
+                restaurantId: editableReview.restaurantId, // Add this line
+              }
+            : item
+        )
+      );
+    } catch (error) {
+      console.error(error);
+    } finally {
+      // Reset the editableReview state
+      setEditableReview({
+        reviewId: '',
+        userId: '',
+        rating: 0,
+        comment: '',
+        datePosted: '',
+        restaurantId: '', // Add this line
+      });
+    }
+  };
+  
   
 
-  
+  const handleDeleteReview = async (reviewId) => {
+    try {
+      // Assuming you have an API endpoint to delete a review
+      await axios.delete(`http://localhost:8080/reviews/deleteReview/${reviewId}`);
+
+      // Update the reviews state after deletion
+      setReviews((prevReviews) => prevReviews.filter((item) => item.reviewId !== reviewId));
+    } catch (error) {
+      console.error(error);
+    }
+  };
   
   return (
     <div>
@@ -268,20 +418,69 @@ const UserProfile = () => {
                 </UserProfileButton>
               )}
           <ReviewsHeader>Your Reviews</ReviewsHeader>
-           <UserReviewsContainer>
-
-              {userReviews.map((review) => (
-                <Review key={review.reviewId}>
-                    <ReviewText><b>User ID: </b>{review.userId}</ReviewText>
-                  <ReviewRating>
-                    <Star>⭐</Star> {review.rating}
-                  </ReviewRating>
-                  <ReviewText><b>Comment:</b></ReviewText>
-                  <ReviewText>{review.comment}</ReviewText>
-                  <ReviewText><b>Date Posted: </b>{new Date(review.datePosted).toLocaleString()}</ReviewText>
-                </Review>
-              ))}
-            </UserReviewsContainer>
+          <UserReviewsContainer>
+                {userReviews.map((review) => (
+                  <Review key={review.reviewId}>
+                    <div>
+                    <ReviewRestaurantId>
+                          <b>Restaurant ID:</b> {review.restaurantId}
+                        </ReviewRestaurantId>
+                      <ReviewText>
+                        <b>User ID: </b>
+                        {review.userId}
+                      </ReviewText>
+                      {editableReview.reviewId === review.reviewId ? (
+                        <>
+                          <ReviewRating>
+                            <Star>⭐</Star>
+                            <input
+                              type="number"
+                              value={editedRating}
+                              onChange={(e) => setEditedRating(e.target.value)}
+                            />
+                          </ReviewRating>
+                          <ReviewText>
+                            <b>Comment:</b>
+                            <textarea
+                              value={editedComment}
+                              onChange={(e) => setEditedComment(e.target.value)}
+                            />
+                          </ReviewText>
+                          <ReviewButtonsContainer>
+                            <ReviewUpdateButton onClick={() => handleSaveReviewUpdate()}>
+                              Save
+                            </ReviewUpdateButton>
+                            <ReviewCancelButton onClick={() => handleCancelUpdate()}>
+                              Cancel
+                            </ReviewCancelButton>
+                          </ReviewButtonsContainer>
+                        </>
+                      ) : (
+                        <>
+                          <ReviewRating>
+                            <Star>⭐</Star> {review.rating}
+                          </ReviewRating>
+                          <ReviewText>
+                            <b>Comment:</b> {review.comment}
+                          </ReviewText>
+                          <ReviewText>
+                            <b>Date Posted: </b>
+                            {new Date(review.datePosted).toLocaleString()}
+                          </ReviewText>
+                          <ReviewButtonsContainer>
+                            <ReviewUpdateButton onClick={() => handleUpdateReview(review)}>
+                              Edit
+                            </ReviewUpdateButton>
+                            <ReviewDeleteButton onClick={() => handleDeleteReview(review.reviewId)}>
+                              Delete
+                            </ReviewDeleteButton>
+                          </ReviewButtonsContainer>
+                        </>
+                      )}
+                    </div>
+                  </Review>
+                ))}
+              </UserReviewsContainer>
         </UserProfileInfo>
       </UserProfileContainer>
       <AdditionalTextContainer>
