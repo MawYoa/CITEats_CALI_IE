@@ -166,34 +166,7 @@ const restaurantIdImages = {
   5: 'jasonlounge.jfif',
 };
 
-const PopularNearYouCard = ({ restaurant }) => (
-  <RestaurantCardContainer>
-    <StyledLink to={`/RestaurantDetails/${restaurant.restaurantId}`}>
-      <RestaurantImage
-        src={process.env.PUBLIC_URL + '/' + (restaurantIdImages[restaurant.restaurantId])}
-        alt={restaurant.name}
-      />
-      <RestaurantInfo>
-        <h4 style={{ color: 'maroon', fontWeight: 'bold' }}>{restaurant.name}</h4>
-        <p style={{ color: 'gold' }}>{restaurant.rating}/5 ({restaurant.reviewsCount || 0}+)</p>
-        <p>₱₱₱, {restaurant.cuisineType}</p>
-      </RestaurantInfo>
-    </StyledLink>
-  </RestaurantCardContainer>
-);
 
-const PopularNearYou = ({ restaurants }) => {
-  // Filter restaurants to include only those with restaurantId in the range 1-5
-  const filteredRestaurants = restaurants.filter(restaurant => restaurant.restaurantId >= 1 && restaurant.restaurantId <= 5);
-
-  return (
-    <PopularNearYouContainer>
-      {filteredRestaurants.map((restaurant) => (
-        <PopularNearYouCard key={restaurant.restaurantId} restaurant={restaurant} />
-      ))}
-    </PopularNearYouContainer>
-  );
-};
 
 const ReviewCard = styled.div`
   background-color: #fff;
@@ -308,9 +281,62 @@ const Home = () => {
     console.log(`Clicked on ${category}`);
   };
 
-  return (
+  const PopularNearYouCard = ({ restaurant }) => (
+    <RestaurantCardContainer>
+      <StyledLink to={`/RestaurantDetails/${restaurant.restaurantId}`} 
+              state={{
+                userId:location.state.userId,
+                restaurantId:restaurant.restaurantId,
+                userType:location.state.userType
+                }}style={{ textDecoration: "none" }}>
+        <RestaurantImage
+          src={process.env.PUBLIC_URL + '/' + (restaurantIdImages[restaurant.restaurantId])}
+          alt={restaurant.name}
+        />
+        <RestaurantInfo>
+          <h4 style={{ color: 'maroon', fontWeight: 'bold' }}>{restaurant.name}</h4>
+          <p style={{ color: 'gold' }}>{restaurant.rating}/5 ({restaurant.reviewsCount || 0}+)</p>
+          <p>₱₱₱, {restaurant.cuisineType}</p>
+        </RestaurantInfo>
+      </StyledLink>
+    </RestaurantCardContainer>
+  );
+  
+  const PopularNearYou = ({ restaurants }) => {
+    // Filter restaurants to include only those with restaurantId in the range 1-5
+    const filteredRestaurants = restaurants.filter(restaurant => restaurant.restaurantId >= 1 && restaurant.restaurantId <= 5);
+  
+    return (
+      <PopularNearYouContainer>
+        {filteredRestaurants.map((restaurant) => (
+          <PopularNearYouCard key={restaurant.restaurantId} restaurant={restaurant} />
+        ))}
+      </PopularNearYouContainer>
+    );
+  };
 
-    
+  const formatDate = (dateString) => {
+    try {
+      // Try to parse the date string
+      const date = new Date(dateString);
+  
+      // Check if the date is valid
+      if (isNaN(date)) {
+        throw new Error('Invalid date');
+      }
+  
+      // Format the date
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return date.toLocaleDateString(undefined, options);
+    } catch (error) {
+      // Handle the error (e.g., log it) and return a fallback value
+      console.error('Error formatting date:', error);
+      return 'N/A';
+    }
+  };
+  
+
+  return (
     <div>
       <Header userId={location.state.userId} userType={location.state.userType} />
 
@@ -319,8 +345,8 @@ const Home = () => {
         <br></br>
         <br></br>
         <br></br>
-        <BrowseButton onClick={handleBrowseClick}>
-          <StyledLink to="/BrowseRestaurants">BROWSE NOW </StyledLink>
+        <BrowseButton >
+          <StyledLink to="/BrowseRestaurants" state={{ userId:userId, userType:userType  }}>BROWSE NOW </StyledLink>
         </BrowseButton>
         <br></br>
         <br></br>
@@ -351,14 +377,13 @@ const Home = () => {
             </StyledLink>
           ))}
         </ButtonsContainer>
-
         <br></br>
         <br></br>
         <br></br>
         <br></br>
         <br></br>
         <h2>Popular near you</h2>
-        <PopularNearYou restaurants={restaurants} />
+        <PopularNearYou  restaurants={restaurants} />
         <br></br>
         <div>
           <div style={{ alignItems: 'left', marginTop: 0, marginBottom: 0 }}>
@@ -374,10 +399,10 @@ const Home = () => {
 
           {latestReviews.map((review) => (
             <ReviewCard key={review.reviewId}>
-              <p style={{ color: 'maroon', fontWeight: 'bold' }}>{review.reviewerName}</p>
+              <p style={{ color: 'maroon', fontWeight: 'bold' }}>{review.userId}</p>
               <p style={{ color: 'gold' }}>{review.rating}/5</p>
-              <p>{formatDate(review.postedDate)}</p>
-              <p>{review.reviewText}</p>
+              <p>{formatDate(review.datePosted)}</p>
+              <p>{review.comment}</p>
             </ReviewCard>
           ))}
         </div>
@@ -388,9 +413,5 @@ const Home = () => {
   );
 };
 
-const formatDate = (dateString) => {
-  const options = { year: 'numeric', month: 'long', day: 'numeric' };
-  return new Date(dateString).toLocaleDateString(undefined, options);
-};
 
 export default Home;

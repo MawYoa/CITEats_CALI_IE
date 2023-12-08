@@ -394,6 +394,7 @@ const RestaurantDetails = () => {
   const  location = useLocation();
   const [ratingDetails, setRatingDetails] = useState({});
   const [rating, setRating] = useState(null);
+  const [favorites, setFavorites] = useState([]);
 
   const [comment, setComment] = useState("");
   const [star, setStar] = useState(0);
@@ -502,7 +503,31 @@ const RestaurantDetails = () => {
     fetchReviews();
   }, [restaurantId]);
 
-  console.log(location.state);
+  const addToFavorites = async () => {
+    try {
+      // Check if the restaurant is already in favorites
+      if (!favorites.find((fav) => fav.restaurantId === restaurant.restaurantId)) {
+        // Make a POST request to add the restaurant to favorites
+        const response = await axios.post('http://localhost:8080/users/addToFavorites', {
+          userId: location.state.userId,
+          restaurantId: restaurant.restaurantId,
+        });
+  
+        // Assuming your backend responds with a success message or status
+        if (response.data.success) {
+          setFavorites([...favorites, restaurant]);
+          alert('Restaurant added to Favorites!');
+        } else {
+          alert('Failed to add restaurant to Favorites. Please try again.');
+        }
+      } else {
+        alert('Restaurant is already in Favorites!');
+      }
+    } catch (error) {
+      console.error('Error adding restaurant to Favorites:', error);
+      alert('An error occurred. Please try again.');
+    }
+  };
   
 
   return (
@@ -510,6 +535,7 @@ const RestaurantDetails = () => {
       <Header userId={location.state.userId} userType={location.state.userType} />
       <br />
       <RestaurantDetailsContainer>
+<<<<<<< HEAD
       {[restaurant].map((restaurant, index) => (
    <img
    key={restaurant.restaurantId}
@@ -530,6 +556,22 @@ const RestaurantDetails = () => {
           <span style={{ color: 'grey' }}>({ratingDetails[0]?.numberOfRatings})</span>
         </>
         <FavoriteButton>Add to Favorites</FavoriteButton>
+=======
+        {[restaurant].map((restaurant, index) => (
+        // Your code here
+        <img
+          src={process.env.PUBLIC_URL + '/' + imageMapping[restaurant.restaurantId]}
+          alt={`Restaurant ${index + 1}`}
+          style={{ width: '1470px', height: '500px' }}
+        />
+        ))}
+
+          <RestaurantDetailsName>{restaurant.name}</RestaurantDetailsName>
+          <>
+          <Star>★</Star> {restaurant.rating}
+          <span style={{ color: 'grey' }}>({ratingDetails[0]?.numberOfRatings })</span></>
+          <FavoriteButton onClick={addToFavorites}>Add to Favorites</FavoriteButton>
+>>>>>>> 04256dc02d632e876c9f47e539516ae6bfbbe148
       </RestaurantDetailsContainer>
 
       <RestaurantDetailsInfo>
