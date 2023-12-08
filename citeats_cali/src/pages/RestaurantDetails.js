@@ -507,20 +507,28 @@ const RestaurantDetails = () => {
     try {
       // Check if the restaurant is already in favorites
       if (!favorites.find((fav) => fav.restaurantId === restaurant.restaurantId)) {
-        // Make a POST request to add the restaurant to favorites
-        const response = await axios.post('http://localhost:8080/favorites/createFavorite', {
-          userId: location.state.userId,
-          restaurantId: restaurant.restaurantId,
-        });
+        // Fetch restaurant details including the name
+        const response = await axios.get(`http://localhost:8080/restaurants/getAllRestaurants/${restaurant.restaurantId}`);
   
-        // Assuming your backend responds with a success message or status
         if (response.data.success) {
-          setFavorites([...favorites, restaurant]);
-          console.log(location.state.userId);
-          console.log(restaurant.restaurantId);
-          alert('Restaurant added to Favorites!');
+          const restaurantDetails = response.data.restaurant;
+          // Make a POST request to add the restaurant to favorites
+          const addToFavoritesResponse = await axios.post('http://localhost:8080/favorites/createFavorite', {
+            userId: location.state.userId,
+            restaurantId: restaurant.restaurantId,
+            restaurantName: restaurantDetails.name,
+          });
+  
+          if (addToFavoritesResponse.data.success) {
+            setFavorites([...favorites, restaurant]);
+            console.log(location.state.userId);
+            console.log(restaurant.restaurantId);
+            alert('Restaurant added to Favorites!');
+          } else {
+            alert('Failed to add restaurant to Favorites. Please try again.');
+          }
         } else {
-          alert('Failed to add restaurant to Favorites. Please try again.');
+          alert('Failed to fetch restaurant details. Please try again.');
         }
       } else {
         alert('Restaurant is already in Favorites!');
