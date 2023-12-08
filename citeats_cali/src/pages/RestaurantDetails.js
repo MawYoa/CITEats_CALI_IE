@@ -6,6 +6,7 @@ import { Link, useParams, useLocation } from "react-router-dom";
 import axios from 'axios';
 import { useEffect } from "react";
 
+
 const StyledLink = styled(Link)`
   text-decoration: none; /* Remove underline */
   color: inherit; /* Inherit the color from the parent */
@@ -82,8 +83,15 @@ const RestaurantDetailsInfoValue = styled.span`
 const GoogleLocationImage = styled.img`
   width: 340px;
   height: 150px;
-  margin-top: 20px; /* Add margin to separate from other info */
-  
+  margin-top: 20px;
+  cursor: pointer;
+  transition: transform 0.3s ease, filter 0.3s ease, cursor 0.3s ease; /* Add cursor transition */
+
+  &:hover {
+    transform: scale(1.1); /* Scale up the image on hover */
+    filter: brightness(1.0); /* Adjust brightness on hover */
+    cursor: pointer; /* Change cursor to hand on hover */
+  }
 `;
 
 // const RestaurantDetailsButtonContainer = styled.div`
@@ -316,8 +324,26 @@ const imageMapping = {
 };
 
 const googleMapLinkMapping = {
-  1: 'https://maps.app.goo.gl/JwiwPzt3kMQw9EkNA', // Replace with the actual link for restaurant 1
-  2: 'https://maps.google.com/?q=restaurant2', // Replace with the actual link for restaurant 2
+  1: 'https://maps.app.goo.gl/JwiwPzt3kMQw9EkNA',
+  2: 'https://maps.app.goo.gl/E4F3tGEEjxCv22L36', 
+  3: 'https://maps.app.goo.gl/5FMbnE2hZyNucyWg9',
+  4: 'https://maps.app.goo.gl/dneAjgTohyEGhsmk6',
+  5: 'https://maps.app.goo.gl/2F9NANeR4CYdjUHU9',
+  6: 'https://maps.app.goo.gl/9Whk8xvShopuRo4X7',
+  7: 'https://maps.app.goo.gl/yBkVZLwr7Nrao3eXA',
+  8: 'https://maps.app.goo.gl/8HyXjK2DW8NNX7Uf8',
+  9: 'https://maps.app.goo.gl/Jm4UeKPaaoPX1TvZA',
+  10: 'https://maps.app.goo.gl/RMJszt3foNamQ2Hy8',
+  11: 'https://maps.app.goo.gl/shQMz2bJk2dMsego9',
+  12: 'https://maps.app.goo.gl/sMRbJy36ZvJQRcda9',
+  13: 'https://maps.app.goo.gl/xHBYZMzRe4HQYFs16',
+  14: 'https://maps.app.goo.gl/7QxFPg2Cqeapz7dQ7',
+  15: 'https://maps.app.goo.gl/28ttYpESNs3UdFMv9',
+  16: 'https://maps.app.goo.gl/LYfZSDofDe88M9Qe6',
+  17: 'https://maps.app.goo.gl/YjgJHcgxV3eZgLx9A',
+  18: 'https://maps.app.goo.gl/U11X2rJDCBcaBRT97',
+  19: 'https://maps.app.goo.gl/Kee2bDuUxsQ8u57K8',
+  20: 'https://maps.app.goo.gl/DWqDAXUPuXLNMNud9',
   // Add more mappings as needed
 };
 
@@ -555,21 +581,17 @@ const RestaurantDetails = () => {
       <Header userId={location.state.userId} userType={location.state.userType} restaurantId={location.state.restaurantId}/>
       <br />
       <RestaurantDetailsContainer>
-      {[restaurant].map((restaurant, index) => (
-            <img
+        {[restaurant].map((restaurant, index) => (
+          <img
             key={restaurant.restaurantId}
             src={process.env.PUBLIC_URL + '/' + imageMapping[restaurant.restaurantId]}
             alt={`Restaurant ${index + 1}`}
-            style={{ width: '1470px', height: '500px', cursor: 'pointer' }}
-            onClick={() => {
-              const googleMapLink = googleMapLinkMapping[restaurant.restaurantId];
-              console.log("Google Map Link:", googleMapLink);
-              window.location.href = googleMapLink; // Use window.location.href instead of window.open
-            }}
+            style={{ width: '1470px', height: '500px' }}
           />
-          ))}
-          <RestaurantDetailsName>{restaurant.name}</RestaurantDetailsName>
-          <>
+        ))}
+
+        <RestaurantDetailsName>{restaurant.name}</RestaurantDetailsName>
+        <>
           <Star>★</Star> {restaurant.rating}
           <span style={{ color: 'grey' }}>({ratingDetails[0]?.numberOfRatings })</span></>
           <FavoriteButton onClick={addToFavorites}>Add to Favorites</FavoriteButton>
@@ -613,10 +635,13 @@ const RestaurantDetails = () => {
 
   <RestaurantDetailsInfoItem>
   <GoogleLocationImage
-              src="/googlelocation.jpg"
-              alt="Google Location"
-              onClick={() => window.open(restaurant.googleMapLink, '_blank')}
-            />
+  src="/googlelocation.jpg"
+  alt="Google Location"
+  onClick={() => {
+    const googleMapLink = googleMapLinkMapping[restaurant.restaurantId];
+    window.open(googleMapLink, '_blank');
+  }}
+/>
   </RestaurantDetailsInfoItem>
   </InfoContainer>
       </RestaurantDetailsInfo>
