@@ -535,7 +535,6 @@ const RestaurantDetails = () => {
       <Header userId={location.state.userId} userType={location.state.userType} />
       <br />
       <RestaurantDetailsContainer>
-<<<<<<< HEAD
       {[restaurant].map((restaurant, index) => (
    <img
    key={restaurant.restaurantId}
@@ -556,7 +555,6 @@ const RestaurantDetails = () => {
           <span style={{ color: 'grey' }}>({ratingDetails[0]?.numberOfRatings})</span>
         </>
         <FavoriteButton>Add to Favorites</FavoriteButton>
-=======
         {[restaurant].map((restaurant, index) => (
         // Your code here
         <img
@@ -571,7 +569,6 @@ const RestaurantDetails = () => {
           <Star>★</Star> {restaurant.rating}
           <span style={{ color: 'grey' }}>({ratingDetails[0]?.numberOfRatings })</span></>
           <FavoriteButton onClick={addToFavorites}>Add to Favorites</FavoriteButton>
->>>>>>> 04256dc02d632e876c9f47e539516ae6bfbbe148
       </RestaurantDetailsContainer>
 
       <RestaurantDetailsInfo>
