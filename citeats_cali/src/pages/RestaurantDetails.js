@@ -315,6 +315,13 @@ const imageMapping = {
   // Add more mappings as needed
 };
 
+const googleMapLinkMapping = {
+  1: 'https://maps.app.goo.gl/JwiwPzt3kMQw9EkNA', // Replace with the actual link for restaurant 1
+  2: 'https://maps.google.com/?q=restaurant2', // Replace with the actual link for restaurant 2
+  // Add more mappings as needed
+};
+
+
 const MenuItemCard = styled.div`
   border: 1px solid #ddd;
   padding: 15px;
@@ -499,27 +506,29 @@ const RestaurantDetails = () => {
   
 
   return (
-
-    <div style={{fontFamily:'Kumbh Sans'}}>
-      <Header userId={location.state.userId}  userType = {location.state.userType} />
+    <div style={{ fontFamily: "Kumbh Sans" }}>
+      <Header userId={location.state.userId} userType={location.state.userType} />
       <br />
       <RestaurantDetailsContainer>
       {[restaurant].map((restaurant, index) => (
-      // Your code here
-      <img
-        src={process.env.PUBLIC_URL + '/' + imageMapping[restaurant.restaurantId]}
-        alt={`Restaurant ${index + 1}`}
-        style={{ width: '1470px', height: '500px' }}
-      />
-
-
-      ))}
+   <img
+   key={restaurant.restaurantId}
+   src={process.env.PUBLIC_URL + '/' + imageMapping[restaurant.restaurantId]}
+   alt={`Restaurant ${index + 1}`}
+   style={{ width: '1470px', height: '500px', cursor: 'pointer' }}
+   onClick={() => {
+     const googleMapLink = googleMapLinkMapping[restaurant.restaurantId];
+     console.log("Google Map Link:", googleMapLink);
+     window.location.href = googleMapLink; // Use window.location.href instead of window.open
+   }}
+ />
+))}
 
         <RestaurantDetailsName>{restaurant.name}</RestaurantDetailsName>
         <>
-        <Star>★</Star> {restaurant.rating}
-        <span style={{ color: 'grey' }}>({ratingDetails[0]?.numberOfRatings })</span></>
-        {/* Favorite button */}
+          <Star>★</Star> {restaurant.rating}
+          <span style={{ color: 'grey' }}>({ratingDetails[0]?.numberOfRatings})</span>
+        </>
         <FavoriteButton>Add to Favorites</FavoriteButton>
       </RestaurantDetailsContainer>
 
@@ -560,7 +569,11 @@ const RestaurantDetails = () => {
   </RestaurantDetailsInfoItem>
 
   <RestaurantDetailsInfoItem>
-    <GoogleLocationImage src="/googlelocation.jpg" alt="Google Location" />
+  <GoogleLocationImage
+              src="/googlelocation.jpg"
+              alt="Google Location"
+              onClick={() => window.open(restaurant.googleMapLink, '_blank')}
+            />
   </RestaurantDetailsInfoItem>
   </InfoContainer>
       </RestaurantDetailsInfo>
