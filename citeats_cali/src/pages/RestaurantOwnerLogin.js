@@ -7,7 +7,7 @@ import { useNavigate, Link} from 'react-router-dom';
 import Header from '../components/Header';
 import "@fontsource/kumbh-sans"; 
 
-const Login = () => {
+const RestaurantOwnerLogin = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -17,24 +17,20 @@ const Login = () => {
   const handleLogIn = async (e) => {
     e.preventDefault();
   
-    // Check if email and password are not empty
-    if (!email || !password) {
-      alert('Please enter both email and password.');
-      return;
-    }
+    console.log("This is the restaurantOwnerLogin");
   
     try {
-      const response = await axios.get('http://localhost:8080/users/getAllUsers');
-      const users = response.data;
+      const response = await axios.get('http://localhost:8080/restaurants/getAllRestaurants');
+      const restaurants = response.data;
   
-      const user = users.find((user) => user.email === email && user.password === password);
+      const restaurantOwner = restaurants.find((restaurant) => restaurant.email === email && restaurant.password === password);
   
-      if (user) {
+      if (restaurantOwner) {
         // Login successful
         setIsLoggedIn(true);
-        setUserData(user); // Set user data in state
+        setUserData(restaurantOwner); // Set user data in state
   
-        alert(`User ${user.userId} logged in with userType: ${user.userType}`);
+        alert(`Restaurant Owner ${restaurantOwner.restaurantId} logged in`);
   
         // You can store user data in state or any other necessary logic
       } else {
@@ -47,20 +43,21 @@ const Login = () => {
     }
   };
   
-
   useEffect(() => {
     // Check if login is successful
     if (isLoggedIn) {
       // Redirect to "/Home" with user's ID and userType as state
-      navigate('/Home', { state: { userId: userData.userId, userType: userData.userType } });
+      navigate('/Home', { state: { restaurantId: userData.restaurantId, userType: 'RestaurantOwner' } });
     }
   }, [isLoggedIn, navigate, userData]);
+
+  console.log("This is the restaurantOwnerLogin");
 
   return (
     <div>
       <Header />
       <h2 style={{ fontFamily: 'Kumbh Sans', fontSize: '24px', letterSpacing: '-1px', textAlign: 'center' }}>
-        Welcome back, Student!
+        Welcome back, Restaurant Owner!
       </h2>
       <div className="login-container">
         <h2 style={{fontFamily:'Kumbh Sans'}}>Login</h2>
@@ -85,7 +82,7 @@ const Login = () => {
 
           <div className="signup-link">
             Don't have an account?{' '}
-            <Link to="/SignUp">
+            <Link to="/JoinUs">
               <button type="button" className="signup-link-button">
                 Sign up now!
               </button>
@@ -116,4 +113,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default RestaurantOwnerLogin;

@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { useLocation } from "react-router-dom";
 
 const MenuContainer = styled.div`
   width: 80%;
@@ -41,10 +42,14 @@ const MenuImage = styled.img`
   border-radius: 8px;
 `;
 
+
 const Menu = () => {
+  
+const location = useLocation('');
+
   return (
     <div>
-      <Header />
+      <Header restaurantId={location.state.restaurantId}/>
       <br></br>
       <MenuContainer>
         <MenuHeader>

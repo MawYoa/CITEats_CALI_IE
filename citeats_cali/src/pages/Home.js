@@ -339,7 +339,7 @@ const Home = () => {
 
   return (
     <div>
-      <Header userId={location.state.userId} userType={location.state.userType} />
+      <Header userId={location.state.userId} userType={location.state.userType} restaurantId={location.state.restaurantId}/>
 
       <HomeContainer>
         <HeroImage src="/heropic.jpg" alt="hero pic" />

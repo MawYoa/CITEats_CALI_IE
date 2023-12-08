@@ -395,6 +395,7 @@ const RestaurantDetails = () => {
   const [ratingDetails, setRatingDetails] = useState({});
   const [rating, setRating] = useState(null);
   const [favorites, setFavorites] = useState([]);
+  const [selectedRestaurant, setSelectedRestaurant] = useState(null);
 
   const [comment, setComment] = useState("");
   const [star, setStar] = useState(0);
@@ -508,10 +509,18 @@ const RestaurantDetails = () => {
       // Check if the restaurant is already in favorites
       if (!favorites.find((fav) => fav.restaurantId === restaurant.restaurantId)) {
         // Fetch restaurant details including the name
-        const response = await axios.get(`http://localhost:8080/restaurants/getAllRestaurants/${restaurant.restaurantId}`);
+        const restaurantDetailsResponse = await axios.get(`http://localhost:8080/restaurants/${restaurant.restaurantId}`);
   
-        if (response.data.success) {
-          const restaurantDetails = response.data.restaurant;
+        if (restaurantDetailsResponse.data.success) {
+          const restaurantDetails = restaurantDetailsResponse.data.restaurant;
+          
+          // Save the selected restaurant details for later use
+          setSelectedRestaurant({
+            restaurantId: restaurant.restaurantId,
+            restaurantName: restaurantDetails.name,
+            // Other details you may want to include
+          });
+  
           // Make a POST request to add the restaurant to favorites
           const addToFavoritesResponse = await axios.post('http://localhost:8080/favorites/createFavorite', {
             userId: location.state.userId,
@@ -539,35 +548,33 @@ const RestaurantDetails = () => {
     }
   };
   
+  
 
   return (
     <div style={{ fontFamily: "Kumbh Sans" }}>
-      <Header userId={location.state.userId} userType={location.state.userType} />
+      <Header userId={location.state.userId} userType={location.state.userType} restaurantId={location.state.restaurantId}/>
       <br />
       <RestaurantDetailsContainer>
       {[restaurant].map((restaurant, index) => (
-   <img
-   key={restaurant.restaurantId}
-   src={process.env.PUBLIC_URL + '/' + imageMapping[restaurant.restaurantId]}
-   alt={`Restaurant ${index + 1}`}
-   style={{ width: '1470px', height: '500px', cursor: 'pointer' }}
-   onClick={() => {
-     const googleMapLink = googleMapLinkMapping[restaurant.restaurantId];
-     console.log("Google Map Link:", googleMapLink);
-     window.location.href = googleMapLink; // Use window.location.href instead of window.open
-   }}
- />
-))}
-
-        <RestaurantDetailsName>{restaurant.name}</RestaurantDetailsName>
-        <>
+            <img
+            key={restaurant.restaurantId}
+            src={process.env.PUBLIC_URL + '/' + imageMapping[restaurant.restaurantId]}
+            alt={`Restaurant ${index + 1}`}
+            style={{ width: '1470px', height: '500px', cursor: 'pointer' }}
+            onClick={() => {
+              const googleMapLink = googleMapLinkMapping[restaurant.restaurantId];
+              console.log("Google Map Link:", googleMapLink);
+              window.location.href = googleMapLink; // Use window.location.href instead of window.open
+            }}
+          />
+          ))}
+          <RestaurantDetailsName>{restaurant.name}</RestaurantDetailsName>
+          <>
           <Star>★</Star> {restaurant.rating}
-          <span style={{ color: 'grey' }}>({ratingDetails[0]?.numberOfRatings})</span>
-        </>
-        <FavoriteButton>Add to Favorites</FavoriteButton>
-       
+          <span style={{ color: 'grey' }}>({ratingDetails[0]?.numberOfRatings })</span></>
+          <FavoriteButton onClick={addToFavorites}>Add to Favorites</FavoriteButton>
       </RestaurantDetailsContainer>
-
+      
       <RestaurantDetailsInfo>
       <div style={{marginLeft:'300px'}}>
       <h4>Menu Items</h4>

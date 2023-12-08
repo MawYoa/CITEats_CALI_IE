@@ -259,7 +259,7 @@ const BrowseRestaurants = () => {
 
   return (
     <div>
-      <Header userId={location.state.userId} userType={location.state.userType}/>
+      <Header userId={location.state.userId} userType={location.state.userType} restaurantId={location.state.restaurantId}/>
       <div style={{ display: "flex", fontFamily: "Kumbh Sans" }}>
         <RestaurantSection style={{ width: "20%" }}>
           <FilterSection>

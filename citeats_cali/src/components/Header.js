@@ -64,16 +64,16 @@ const Header = ({userType, userId, restaurantId}) => {
         <CITEatsLogo src="/citeats_logo.png" alt="CITEats Logo" />
       </div>
       <Navigation>
-        <NavLink to={`/Home`} state={{ userId:userId, userType:userType  }}> Home </NavLink>
-        <NavLink to={`/BrowseRestaurants`} state={{ userId:userId, userType:userType  }}>Browse Restaurants</NavLink>
-        <NavLink to={`/Favorites`} state={{ userId:userId, userType:userType  }}>Favorites</NavLink>
-        <NavLink to={`/JoinUs`} state={{ userId:userId, userType:userType  }}>Join Us</NavLink>
-        <NavLink to={`/AboutUs`} state={{ userId:userId, userType:userType  }}>About Us</NavLink>
-        {userType === "Student" && (
-        <NavLink to={`/UserProfile/${userId}`} state={{ userId:userId, userType:userType   }}> Profile </NavLink>
+        <NavLink to={`/Home`} state={{ userId:userId, userType:userType, restaurantId:restaurantId  }}> Home </NavLink>
+        <NavLink to={`/BrowseRestaurants`} state={{ userId:userId, userType:userType, restaurantId:restaurantId  }}>Browse Restaurants</NavLink>
+        <NavLink to={`/Favorites`} state={{ userId:userId, userType:userType, restaurantId:restaurantId  }}>Favorites</NavLink>
+        <NavLink to={`/AboutUs`} state={{ userId:userId, userType:userType, restaurantId:restaurantId  }}>About Us</NavLink>
+        {userId && (
+          <NavLink to={`/UserProfile/${userId}`} state={{ userId: userId, userType: userType }}>Profile</NavLink>
         )}
-        {userType === "RestaurantOwner" && (
-        <NavLink to ={`/EditRestaurant/${restaurantId}`} state={{restaurantId:restaurantId}}> Restaurant </NavLink>
+
+        {restaurantId && (
+          <NavLink to={`/EditRestaurant/${restaurantId}`} state={{ restaurantId: restaurantId }}>Restaurant</NavLink>
         )}
       </Navigation>
     </HeaderContainer>

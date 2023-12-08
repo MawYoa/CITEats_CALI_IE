@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import "@fontsource/kumbh-sans"; 
 import './GetStarted.css';  // Import the CSS file
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const GetStarted = () => {
 
@@ -13,17 +14,12 @@ const StyledLink = styled(Link)`
   color: inherit; /* Inherit the color from the parent */
 `;
 
+const navigate = useNavigate();
 const [userType, setUserType] = useState('');
 
-  // Function to handle button click and save userType
-  const handleLogin = (userType) => {
-    setUserType(userType);
+  // Move useNavigate inside the component
+
     console.log('User logged in as:', userType);
-
-    // You can also redirect to different pages based on userType
-    // Example: if (type === 'Student') { history.push('/student-dashboard'); }
-  };
-
 
 
   return (
@@ -50,15 +46,15 @@ const [userType, setUserType] = useState('');
               <div>
                 <div className="button-container">
                   <Link to="/Login">
-                    <button className="maroon-button" onClick={() => handleLogin('Student')}>
+                    <button className="maroon-button" >
                       Sign in as Student
                     </button>
                   </Link>
                 </div>
 
                 <div className="button-container">
-                  <Link to="/Login">
-                    <button className="maroon-button" onClick={() => handleLogin('RestaurantOwner')}>
+                  <Link to="/RestaurantOwnerLogin">
+                    <button className="maroon-button" >
                       Sign in as Restaurant Owner
                     </button>
                   </Link>
@@ -66,7 +62,7 @@ const [userType, setUserType] = useState('');
 
                 <div className="button-container">
                   <Link to="/Login">
-                    <button className="maroon-button" onClick={() => handleLogin('Admin')}>
+                    <button className="maroon-button" >
                       Sign in as Admin
                     </button>
                   </Link>
@@ -76,13 +72,20 @@ const [userType, setUserType] = useState('');
               <h4 style={{ textAlign: 'center', alignItems: 'center' }}>Or</h4>
 
               <div className="button-container">
-              <StyledLink to="/SignUp">
-                <button className="maroon-button">
-                  Sign Up Now
-                </button>
-                </StyledLink>
-                
-              </div>
+                  <StyledLink to="/SignUp">
+                    <button className="maroon-button">
+                      Sign Up Now
+                    </button>
+                  </StyledLink>
+                </div>
+
+                <div className="button-container">
+                  <StyledLink to="/JoinUs">
+                    <button className="maroon-button">
+                      Join Us
+                    </button>
+                  </StyledLink>
+                </div>
               <br/>
               <br/>
               <br/>

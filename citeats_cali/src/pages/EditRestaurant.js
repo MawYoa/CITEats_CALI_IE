@@ -4,7 +4,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import axios from 'axios';
 import { useState, useEffect } from "react";
-import { useParams } from "react-router";
+import { useLocation, useParams } from "react-router";
 const UserProfileContainer = styled.div`
   width: 85%;
   display: flex;
@@ -229,6 +229,7 @@ const AddMenuItemContainer = styled.div`
     const [editedName, setEditedName] = useState('');
     const [editedDescription, setEditedDescription] = useState('');
     const [editedPrice, setEditedPrice] = useState('');
+    const location = useLocation('');
    
 
 
@@ -449,7 +450,7 @@ const AddMenuItemContainer = styled.div`
 
   return (
     <div>
-      <Header />
+      <Header restaurantId={location.state.restaurantId}/>
       <UserProfileContainer>
         <UserProfileHeader>
           <UserProfileImage src="user.png" alt="User Profile Image" />

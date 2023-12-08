@@ -20,7 +20,7 @@ import AboutUs from './pages/AboutUs';
 import GetStarted from './pages/GetStarted';
 import RestaurantProfile from './pages/RestaurantProfile';
 import EditRestaurant from './pages/EditRestaurant';
-
+import RestaurantOwnerLogin from './pages/RestaurantOwnerLogin'
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -46,6 +46,7 @@ root.render(
         <Route path="/RestaurantProfile" element={<RestaurantProfile/>} /> 
         <Route path="/EditRestaurant/:restaurantId" element={<EditRestaurant/>} /> 
         <Route path="/GetStarted" element={<GetStarted/>} /> 
+        <Route path="/RestaurantOwnerLogin" element={<RestaurantOwnerLogin/>}/> 
 
       </Routes>
     </BrowserRouter>

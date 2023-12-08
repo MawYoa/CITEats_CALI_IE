@@ -24,7 +24,7 @@ const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [userType, setUserType] = useState('');
+  const [userType, setUserType] = useState('Student');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -113,20 +113,6 @@ const SignUp = () => {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
           <br></br> 
-          <label>User Type:</label>
-          <div style={{width:'200px',marginLeft:'-200px'}}>
-          <select
-            name="userType"
-            className="input"
-            value={userType}
-            onChange={(e) => setUserType(e.target.value)}
-          >
-            <option value="">Select User Type</option>
-            <option value="Student">Student</option>
-            <option value="Admin">Admin</option>
-            <option value="RestaurantOwner">Restaurant Owner</option>
-          </select>
-          </div>
           <br/>
           <br/>
           <button
