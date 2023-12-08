@@ -508,7 +508,7 @@ const RestaurantDetails = () => {
       // Check if the restaurant is already in favorites
       if (!favorites.find((fav) => fav.restaurantId === restaurant.restaurantId)) {
         // Make a POST request to add the restaurant to favorites
-        const response = await axios.post('http://localhost:8080/users/addToFavorites', {
+        const response = await axios.post('http://localhost:8080/favorites/createFavorite', {
           userId: location.state.userId,
           restaurantId: restaurant.restaurantId,
         });
@@ -516,6 +516,8 @@ const RestaurantDetails = () => {
         // Assuming your backend responds with a success message or status
         if (response.data.success) {
           setFavorites([...favorites, restaurant]);
+          console.log(location.state.userId);
+          console.log(restaurant.restaurantId);
           alert('Restaurant added to Favorites!');
         } else {
           alert('Failed to add restaurant to Favorites. Please try again.');
@@ -536,6 +538,7 @@ const RestaurantDetails = () => {
       <br />
       <RestaurantDetailsContainer>
       {[restaurant].map((restaurant, index) => (
+<<<<<<< HEAD
    <img
    key={restaurant.restaurantId}
    src={process.env.PUBLIC_URL + '/' + imageMapping[restaurant.restaurantId]}
@@ -564,6 +567,20 @@ const RestaurantDetails = () => {
         />
         ))}
 
+=======
+            <img
+            key={restaurant.restaurantId}
+            src={process.env.PUBLIC_URL + '/' + imageMapping[restaurant.restaurantId]}
+            alt={`Restaurant ${index + 1}`}
+            style={{ width: '1470px', height: '500px', cursor: 'pointer' }}
+            onClick={() => {
+              const googleMapLink = googleMapLinkMapping[restaurant.restaurantId];
+              console.log("Google Map Link:", googleMapLink);
+              window.location.href = googleMapLink; // Use window.location.href instead of window.open
+            }}
+          />
+          ))}
+>>>>>>> d43e11c05bc63798759477ec180cea3e8a1dd359
           <RestaurantDetailsName>{restaurant.name}</RestaurantDetailsName>
           <>
           <Star>★</Star> {restaurant.rating}
