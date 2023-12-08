@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { NavLink as Link, useLocation, useParams } from "react-router-dom";
+import { NavLink as Link, useLocation, useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const HeaderContainer = styled.div`
@@ -51,8 +51,10 @@ const CITEatsLogo = styled.img`
   margin-left: 100px;
 `;
 
-const Header = ({userId}) => {
-  const location = useLocation();
+const Header = ({userType, userId, restaurantId}) => {
+
+  const navigate = useNavigate();
+    
 
   return (
     
@@ -61,14 +63,18 @@ const Header = ({userId}) => {
         <Logo src="/logo.png" alt="Cebu Institute of Technology University" />
         <CITEatsLogo src="/citeats_logo.png" alt="CITEats Logo" />
       </div>
-
       <Navigation>
-        <NavLink to={`/Home`} state={{ userId:userId  }}> Home </NavLink>
-        <NavLink to={`/BrowseRestaurants`} state={{ userId:userId  }}>Browse Restaurants</NavLink>
-        <NavLink to={`/Favorites`} state={{ userId:userId  }}>Favorites</NavLink>
-        <NavLink to={`/JoinUs`} state={{ userId:userId  }}>Join Us</NavLink>
-        <NavLink to={`/AboutUs`} state={{ userId:userId  }}>About Us</NavLink>
-        <NavLink to={`/UserProfile/${userId}`} state={{ userId:userId  }}> Profile </NavLink>
+        <NavLink to={`/Home`} state={{ userId:userId, userType:userType  }}> Home </NavLink>
+        <NavLink to={`/BrowseRestaurants`} state={{ userId:userId, userType:userType  }}>Browse Restaurants</NavLink>
+        <NavLink to={`/Favorites`} state={{ userId:userId, userType:userType  }}>Favorites</NavLink>
+        <NavLink to={`/JoinUs`} state={{ userId:userId, userType:userType  }}>Join Us</NavLink>
+        <NavLink to={`/AboutUs`} state={{ userId:userId, userType:userType  }}>About Us</NavLink>
+        {userType === "Student" && (
+        <NavLink to={`/UserProfile/${userId}`} state={{ userId:userId, userType:userType   }}> Profile </NavLink>
+        )}
+        {userType === "RestaurantOwner" && (
+        <NavLink to ={`/EditRestaurant/${restaurantId}`} state={{restaurantId:restaurantId}}> Restaurant </NavLink>
+        )}
       </Navigation>
     </HeaderContainer>
   );

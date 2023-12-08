@@ -174,8 +174,20 @@ const Home = () => {
   const [restaurants, setRestaurants] = useState([]);
   const [latestReviews, setLatestReviews] = useState([]);
   const location = useLocation();
+  const userId = location.state && location.state.userId;
+  const userType = location.state && location.state.userType;
+  
 
   useEffect(() => {
+    // Log userType from the location state
+    console.log('UserType:', location.state && location.state.userType);
+
+    // ... rest of the useEffect logic
+  }, [location.state]);
+
+  useEffect(() => {
+
+    
     const fetchCuisineCategories = async () => {
       try {
         const response = await axios.get('http://localhost:8080/cuisinetypes/getAllCuisineTypes');
@@ -241,8 +253,10 @@ const Home = () => {
   };
 
   return (
+
+    
     <div>
-      <Header userId={location.state.userId} />
+      <Header userId={location.state.userId} userType={location.state.userType} />
 
       <HomeContainer>
         <HeroImage src="/heropic.jpg" alt="hero pic" />

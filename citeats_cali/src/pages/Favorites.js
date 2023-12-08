@@ -34,7 +34,7 @@ const Favorites = () => {
   
   return (
     <div>
-      <Header userId={location.state.userId}/>
+      <Header userId={location.state.userId} userType={location.state.userType}/>
       <FavoriteContainer>
         
         <h1 style={{color:'gold',textAlign:'left',padding:'0 300px'}}>My Favorites</h1>

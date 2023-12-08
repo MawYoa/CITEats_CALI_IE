@@ -4,6 +4,7 @@ import Footer from '../components/Footer';
 import styled from 'styled-components';
 import "@fontsource/kumbh-sans"; 
 import './GetStarted.css';  // Import the CSS file
+import { useState } from 'react';
 
 const GetStarted = () => {
 
@@ -11,6 +12,20 @@ const StyledLink = styled(Link)`
   text-decoration: none; /* Remove underline */
   color: inherit; /* Inherit the color from the parent */
 `;
+
+const [userType, setUserType] = useState('');
+
+  // Function to handle button click and save userType
+  const handleLogin = (userType) => {
+    setUserType(userType);
+    console.log('User logged in as:', userType);
+
+    // You can also redirect to different pages based on userType
+    // Example: if (type === 'Student') { history.push('/student-dashboard'); }
+  };
+
+
+
   return (
     <>
       <div style={{backgroundColor:'#e9e9e9'}}>
@@ -32,28 +47,30 @@ const StyledLink = styled(Link)`
               </div>
               <br/>
               <br/>
-              <div className="button-container">
-                <StyledLink to="/Login">
-                <button className="maroon-button">
-                  Sign in as Student
-                </button>
-                </StyledLink>
-              </div>
+              <div>
+                <div className="button-container">
+                  <Link to="/Login">
+                    <button className="maroon-button" onClick={() => handleLogin('Student')}>
+                      Sign in as Student
+                    </button>
+                  </Link>
+                </div>
 
-              <div className="button-container">
-              <StyledLink to="/Login">
-                <button className="maroon-button">
-                  Sign in as Restaurant Owner
-                </button>
-                </StyledLink>
-              </div>
+                <div className="button-container">
+                  <Link to="/Login">
+                    <button className="maroon-button" onClick={() => handleLogin('RestaurantOwner')}>
+                      Sign in as Restaurant Owner
+                    </button>
+                  </Link>
+                </div>
 
-              <div className="button-container">
-              <StyledLink to="/Login">
-                <button className="maroon-button">
-                  Sign in as Admin
-                </button>
-                </StyledLink>
+                <div className="button-container">
+                  <Link to="/Login">
+                    <button className="maroon-button" onClick={() => handleLogin('Admin')}>
+                      Sign in as Admin
+                    </button>
+                  </Link>
+                </div>
               </div>
 
               <h4 style={{ textAlign: 'center', alignItems: 'center' }}>Or</h4>

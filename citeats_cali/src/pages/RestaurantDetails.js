@@ -69,41 +69,41 @@ const GoogleLocationImage = styled.img`
   
 `;
 
-const RestaurantDetailsButtonContainer = styled.div`
-  display: flex;
-  justify-content: space-around;
-  margin-top: 20px;
-  margin-right: 700px; /* Adjust the negative margin for closer spacing */
-  margin-left: 100px;
-`;
+// const RestaurantDetailsButtonContainer = styled.div`
+//   display: flex;
+//   justify-content: space-around;
+//   margin-top: 20px;
+//   margin-right: 700px; /* Adjust the negative margin for closer spacing */
+//   margin-left: 100px;
+// `;
 
 
-const RestaurantDetailsButton = styled.div`
-  width: 250px;
-  height: 220px;
+// const RestaurantDetailsButton = styled.div`
+//   width: 250px;
+//   height: 220px;
   
-  margin: 0 10px; /* Add margin to create space between pictures */
-  border-radius: 10px;
-  background-image: ${(props) => `url('${props.image}')`};
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #fff;
-  text-align: center;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+//   margin: 0 10px; /* Add margin to create space between pictures */
+//   border-radius: 10px;
+//   background-image: ${(props) => `url('${props.image}')`};
+//   background-size: cover;
+//   background-position: center;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   color: #fff;
+//   text-align: center;
+//   cursor: pointer;
+//   transition: background-color 0.3s ease;
 
-  &:hover {
-    background-color: #555;
-  }
+//   &:hover {
+//     background-color: #555;
+//   }
 
-  h3 {
-    margin-top: 10px;
-    font-size: 18px;
-  }
-`;
+//   h3 {
+//     margin-top: 10px;
+//     font-size: 18px;
+//   }
+// `;
 
 
 const ReviewContainer = styled.div`
@@ -484,7 +484,7 @@ const RestaurantDetails = () => {
   return (
 
     <div style={{fontFamily:'Kumbh Sans'}}>
-      <Header userId={location.state.userId} />
+      <Header userId={location.state.userId}  userType = {location.state.userType} />
       <br />
       <RestaurantDetailsContainer>
       {[restaurant].map((restaurant, index) => (

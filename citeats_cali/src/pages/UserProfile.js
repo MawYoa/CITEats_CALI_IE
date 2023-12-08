@@ -372,7 +372,7 @@ const UserProfile = () => {
   
   return (
     <div>
-      <Header userId={location.state.userId}/>
+      <Header userId={location.state.userId} userType={location.state.userType}/>
       <UserProfileContainer>
         <UserProfileHeader>
           <UserProfileImage src="user.png" alt="User Profile Image" />

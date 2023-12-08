@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { Navigate, useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 
 const ForgotPasswordContainer = styled.div`
 
@@ -64,6 +65,19 @@ const ForgotPasswordButton = styled.button`
 
 const CenteredText = styled.p`
   text-align: center;
+`;
+
+const SignInLink = styled(Link)`
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  font-family: Kumbh Sans;
+  color: maroon;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 
@@ -156,6 +170,8 @@ const ForgotPassword = () => {
             {/* Display success or error message */}
             {changeSuccess && <p style={{ color: 'green' }}>Password changed successfully!</p>}
             {changeError && <p style={{ color: 'red' }}>{changeError}</p>}
+
+            <SignInLink to="/Login">Already have an account? Sign In now!</SignInLink>
           </ForgotPasswordForm>
         </ForgotPasswordContainer>
       

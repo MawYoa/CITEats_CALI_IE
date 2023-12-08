@@ -1,8 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import Header from '../components/Header';
+import { useNavigate, Link } from 'react-router-dom';
 import './GetStarted.css';  
+
+const formStyles = {
+  textAlign: 'center',
+  marginTop: '20px', // Adjust this value to move the form higher
+  fontSize: '14px',
+};
+
+
+const containerStyles = {
+  marginTop: '20px', // Adjust this value to move the form higher
+  fontFamily: 'Kumbh Sans',
+};
+
 
 
 const SignUp = () => {
@@ -65,9 +77,9 @@ const SignUp = () => {
   return (
     <div>
       
-      <div className="signup-container" style={{fontFamily:'Kumbh Sans'}}>
+      <div className="signup-container" style={containerStyles}>
         <h1>Sign Up!</h1>
-        <form className="form" onSubmit={handleSubmit}>
+        <form className="form" style={formStyles} onSubmit={handleSubmit}>
           <input
             type="text"
             name="userName"
@@ -125,6 +137,13 @@ const SignUp = () => {
             SIGN UP
           </button>
           <br></br>
+
+          <p className="signin-link">
+            Already have an account?{' '}
+            <Link to="/Login" className="signin-link-text">
+              Sign In now!
+            </Link>
+          </p>
 
         </form>
       </div>

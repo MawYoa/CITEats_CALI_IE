@@ -197,7 +197,8 @@ const BrowseRestaurants = () => {
           <Link to={`/RestaurantDetails/${restaurant.restaurantId}`} 
             state={{
               userId:location.state.userId,
-              restaurantId:restaurant.restaurantId
+              restaurantId:restaurant.restaurantId,
+              userType:location.state.userType
               }}style={{ textDecoration: "none" }}>
             <img
               src={process.env.PUBLIC_URL + "/" + imageMapping[restaurant.restaurantId]}
@@ -235,7 +236,8 @@ const BrowseRestaurants = () => {
         <RestaurantCard key={index}>
           <Link to={`/RestaurantDetails/${restaurant.restaurantId}`} state={{
               userId:location.state.userId,
-              restaurantId:restaurant.restaurantId
+              restaurantId:restaurant.restaurantId,
+              userType:location.state.userType
               }}
               style={{ textDecoration: "none" }}>
             <img
@@ -257,7 +259,7 @@ const BrowseRestaurants = () => {
 
   return (
     <div>
-      <Header userId={location.state.userId} />
+      <Header userId={location.state.userId} userType={location.state.userType}/>
       <div style={{ display: "flex", fontFamily: "Kumbh Sans" }}>
         <RestaurantSection style={{ width: "20%" }}>
           <FilterSection>

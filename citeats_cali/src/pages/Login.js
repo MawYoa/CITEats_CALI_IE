@@ -12,28 +12,25 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userId, setUserId] = useState(null);
+  const [userData, setUserData] = useState(null);
 
   const handleLogIn = async (e) => {
     e.preventDefault();
-  
+
     try {
       const response = await axios.get('http://localhost:8080/users/getAllUsers');
-  
       const users = response.data;
-  
-      const user = users.find(user => user.email === email && user.password === password);
-  
+
+      const user = users.find((user) => user.email === email && user.password === password);
+
       if (user) {
         // Login successful
         setIsLoggedIn(true);
-  
-        // Fetch userId from the user object
-        const userId = user.userId;
-        setUserId(userId); // Set userId in state
-        alert(`User ${userId} logged in`);
-  
-        // You can store userId in state or any other necessary logic
+        setUserData(user); // Set user data in state
+
+        alert(`User ${user.userId} logged in with userType: ${user.userType}`);
+
+        // You can store user data in state or any other necessary logic
       } else {
         alert('Invalid Email and Password.');
         // Handle invalid login (show error message, etc.)
@@ -43,15 +40,14 @@ const Login = () => {
       // Handle login failure, show error message, etc.
     }
   };
-  
 
   useEffect(() => {
     // Check if login is successful
     if (isLoggedIn) {
-      // Redirect to "/Home" with user's ID as state
-      navigate('/Home', { state: { userId } });
+      // Redirect to "/Home" with user's ID and userType as state
+      navigate('/Home', { state: { userId: userData.userId, userType: userData.userType } });
     }
-  }, [isLoggedIn, navigate, userId]);
+  }, [isLoggedIn, navigate, userData]);
 
   return (
     <div>
