@@ -501,7 +501,7 @@ const RestaurantDetails = () => {
       // Check if the restaurant is already in favorites
       if (!favorites.find((fav) => fav.restaurantId === restaurant.restaurantId)) {
         // Make a POST request to add the restaurant to favorites
-        const response = await axios.post('http://localhost:8080/users/addToFavorites', {
+        const response = await axios.post('http://localhost:8080/favorites/createFavorite', {
           userId: location.state.userId,
           restaurantId: restaurant.restaurantId,
         });
@@ -509,6 +509,8 @@ const RestaurantDetails = () => {
         // Assuming your backend responds with a success message or status
         if (response.data.success) {
           setFavorites([...favorites, restaurant]);
+          console.log(location.state.userId);
+          console.log(restaurant.restaurantId);
           alert('Restaurant added to Favorites!');
         } else {
           alert('Failed to add restaurant to Favorites. Please try again.');
