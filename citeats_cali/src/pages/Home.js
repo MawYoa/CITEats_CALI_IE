@@ -100,20 +100,87 @@ const PopularNearYouContainer = styled.div`
   margin-top: 20px;
 `;
 
-const RestaurantCard = styled.div`
-  border: none;
+const RestaurantCardContainer = styled.div`
+text-decoration: none;
+color: inherit;
+border: 1px solid #ddd;
+padding: 15px;
+margin: 10px;
+width: 200px;
+border-radius: 8px;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+transition: transform 0.3s ease-in-out;
+
+&:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+link {
+  text-decoration: none;
+}
+
+img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px 8px 0 0;
+}
+
+div {
+  padding: 15px;
+}
+
+h4 {
+  color: #333;
+  font-size: 1.2rem;
+  margin: 10px 0;
+}
+
+p {
+  color: #777;
+  margin: 5px 0;
+}
+`;
+
+const RestaurantImage = styled.img`
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px 8px 0 0;
+`;
+
+const RestaurantInfo = styled.div`
   padding: 10px;
-  margin: 10px;
   text-align: center;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 0 0 8px 8px;
 `;
 
 const restaurantIdImages = {
   1: 'milkteahouse.jpg',
-  2: 'mcdo.jpg',
+  2: 'samueleatery.png',
   3: 'tataysisig.png',
   4: 'hazelbakery.jpg',
   5: 'jasonlounge.jfif',
 };
+
+const PopularNearYouCard = ({ restaurant }) => (
+  <RestaurantCardContainer>
+    <StyledLink to={`/RestaurantDetails/${restaurant.restaurantId}`}>
+      <RestaurantImage
+        src={process.env.PUBLIC_URL + '/' + (restaurantIdImages[restaurant.restaurantId])}
+        alt={restaurant.name}
+      />
+      <RestaurantInfo>
+        <h4 style={{ color: 'maroon', fontWeight: 'bold' }}>{restaurant.name}</h4>
+        <p style={{ color: 'gold' }}>{restaurant.rating}/5 ({restaurant.reviewsCount || 0}+)</p>
+        <p>₱₱₱, {restaurant.cuisineType}</p>
+      </RestaurantInfo>
+    </StyledLink>
+  </RestaurantCardContainer>
+);
 
 const PopularNearYou = ({ restaurants }) => {
   // Filter restaurants to include only those with restaurantId in the range 1-5
@@ -122,18 +189,7 @@ const PopularNearYou = ({ restaurants }) => {
   return (
     <PopularNearYouContainer>
       {filteredRestaurants.map((restaurant) => (
-        <RestaurantCard key={restaurant.restaurantId}>
-          <StyledLink to={`/RestaurantDetails/${restaurant.restaurantId}`}>
-            <img
-              src={process.env.PUBLIC_URL + '/' + (restaurantIdImages[restaurant.restaurantId])}
-              alt={restaurant.name}
-              style={{ width: '250px', height: '150px' }}
-            />
-            <h4 style={{ color: 'maroon', fontWeight: 'bold' }}>{restaurant.name}</h4>
-            <p style={{ color: 'gold' }}>{restaurant.rating}/5 ({restaurant.reviewsCount || 0}+)</p>
-            <p>₱₱₱, {restaurant.cuisineType}</p>
-          </StyledLink>
-        </RestaurantCard>
+        <PopularNearYouCard key={restaurant.restaurantId} restaurant={restaurant} />
       ))}
     </PopularNearYouContainer>
   );
