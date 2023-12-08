@@ -174,7 +174,7 @@ const ReviewCard = styled.div`
   padding: 10px;
   margin-bottom: 10px;
   width: 900px;
-  height: 150px;
+  height: 180px;
 `;
 
 const SeeAllReviewsButton = styled.button`
@@ -260,13 +260,14 @@ const Home = () => {
     const fetchLatestReviews = async () => {
       try {
         const response = await axios.get('http://localhost:8080/reviews/getAllReviews');
-        const sortedReviews = response.data.sort((a, b) => new Date(b.postedDate) - new Date(a.postedDate));
+        const sortedReviews = response.data.sort((a, b) => new Date(a.postedDate) - new Date(b.postedDate));
         const latestReviewsData = sortedReviews.slice(0, 3);
         setLatestReviews(latestReviewsData);
       } catch (error) {
         alert('Error fetching latest reviews:', error);
       }
     };
+    
 
     fetchCuisineCategories();
     fetchRestaurants();
@@ -399,7 +400,8 @@ const Home = () => {
 
           {latestReviews.map((review) => (
             <ReviewCard key={review.reviewId}>
-              <p style={{ color: 'maroon', fontWeight: 'bold' }}>{review.userId}</p>
+              <p style={{ color: 'maroon', fontWeight: 'bold' }}>UserId:{review.userId}</p>
+              <p style={{ color: 'maroon', fontWeight: 'bold' }}>RestaurantId:{review.restaurantId}</p>
               <p style={{ color: 'gold' }}>{review.rating}/5</p>
               <p>{formatDate(review.datePosted)}</p>
               <p>{review.comment}</p>
