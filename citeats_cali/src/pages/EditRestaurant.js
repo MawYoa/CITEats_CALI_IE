@@ -216,7 +216,7 @@ const AddMenuItemContainer = styled.div`
   const EditRestaurant = () => {
     const [restaurantData, setRestaurantData] = useState({});
     const [editMode, setEditMode] = useState(false);
-    const [name, setName] = useState('');
+    const [restaurantName, setrestaurantName] = useState('');
     const [address, setAddress] = useState('');
     const [website, setWebsite] = useState('');
     const [cuisineType, setCuisineType] = useState('');
@@ -240,7 +240,7 @@ const AddMenuItemContainer = styled.div`
           setRestaurantData(result.data);
   
           // Set the initial values, handling the case where they might be null or undefined
-          setName(result.data.name ?? '');
+          setrestaurantName(result.data.restaurantName ?? '');
           setAddress(result.data.address ?? '');
           setCuisineType(result.data.cuisineType ?? '');
           setPhoneNumber(result.data.phoneNumber ?? '');
@@ -255,8 +255,8 @@ const AddMenuItemContainer = styled.div`
       fetchData();
     }, []);
   
-    const handleNameChange = (e) => {
-      setName(e.target.value);
+    const handlerestaurantNameChange = (e) => {
+      setrestaurantName(e.target.value);
     };
   
     const handleWebsiteChange = (e) => {
@@ -288,7 +288,7 @@ const AddMenuItemContainer = styled.div`
         const response = await axios.put(`http://localhost:8080/restaurants/updateRestaurantsProfile/${restaurantId}`, {
           
           restaurantId: restaurantData.restaurantId,
-          name,
+          restaurantName,
           website,
           address,
           cuisineType,
@@ -474,12 +474,12 @@ const AddMenuItemContainer = styled.div`
           {editMode ? (
             <input
               type="text"
-              value={name}
-              placeholder={restaurantData.name}
-              onChange={handleNameChange}
+              value={restaurantName}
+              placeholder={restaurantData.restaurantName}
+              onChange={handlerestaurantNameChange}
             />
           ) : (
-            <UserProfileInfoValue>{restaurantData.name}</UserProfileInfoValue>
+            <UserProfileInfoValue>{restaurantData.restaurantName}</UserProfileInfoValue>
           )}
         </UserProfileInfoItem>
           <UserProfileInfoItem>
