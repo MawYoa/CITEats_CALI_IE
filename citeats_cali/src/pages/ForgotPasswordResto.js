@@ -81,34 +81,36 @@ const SignInLink = styled(Link)`
 `;
 
 
-const ForgotPassword = () => {
+const ForgotPasswordResto = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [changeSuccess, setChangeSuccess] = useState(false);
   const [changeError, setChangeError] = useState("");
-  const [userId, setUserId] = useState("");
-  const navigate = useNavigate('');
+  const [restaurantId, setRestaurantId] = useState(""); // Updated variable name
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       // Find user by email
-      const response = await axios.get(`http://localhost:8080/users/by-email/${email}`);
-      const user = response.data;
+      const response = await axios.get(`http://localhost:8080/restaurants/findByEmail/${email}`);
+      const restaurantuser = response.data;
 
-      if (!user) {
-        setChangeError("User not found with the provided email.");
+      console.log(restaurantuser);
+
+      if (!restaurantuser) {
+        setChangeError("Restaurant not found with the provided email.");
         setChangeSuccess(false);
         return;
       }
 
-      // Update userId state with the ID of the retrieved user
-      setUserId(userId);
+      // Update restaurantId state with the ID of the retrieved user
+      setRestaurantId(restaurantuser.restaurantId); // Use the correct property name
 
       // Update user password
-      const responseUpdate = await axios.put(`http://localhost:8080/users/updatePassword/${user.userId}`, {
+      const responseUpdate = await axios.put(`http://localhost:8080/restaurants/updatePassword/${restaurantuser.restaurantId}`, {
         newPassword: password,
       });
 
@@ -116,7 +118,7 @@ const ForgotPassword = () => {
       setChangeSuccess(true);
       setChangeError("");
 
-      alert(`User ${user.userId} successfully changed password!`);
+      alert(`User ${restaurantuser.restaurantId} successfully changed password!`);
       navigate("/");
 
     } catch (error) {
@@ -178,4 +180,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default ForgotPasswordResto;

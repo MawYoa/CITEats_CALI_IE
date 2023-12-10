@@ -21,6 +21,7 @@ import GetStarted from './pages/GetStarted';
 import RestaurantProfile from './pages/RestaurantProfile';
 import EditRestaurant from './pages/EditRestaurant';
 import RestaurantOwnerLogin from './pages/RestaurantOwnerLogin'
+import ForgotPasswordResto from './pages/ForgotPasswordResto';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -37,6 +38,7 @@ root.render(
         <Route exact path="/UserProfile/:userId" element={<UserProfile/>} />
         <Route path="/Signup" element={<Signup/>} />
         <Route path="/ForgotPassword" element={<ForgotPassword/>} />
+        <Route path="/ForgotPasswordResto" element={<ForgotPasswordResto/>} />
         <Route path="/RestaurantDetails/:restaurantId" element={<RestaurantDetails/>} />
         <Route path="/Reviews" element={<Reviews/>} />
         <Route path="/Menu" element={<Menu/>} />

@@ -92,7 +92,7 @@ const RestaurantOwnerLogin = () => {
           <br />
 
           <div className="forgot-password">
-            <Link to="/ForgotPassword">
+            <Link to="/ForgotPasswordResto">
               <button type="button" className="forgotpassword">
                 Forgot Password
               </button>
