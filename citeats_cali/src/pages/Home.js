@@ -292,10 +292,10 @@ const Home = () => {
                 }}style={{ textDecoration: "none" }}>
         <RestaurantImage
           src={process.env.PUBLIC_URL + '/' + (restaurantIdImages[restaurant.restaurantId])}
-          alt={restaurant.name}
+          alt={restaurant.restaurantName}
         />
         <RestaurantInfo>
-          <h4 style={{ color: 'maroon', fontWeight: 'bold' }}>{restaurant.name}</h4>
+          <h4 style={{ color: 'maroon', fontWeight: 'bold' }}>{restaurant.restaurantName}</h4>
           <p style={{ color: 'gold' }}>{restaurant.rating}/5 ({restaurant.reviewsCount || 0}+)</p>
           <p>₱₱₱, {restaurant.cuisineType}</p>
         </RestaurantInfo>
@@ -339,7 +339,7 @@ const Home = () => {
 
   return (
     <div>
-      <Header userId={location.state.userId} userType={location.state.userType} restaurantId={location.state.restaurantId}/>
+      <Header userId={location.state.userId} userType={location.state.userType} restaurantId={location.state.restaurantId} restaurantName={location.state.restaurantName}/>
 
       <HomeContainer>
         <HeroImage src="/heropic.jpg" alt="hero pic" />

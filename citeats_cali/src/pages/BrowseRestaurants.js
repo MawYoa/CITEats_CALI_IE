@@ -183,7 +183,7 @@ const BrowseRestaurants = () => {
       // Filter top-rated restaurants based on selected cuisines
       const filteredTopRatedRestaurants = topRatedRestaurants
         .filter((restaurant) =>
-          restaurant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          restaurant.restaurantName.toLowerCase().includes(searchTerm.toLowerCase()) ||
           restaurant.cuisineType.toLowerCase().includes(searchTerm.toLowerCase())
         )
         .filter((restaurant) =>
@@ -198,13 +198,14 @@ const BrowseRestaurants = () => {
             state={{
               userId:location.state.userId,
               restaurantId:restaurant.restaurantId,
-              userType:location.state.userType
+              userType:location.state.userType,
+              restaurantName:restaurant.restaurantName
               }}style={{ textDecoration: "none" }}>
             <img
               src={process.env.PUBLIC_URL + "/" + imageMapping[restaurant.restaurantId]}
               alt={`Restaurant ${index + 1}`}
             />
-            <h4>{restaurant.name}</h4>
+            <h4>{restaurant.restaurantName}</h4>
             <p style={{ fontSize: "14px" }}>{parseFloat(restaurant.rating).toFixed(1)}/5.0</p>
             <p style={{ fontSize: "14px" }}>{restaurant.cuisineType}</p>
             <p style={{ fontSize: "10px" }}>{restaurant.restaurantOpeningHours}</p>
@@ -223,7 +224,7 @@ const BrowseRestaurants = () => {
       const restaurants = response.data
         .filter(
           (restaurant) =>
-            restaurant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            restaurant.restaurantName.toLowerCase().includes(searchTerm.toLowerCase()) ||
             restaurant.cuisineType.toLowerCase().includes(searchTerm.toLowerCase())
         )
         .filter((restaurant) =>
@@ -237,14 +238,15 @@ const BrowseRestaurants = () => {
           <Link to={`/RestaurantDetails/${restaurant.restaurantId}`} state={{
               userId:location.state.userId,
               restaurantId:restaurant.restaurantId,
-              userType:location.state.userType
+              userType:location.state.userType,
+              restaurantName:restaurant.restaurantName
               }}
               style={{ textDecoration: "none" }}>
             <img
               src={process.env.PUBLIC_URL + "/" + imageMapping[restaurant.restaurantId]}
               alt={`Restaurant ${index + 1}`}
             />
-            <h4>{restaurant.name}</h4>
+            <h4>{restaurant.restaurantName}</h4>
             <p style={{ fontSize: "14px" }}>{parseFloat(restaurant.rating).toFixed(1)}/5.0</p>
             <p style={{ fontSize: "14px" }}>{restaurant.cuisineType}</p>
             <p style={{ fontSize: "10px" }}>{restaurant.restaurantOpeningHours}</p>
@@ -259,7 +261,7 @@ const BrowseRestaurants = () => {
 
   return (
     <div>
-      <Header userId={location.state.userId} userType={location.state.userType} restaurantId={location.state.restaurantId}/>
+      <Header userId={location.state.userId} userType={location.state.userType} restaurantId={location.state.restaurantId} restaurantName={location.state.restaurantName}/>
       <div style={{ display: "flex", fontFamily: "Kumbh Sans" }}>
         <RestaurantSection style={{ width: "20%" }}>
           <FilterSection>

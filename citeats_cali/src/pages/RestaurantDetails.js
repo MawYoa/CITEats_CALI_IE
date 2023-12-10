@@ -543,7 +543,7 @@ const RestaurantDetails = () => {
           // Save the selected restaurant details for later use
           setSelectedRestaurant({
             restaurantId: restaurant.restaurantId,
-            restaurantName: restaurantDetails.name,
+            restaurantName: restaurantDetails.restaurantName,
             // Other details you may want to include
           });
   
@@ -551,13 +551,14 @@ const RestaurantDetails = () => {
           const addToFavoritesResponse = await axios.post('http://localhost:8080/favorites/createFavorite', {
             userId: location.state.userId,
             restaurantId: restaurant.restaurantId,
-            restaurantName: restaurantDetails.name,
+            restaurantName: restaurantDetails.restaurantName,
           });
   
           if (addToFavoritesResponse.data.success) {
             setFavorites([...favorites, restaurant]);
             console.log(location.state.userId);
             console.log(restaurant.restaurantId);
+
             alert('Restaurant added to Favorites!');
           } else {
             alert('Failed to add restaurant to Favorites. Please try again.');
@@ -578,7 +579,7 @@ const RestaurantDetails = () => {
 
   return (
     <div style={{ fontFamily: "Kumbh Sans" }}>
-      <Header userId={location.state.userId} userType={location.state.userType} restaurantId={location.state.restaurantId}/>
+      <Header userId={location.state.userId} userType={location.state.userType} restaurantId={location.state.restaurantId} restaurantName={location.state.restaurantName} />
       <br />
       <RestaurantDetailsContainer>
         {[restaurant].map((restaurant, index) => (
@@ -590,7 +591,7 @@ const RestaurantDetails = () => {
           />
         ))}
 
-        <RestaurantDetailsName>{restaurant.name}</RestaurantDetailsName>
+        <RestaurantDetailsName>{restaurant.restaurantName}</RestaurantDetailsName>
         <>
           <Star>★</Star> {restaurant.rating}
           <span style={{ color: 'grey' }}>({ratingDetails[0]?.numberOfRatings })</span></>

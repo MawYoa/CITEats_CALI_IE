@@ -49,7 +49,7 @@ const location = useLocation('');
 
   return (
     <div>
-      <Header restaurantId={location.state.restaurantId}/>
+      <Header restaurantId={location.state.restaurantId} restaurantName={location.state.restaurantName}/>
       <br></br>
       <MenuContainer>
         <MenuHeader>

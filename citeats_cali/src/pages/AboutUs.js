@@ -40,7 +40,7 @@ const AboutUs = () => {
 
     return (
     <div> 
-      <Header userId={location.state.userId} userType={location.state.userType} restaurantId={location.state.restaurantId}/>
+      <Header userId={location.state.userId} userType={location.state.userType} restaurantId={location.state.restaurantId} restaurantName={location.state.restaurantName}/>
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' ,fontFamily: 'Kumbh Sans'}}>
       
       <WidePicture imageSrc="about.jpg" />

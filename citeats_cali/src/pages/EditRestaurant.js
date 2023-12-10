@@ -450,7 +450,7 @@ const AddMenuItemContainer = styled.div`
 
   return (
     <div>
-      <Header restaurantId={location.state.restaurantId}/>
+      <Header restaurantId={location.state.restaurantId} restaurantName={location.state.restaurantName}/>
       <UserProfileContainer>
         <UserProfileHeader>
           <UserProfileImage src="user.png" alt="User Profile Image" />

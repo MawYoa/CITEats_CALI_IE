@@ -362,9 +362,9 @@ const UserProfile = () => {
     try {
       // Assuming you have an API endpoint to delete a review
       await axios.delete(`http://localhost:8080/reviews/deleteReview/${reviewId}`);
-
-      // Update the reviews state after deletion
-      setReviews((prevReviews) => prevReviews.filter((item) => item.reviewId !== reviewId));
+  
+      // Update the userReviews state after deletion
+      setUserReviews((prevReviews) => prevReviews.filter((item) => item.reviewId !== reviewId));
     } catch (error) {
       console.error(error);
     }
