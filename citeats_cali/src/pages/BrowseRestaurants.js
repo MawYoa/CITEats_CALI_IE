@@ -11,7 +11,7 @@ const RestaurantCard = styled(Link)`
   border: 1px solid #ddd;
   padding: 15px;
   margin: 10px;
-  width: 300px;
+  width: 400px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease-in-out;
@@ -63,7 +63,7 @@ const CardRow = styled.div`
 
   /* Adjust the width based on the number of cards you want in each row */
   & > * {
-    width: calc(20% - 20px); /* Adjust the width as needed */
+    width: calc(23% - 20px); /* Adjust the width as needed */
     flex: 0 0 auto;
     margin-right: 10px;
   }
