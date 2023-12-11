@@ -63,7 +63,7 @@ const CardRow = styled.div`
 
   /* Adjust the width based on the number of cards you want in each row */
   & > * {
-    width: calc(23% - 20px); /* Adjust the width as needed */
+    width: calc(20% - 20px); /* Adjust the width as needed */
     flex: 0 0 auto;
     margin-right: 10px;
   }

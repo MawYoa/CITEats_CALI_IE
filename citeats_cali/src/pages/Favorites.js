@@ -14,9 +14,9 @@ const FavoriteContainer = styled.div`
   text-align: center;
   margin-top: 50px;
   font-family: Kumbh Sans;
-  width: 500px;
-  margin-left:440px;
-  margin-right:440px;
+  width: 400px;
+  margin-left:490px;
+  margin-right:490px;
 `;
 
 const FindFav = styled.button`
@@ -97,7 +97,7 @@ const Favorites = () => {
     <div>
       <Header userId={location.state.userId} userType={location.state.userType} restaurantId={location.state.restaurantId}/>
       <FavoriteContainer>
-        <h1 style={{color:'gold', textAlign:'left', padding:'0 170px',width:'200px'}}>My Favorites</h1>
+        <h1 style={{color:'gold', textAlign:'left', padding:'0 110px',width:'200px'}}>My Favorites</h1>
      <br/>
         {favoritesList.length === 0 ? (
           <>

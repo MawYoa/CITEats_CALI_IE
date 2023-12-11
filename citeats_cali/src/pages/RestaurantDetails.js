@@ -440,7 +440,7 @@ const RestaurantDetails = () => {
 
     try {
       // TODO: CHANGE THIS INTO VARIABLES NA MAKUHA GIKAN SA LAST PAGE USING <LINK> PARAMETER PASSING
-      // Replace with your actual userId // Replace with your actual restaurantId
+       // Replace with your actual userId // Replace with your actual restaurantId
   
       // Get the current date in ISO format
       const currentDate = new Date().toISOString();
@@ -533,37 +533,32 @@ const RestaurantDetails = () => {
   const addToFavorites = async () => {
     try {
       // Check if the restaurant is already in favorites
-
-      // DAPAT GET ALL FAVORITES BY USER ID MO THEN... inig human store sa setFavorites. Then after. Diha na i-add...
-      // KAY MAHIMO MAN GUD NA MAGBALIKBALIK SIYA UG ADD KADA INSTANTIATE SA PAGE KAY MU RESET MAN ANG VARIABLE NA FAVORITES
-      // SO MAG BALIK2 GYUD SIYA AND MU ERROR SIYA INIG ABOT SA VIEW FAVORITES KAY MAG BALIK2
       if (!favorites.find((fav) => fav.restaurantId === restaurant.restaurantId)) {
-        
         // Fetch restaurant details including the name
         const restaurantDetailsResponse = await axios.get(`http://localhost:8080/restaurants/${restaurant.restaurantId}`);
-
-        if (restaurantDetailsResponse.status===200) {
-          const restaurantDetails = restaurantDetailsResponse.data;
+  
+        if (restaurantDetailsResponse.data.success) {
+          const restaurantDetails = restaurantDetailsResponse.data.restaurant;
           
           // Save the selected restaurant details for later use
           setSelectedRestaurant({
             restaurantId: restaurant.restaurantId,
-            restaurantName: restaurantDetails.name,
+            restaurantName: restaurantDetails.restaurantName,
             // Other details you may want to include
           });
-
+  
           // Make a POST request to add the restaurant to favorites
           const addToFavoritesResponse = await axios.post('http://localhost:8080/favorites/createFavorite', {
             userId: location.state.userId,
-            restaurantId: restaurant.restaurantId, 
-            name: restaurantDetails.name,
+            restaurantId: restaurant.restaurantId,
+            restaurantName: restaurantDetails.restaurantName,
           });
-
-          console.log("add to favorites status "+addToFavoritesResponse.status)
-          if (addToFavoritesResponse) {
+  
+          if (addToFavoritesResponse.data.success) {
             setFavorites([...favorites, restaurant]);
             console.log(location.state.userId);
             console.log(restaurant.restaurantId);
+
             alert('Restaurant added to Favorites!');
           } else {
             alert('Failed to add restaurant to Favorites. Please try again.');
@@ -579,8 +574,6 @@ const RestaurantDetails = () => {
       alert('An error occurred. Please try again.');
     }
   };
-  
-
   
   
 
