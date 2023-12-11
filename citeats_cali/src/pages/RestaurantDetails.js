@@ -440,7 +440,7 @@ const RestaurantDetails = () => {
 
     try {
       // TODO: CHANGE THIS INTO VARIABLES NA MAKUHA GIKAN SA LAST PAGE USING <LINK> PARAMETER PASSING
-       // Replace with your actual userId // Replace with your actual restaurantId
+      // Replace with your actual userId // Replace with your actual restaurantId
   
       // Get the current date in ISO format
       const currentDate = new Date().toISOString();
@@ -532,42 +532,6 @@ const RestaurantDetails = () => {
 
   const addToFavorites = async () => {
     try {
-      // Check if the restaurant is already in favorites
-      if (!favorites.find((fav) => fav.restaurantId === restaurant.restaurantId)) {
-        // Fetch restaurant details including the name
-        const restaurantDetailsResponse = await axios.get(`http://localhost:8080/restaurants/${restaurant.restaurantId}`);
-  
-        if (restaurantDetailsResponse.data.success) {
-          const restaurantDetails = restaurantDetailsResponse.data.restaurant;
-          
-          // Save the selected restaurant details for later use
-          setSelectedRestaurant({
-            restaurantId: restaurant.restaurantId,
-            restaurantName: restaurantDetails.restaurantName,
-            // Other details you may want to include
-          });
-  
-          // Make a POST request to add the restaurant to favorites
-          const addToFavoritesResponse = await axios.post('http://localhost:8080/favorites/createFavorite', {
-            userId: location.state.userId,
-            restaurantId: restaurant.restaurantId,
-            restaurantName: restaurantDetails.restaurantName,
-          });
-  
-          if (addToFavoritesResponse.data.success) {
-            setFavorites([...favorites, restaurant]);
-            console.log(location.state.userId);
-            console.log(restaurant.restaurantId);
-
-            alert('Restaurant added to Favorites!');
-          } else {
-            alert('Failed to add restaurant to Favorites. Please try again.');
-          }
-        } else {
-          alert('Failed to fetch restaurant details. Please try again.');
-        }
-      } else {
-        alert('Restaurant is already in Favorites!');
       // Fetch user's existing favorites
       const favoritesResponse = await axios.get(`http://localhost:8080/favorites/${location.state.userId}`);
       console.log('Favorites Response:', favoritesResponse);
