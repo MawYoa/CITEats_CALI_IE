@@ -204,16 +204,7 @@ const Home = () => {
   const [latestReviews, setLatestReviews] = useState([]);
   const location = useLocation();
   const userId = location.state && location.state.userId;
-  const userType = location.state && location.state.userType;
   
-
-  useEffect(() => {
-    // Log userType from the location state
-    console.log('UserType:', location.state && location.state.userType);
-
-    // ... rest of the useEffect logic
-  }, [location.state]);
-
   useEffect(() => {
 
     
@@ -288,7 +279,6 @@ const Home = () => {
               state={{
                 userId:location.state.userId,
                 restaurantId:restaurant.restaurantId,
-                userType:location.state.userType
                 }}style={{ textDecoration: "none" }}>
         <RestaurantImage
           src={process.env.PUBLIC_URL + '/' + (restaurantIdImages[restaurant.restaurantId])}
@@ -339,7 +329,7 @@ const Home = () => {
 
   return (
     <div>
-      <Header userId={location.state.userId} userType={location.state.userType} restaurantId={location.state.restaurantId} restaurantName={location.state.restaurantName}/>
+      <Header userId={location.state.userId} restaurantId={location.state.restaurantId} restaurantName={location.state.restaurantName}/>
 
       <HomeContainer>
         <HeroImage src="/heropic.jpg" alt="hero pic" />
@@ -347,7 +337,7 @@ const Home = () => {
         <br></br>
         <br></br>
         <BrowseButton >
-          <StyledLink to="/BrowseRestaurants" state={{ userId:userId, userType:userType  }}>BROWSE NOW </StyledLink>
+          <StyledLink to="/BrowseRestaurants" state={{ userId:userId }}>BROWSE NOW </StyledLink>
         </BrowseButton>
         <br></br>
         <br></br>

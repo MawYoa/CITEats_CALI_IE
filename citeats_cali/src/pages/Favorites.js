@@ -72,8 +72,8 @@ const imageMapping = {
   20: "mongol.jpg",
 };
 
-const Favorites = () => {
-  const [userId, setUserId] = useState(1);
+const Favorites = ({restaurantId, restaurantName}) => {
+  const [userId, setUserId] = useState('');
   const [favoritesList, setFavoritesList] = useState([]);
   const location = useLocation();
   const [restaurants, setRestaurants] = useState([]);
@@ -81,7 +81,11 @@ const Favorites = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const favoritesResponse = await axios.get(`http://localhost:8080/favorites/${userId}`);
+        // Check if location is available before accessing location.state.userId
+        const userIdFromLocation = location.state?.userId || '';
+        setUserId(userIdFromLocation);
+
+        const favoritesResponse = await axios.get(`http://localhost:8080/favorites/${userIdFromLocation}`);
         setFavoritesList(favoritesResponse.data);
 
         const restaurantsResponse = await axios.get(`http://localhost:8080/restaurants/getAllRestaurants`);
@@ -92,10 +96,10 @@ const Favorites = () => {
     };
 
     fetchData();
-  }, [userId]);
+  }, [location]);
   return (
     <div>
-      <Header userId={location.state.userId} userType={location.state.userType} restaurantId={location.state.restaurantId}/>
+      <Header userId={location.state.userId} restaurantId={location.state.restaurantId} restaurantName={location.state.restaurantName}/>
       <FavoriteContainer>
         <h1 style={{color:'gold', textAlign:'left', padding:'0 110px',width:'200px'}}>My Favorites</h1>
      <br/>
@@ -103,13 +107,17 @@ const Favorites = () => {
           <>
             <h2>No Favorites Saved</h2>
             <p>You will see all your favorites here</p>
-            <FindFav><StyledLink to="/BrowseRestaurants">Let's find some favorites</StyledLink></FindFav>
+            <FindFav><StyledLink to='/BrowseRestaurants' state={{ userId:userId }}>Let's find some favorites</StyledLink></FindFav>
           </>
         ) : (
         <div>
             {favoritesList.map((favorite, index) => (
               <RestaurantCard key={favorite.id}>
-                <StyledLink to={`/RestaurantDetails/${favorite.restaurantId}`}>
+                <StyledLink to={`/RestaurantDetails/${favorite.restaurantId}`}
+                 state={{
+                  userId: location.state.userId,
+                  restaurantId: favorite.restaurantId,
+                  }}>
                   <RestaurantImage
                     src={process.env.PUBLIC_URL + "/" + imageMapping[favorite.restaurantId]}
                     alt={`Restaurant ${index + 1}`}
@@ -121,9 +129,8 @@ const Favorites = () => {
    
             ))}
             
-            <FindFav><StyledLink to="/BrowseRestaurants">Let's find some favorites</StyledLink></FindFav>
-          </div>
-          
+            <FindFav><StyledLink to={`/BrowseRestaurants`} state={{ userId:userId, restaurantId:restaurantId, restaurantName:restaurantName  }}>Let's find some favorites</StyledLink></FindFav>
+          </div>      
         )}
       </FavoriteContainer>
     </div>

@@ -24,12 +24,11 @@ const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [userType, setUserType] = useState('Student');
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!userName || !email || !password || !confirmPassword || !userType) {
+    if (!userName || !email || !password || !confirmPassword) {
       alert('Please fill in all fields.');
       return;
     }
@@ -64,7 +63,6 @@ const SignUp = () => {
         username: userName,
         password,
         email,
-        userType,
       });
       console.log('Registration successful:', response.data);
       // Redirect or show a success message as needed

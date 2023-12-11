@@ -198,7 +198,6 @@ const BrowseRestaurants = () => {
             state={{
               userId:location.state.userId,
               restaurantId:restaurant.restaurantId,
-              userType:location.state.userType,
               restaurantName:restaurant.restaurantName
               }}style={{ textDecoration: "none" }}>
             <img
@@ -238,7 +237,6 @@ const BrowseRestaurants = () => {
           <Link to={`/RestaurantDetails/${restaurant.restaurantId}`} state={{
               userId:location.state.userId,
               restaurantId:restaurant.restaurantId,
-              userType:location.state.userType,
               restaurantName:restaurant.restaurantName
               }}
               style={{ textDecoration: "none" }}>
@@ -261,7 +259,7 @@ const BrowseRestaurants = () => {
 
   return (
     <div>
-      <Header userId={location.state.userId} userType={location.state.userType} restaurantId={location.state.restaurantId} restaurantName={location.state.restaurantName}/>
+      <Header userId={location.state.userId} restaurantId={location.state.restaurantId} restaurantName={location.state.restaurantName}/>
       <div style={{ display: "flex", fontFamily: "Kumbh Sans" }}>
         <RestaurantSection style={{ width: "20%" }}>
           <FilterSection>

@@ -568,6 +568,53 @@ const RestaurantDetails = () => {
         }
       } else {
         alert('Restaurant is already in Favorites!');
+      // Fetch user's existing favorites
+      const favoritesResponse = await axios.get(`http://localhost:8080/favorites/${location.state.userId}`);
+      console.log('Favorites Response:', favoritesResponse);
+  
+      if (favoritesResponse.status === 200) {
+        const userFavorites = favoritesResponse.data;
+  
+        // Check if the restaurant is already in favorites
+        if (!userFavorites.find((fav) => fav.restaurantId === restaurant.restaurantId)) {
+  
+          // Fetch restaurant details including the name
+          const restaurantDetailsResponse = await axios.get(`http://localhost:8080/restaurants/${restaurant.restaurantId}`);
+          console.log('Restaurant Details Response:', restaurantDetailsResponse);
+  
+          if (restaurantDetailsResponse.status === 200) {
+            const restaurantDetails = restaurantDetailsResponse.data;
+  
+            // Save the selected restaurant details for later use
+            setSelectedRestaurant({
+              restaurantId: restaurant.restaurantId,
+              restaurantName: restaurantDetails.restaurantName,
+              // Other details you may want to include
+            });
+  
+            // Make a POST request to add the restaurant to favorites
+            const addToFavoritesResponse = await axios.post(`http://localhost:8080/favorites/createFavorite`, {
+              userId: location.state.userId,
+              restaurantId: restaurant.restaurantId,
+              name: restaurantDetails.restaurantName,
+            });
+            console.log('Add to Favorites Response:', addToFavoritesResponse);
+  
+            if (addToFavoritesResponse.status >= 200) {
+              setFavorites([...userFavorites, restaurant]);
+
+              alert('Restaurant added to Favorites!');
+            } else {
+              alert('Failed to add restaurant to Favorites. Please try again.');
+            }
+          } else {
+            alert('Failed to fetch restaurant details. Please try again.');
+          }
+        } else {
+          alert('Restaurant is already in Favorites!');
+        }
+      } else {
+        alert('Failed to fetch user favorites. Please try again.');
       }
     } catch (error) {
       console.error('Error adding restaurant to Favorites:', error);
@@ -577,9 +624,12 @@ const RestaurantDetails = () => {
   
   
 
+  
+  
+
   return (
     <div style={{ fontFamily: "Kumbh Sans" }}>
-      <Header userId={location.state.userId} userType={location.state.userType} restaurantId={location.state.restaurantId} restaurantName={location.state.restaurantName} />
+      <Header userId={location.state.userId} restaurantId={location.state.restaurantId} restaurantName={location.state.restaurantName} />
       <br />
       <RestaurantDetailsContainer>
         {[restaurant].map((restaurant, index) => (
