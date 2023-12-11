@@ -229,6 +229,7 @@ const AddMenuItemContainer = styled.div`
     const [editedName, setEditedName] = useState('');
     const [editedDescription, setEditedDescription] = useState('');
     const [editedPrice, setEditedPrice] = useState('');
+    const [editingMenuItem, setEditingMenuItem] = useState(null);
     const location = useLocation('');
    
 
@@ -456,10 +457,24 @@ const AddMenuItemContainer = styled.div`
         }
       } catch (error) {
         console.error(error);
+        handleCancelUpdate();
+      }
+    };
+
+    const handleCancelUpdate = () => {
+      // Display a confirmation dialog
+      const isConfirmed = window.confirm('Are you sure you want to cancel the update? Any unsaved changes will be lost.');
+    
+      if (isConfirmed) {
+        // User confirmed, reset the editing state
+        setEditingMenuItem(null);
+        setEditableMenuItemId(null);
+        setEditedName('');
+        setEditedDescription('');
+        setEditedPrice('');
       }
     };
     
-
 
   return (
     <div> 
@@ -638,20 +653,33 @@ const AddMenuItemContainer = styled.div`
                                 />
                               </div>
                               <button
-                                style={{
-                                  backgroundColor: 'green',
-                                  color: 'white',
-                                  padding: '8px 15px',
-                                  borderRadius: '5px',
-                                  cursor: 'pointer',
-                                  marginTop: '10px',
-                                }}
-                                onClick={handleSaveMenuItemUpdate}
-                              >
-                                Save
-                              </button>
-                            </div>
-                          ) : (
+                                  style={{
+                                    backgroundColor: 'green',
+                                    color: 'white',
+                                    padding: '8px 15px',
+                                    borderRadius: '5px',
+                                    cursor: 'pointer',
+                                    marginTop: '10px',
+                                  }}
+                                  onClick={handleSaveMenuItemUpdate}
+                                >
+                                  Save
+                                </button>
+                                <button
+                                  style={{
+                                    backgroundColor: 'red',
+                                    color: 'white',
+                                    padding: '8px 15px',
+                                    borderRadius: '5px',
+                                    cursor: 'pointer',
+                                    marginLeft: '5px',
+                                  }}
+                                  onClick={handleCancelUpdate}
+                                >
+                                  Cancel
+                                </button>
+                              </div>
+                              ) : (
                             <div>
                               <p><b>Menu Item Id:</b> {menuItem.menuItemId}</p>
                               <p><b>Item Name: </b>{menuItem.name}</p>

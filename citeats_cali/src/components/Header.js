@@ -51,11 +51,47 @@ const CITEatsLogo = styled.img`
   margin-left: 100px;
 `;
 
+const LogoutButton = styled.button`
+  margin-right: 20px;
+  text-decoration: none;
+  color: #000;
+  font-weight: bold;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: Kumbh Sans;
+  font-size: 17px;
+
+  &:hover,
+  &:focus {
+    color: #e21b70;
+  }
+`;
+
 const Header = ({userType, userId, restaurantId, restaurantName}) => {
 
   const navigate = useNavigate();
   const location = useLocation();
+  const [localUserId, setLocalUserId] = useState(null);
+  const [localUserType, setLocalUserType] = useState(null);
+  const [localRestaurantId, setLocalRestaurantId] = useState(null);
+
     
+  const handleLogout = () => {
+    // Display a confirmation dialog
+    const confirmLogout = window.confirm("Are you sure you want to log out?");
+  
+    if (confirmLogout) {
+      
+      setLocalUserId(null);
+      setLocalUserType(null);
+      setLocalRestaurantId(null);
+  
+      // After logout, you can redirect to the home page or login page
+      navigate("/");
+    }
+  };
+  
 
   return (
     
@@ -72,11 +108,21 @@ const Header = ({userType, userId, restaurantId, restaurantName}) => {
         {userId  && (
           <NavLink to={`/UserProfile/${userId}`} state={{ userId: userId, userType: userType }}>Profile</NavLink>
         )}
-
+        {userId  && (
+          <LogoutButton onClick={handleLogout}>Logout</LogoutButton>
+        )}
         {!location.state?.userId && restaurantName && restaurantId && (
           <NavLink to={`/EditRestaurant/${restaurantId}`} state={{ restaurantId, restaurantName }}>
             Restaurant
           </NavLink>
+        )}
+        {!location.state?.userId && restaurantName && restaurantId && (
+          <NavLink to={`/EditRestaurant/${restaurantId}`} state={{ restaurantId, restaurantName }}>
+            Restaurant
+          </NavLink>
+        )}
+       {!location.state?.userId && restaurantName && restaurantId && (
+          <LogoutButton onClick={handleLogout}>Logout</LogoutButton>
         )}
       </Navigation>
     </HeaderContainer>
