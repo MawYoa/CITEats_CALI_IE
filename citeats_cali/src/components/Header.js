@@ -116,11 +116,6 @@ const Header = ({userType, userId, restaurantId, restaurantName}) => {
             Restaurant
           </NavLink>
         )}
-        {!location.state?.userId && restaurantName && restaurantId && (
-          <NavLink to={`/EditRestaurant/${restaurantId}`} state={{ restaurantId, restaurantName }}>
-            Restaurant
-          </NavLink>
-        )}
        {!location.state?.userId && restaurantName && restaurantId && (
           <LogoutButton onClick={handleLogout}>Logout</LogoutButton>
         )}
