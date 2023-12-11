@@ -68,7 +68,7 @@ const LogoutButton = styled.button`
   }
 `;
 
-const Header = ({userType, userId, restaurantId, restaurantName}) => {
+const Header = ({ userId, restaurantId, restaurantName}) => {
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -101,12 +101,13 @@ const Header = ({userType, userId, restaurantId, restaurantName}) => {
         <CITEatsLogo src="/citeats_logo.png" alt="CITEats Logo" />
       </div>
       <Navigation>
-        <NavLink to={`/Home`} state={{ userId:userId, userType:userType, restaurantId:restaurantId, restaurantName:restaurantName }}> Home </NavLink>
-        <NavLink to={`/BrowseRestaurants`} state={{ userId:userId, userType:userType, restaurantId:restaurantId, restaurantName:restaurantName  }}>Browse Restaurants</NavLink>
-        <NavLink to={`/Favorites`} state={{ userId:userId, userType:userType, restaurantId:restaurantId, restaurantName:restaurantName  }}>Favorites</NavLink>
-        <NavLink to={`/AboutUs`} state={{ userId:userId, userType:userType, restaurantId:restaurantId, restaurantName:restaurantName  }}>About Us</NavLink>
+        <NavLink to={`/Home`} state={{ userId:userId, restaurantId:restaurantId, restaurantName:restaurantName }}> Home </NavLink>
+        <NavLink to={`/BrowseRestaurants`} state={{ userId:userId, restaurantId:restaurantId, restaurantName:restaurantName  }}>Browse Restaurants</NavLink>
+        <NavLink to={`/Favorites`} state={{ userId:userId, restaurantId:restaurantId, restaurantName:restaurantName  }}>Favorites</NavLink>
+        <NavLink to={`/AboutUs`} state={{ userId:userId, restaurantId:restaurantId, restaurantName:restaurantName  }}>About Us</NavLink>
+        
         {userId  && (
-          <NavLink to={`/UserProfile/${userId}`} state={{ userId: userId, userType: userType }}>Profile</NavLink>
+          <NavLink to={`/UserProfile/${userId}`} state={{ userId: userId }}>Profile</NavLink>
         )}
         {userId  && (
           <LogoutButton onClick={handleLogout}>Logout</LogoutButton>

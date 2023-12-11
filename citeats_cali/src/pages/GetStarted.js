@@ -14,14 +14,6 @@ const StyledLink = styled(Link)`
   color: inherit; /* Inherit the color from the parent */
 `;
 
-const navigate = useNavigate();
-const [userType, setUserType] = useState('');
-
-  // Move useNavigate inside the component
-
-    console.log('User logged in as:', userType);
-
-
   return (
     <>
       <div style={{backgroundColor:'#e9e9e9'}}>

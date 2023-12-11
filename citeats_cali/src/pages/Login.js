@@ -34,7 +34,7 @@ const Login = () => {
         setIsLoggedIn(true);
         setUserData(user); // Set user data in state
   
-        alert(`User ${user.userId} logged in with userType: ${user.userType}`);
+        alert(`User ${user.userId} logged in`);
   
         // You can store user data in state or any other necessary logic
       } else {
@@ -51,8 +51,8 @@ const Login = () => {
   useEffect(() => {
     // Check if login is successful
     if (isLoggedIn) {
-      // Redirect to "/Home" with user's ID and userType as state
-      navigate('/Home', { state: { userId: userData.userId, userType: userData.userType } });
+      
+      navigate('/Home', { state: { userId: userData.userId } });
     }
   }, [isLoggedIn, navigate, userData]);
 

@@ -47,7 +47,7 @@ const RestaurantOwnerLogin = () => {
     // Check if login is successful
     if (isLoggedIn) {
       // Redirect to "/Home" with user's ID and userType as state
-      navigate('/Home', { state: { restaurantId: userData.restaurantId, userType: 'RestaurantOwner', restaurantName: userData.restaurantName} });
+      navigate('/Home', { state: { restaurantId: userData.restaurantId, restaurantName: userData.restaurantName} });
     }
   }, [isLoggedIn, navigate, userData]);
 
