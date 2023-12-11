@@ -296,20 +296,26 @@ const UserProfile = () => {
   };
 
   const handleCancelUpdate = () => {
-    // Reset the state values to their original values
-    setEditedRating(editableReview.rating);
-    setEditedComment(editableReview.comment);
-
-    // Close the edit mode
-    setEditableReview({
-      reviewId: '',
-      userId: '',
-      rating: 0,
-      comment: '',
-      datePosted: '',
-      restaurantId: '',
-    });
+    // Display a confirmation dialog
+    const confirmCancel = window.confirm("Are you sure you want to cancel the update? Any unsaved changes will be lost.");
+  
+    if (confirmCancel) {
+      // If the user confirms, reset the state values to their original values
+      setEditedRating(editableReview.rating);
+      setEditedComment(editableReview.comment);
+  
+      // Close the edit mode
+      setEditableReview({
+        reviewId: '',
+        userId: '',
+        rating: 0,
+        comment: '',
+        datePosted: '',
+        restaurantId: '',
+      });
+    }
   };
+  
 
 
   const handleSaveReviewUpdate = async () => {
@@ -357,18 +363,23 @@ const UserProfile = () => {
   };
   
   
-
   const handleDeleteReview = async (reviewId) => {
     try {
-      // Assuming you have an API endpoint to delete a review
-      await axios.delete(`http://localhost:8080/reviews/deleteReview/${reviewId}`);
+      // Display a confirmation dialog
+      const confirmDelete = window.confirm("Are you sure you want to delete this review?");
   
-      // Update the userReviews state after deletion
-      setUserReviews((prevReviews) => prevReviews.filter((item) => item.reviewId !== reviewId));
+      if (confirmDelete) {
+        // If the user confirms, proceed with deletion
+        await axios.put(`http://localhost:8080/reviews/softDeleteReview/${reviewId}`);
+  
+        // Update the userReviews state after soft deletion
+        setUserReviews((prevReviews) => prevReviews.filter((item) => item.reviewId !== reviewId));
+      }
     } catch (error) {
       console.error(error);
     }
   };
+  
   
   return (
     <div>

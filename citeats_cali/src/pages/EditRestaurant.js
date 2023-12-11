@@ -305,12 +305,6 @@ const AddMenuItemContainer = styled.div`
       }
     };
   
-    const handleFileUpload = (e, section) => {
-      const file = e.target.files[0];
-      console.log(`File uploaded for ${section}:`, file);
-      // Perform actions with the file, such as updating state or sending it to the server
-    };
-
     console.log(reviews);
 
     useEffect(() => {
@@ -370,35 +364,40 @@ const AddMenuItemContainer = styled.div`
         return;
       }
     
-      try {
-        // Assuming you have an API endpoint to add a new menu item
-        const response = await axios.post('http://localhost:8080/menuitems/createMenuItem', {
-          // Pass the new menu item data to the backend
-          name: newMenuItem.name,
-          description: newMenuItem.description,
-          price: newMenuItem.price,
-          restaurantId, // You may need to add the restaurant ID as well
-        });
+      // Display a confirmation dialog
+      const confirmAdd = window.confirm("Are you sure you want to add this menu item?");
     
-        // Assuming your backend returns the newly added menu item
-        const addedMenuItem = response.data;
+      if (confirmAdd) {
+        try {
+          // Assuming you have an API endpoint to add a new menu item
+          const response = await axios.post('http://localhost:8080/menuitems/createMenuItem', {
+            // Pass the new menu item data to the backend
+            name: newMenuItem.name,
+            description: newMenuItem.description,
+            price: newMenuItem.price,
+            restaurantId, // You may need to add the restaurant ID as well
+          });
     
-        // Update the menu items state
-        setMenuItems([...menuItems, addedMenuItem]);
+          // Assuming your backend returns the newly added menu item
+          const addedMenuItem = response.data;
     
-        // Clear the form fields
-        setNewMenuItem({
-          name: '',
-          description: '',
-          price: 0,
-        });
-
-        alert('Menu item created successfully!')
-      } catch (error) {
-        console.error(error);
+          // Update the menu items state
+          setMenuItems([...menuItems, addedMenuItem]);
+    
+          // Clear the form fields
+          setNewMenuItem({
+            name: '',
+            description: '',
+            price: 0,
+          });
+    
+          alert('Menu item created successfully!');
+        } catch (error) {
+          console.error(error);
+        }
       }
     };
-
+    
     const handleUpdateMenuItem = (menuItem) => {
       setEditableMenuItemId(menuItem.menuItemId);
       setEditedName(menuItem.name);
@@ -436,20 +435,34 @@ const AddMenuItemContainer = styled.div`
     };
 
     const handleDeleteMenuItem = async (menuItemId) => {
-      try {
-        // Assuming you have an API endpoint to delete a menu item
-        await axios.delete(`http://localhost:8080/menuitems/deleteMenuItem/${menuItemId}`);
+      // Display a confirmation dialog
+      const isConfirmed = window.confirm('Are you sure you want to delete this menu item?');
     
-        // Update the menu items state after deletion
-        setMenuItems((prevMenuItems) => prevMenuItems.filter((item) => item.menuItemId !== menuItemId));
+      if (!isConfirmed) {
+        // If not confirmed, do nothing
+        return;
+      }
+    
+      try {
+        // Assuming you have an API endpoint to soft delete a menu item
+        const response = await axios.put(`http://localhost:8080/menuitems/softDeleteMenuItem/${menuItemId}`);
+    
+        if (response.data.status === 'success') {
+          // Update the menu items state after soft deletion
+          setMenuItems((prevMenuItems) => prevMenuItems.filter((item) => item.menuItemId !== menuItemId));
+          alert(response.data.message); // Display a success message
+        } else {
+          alert(response.data.message); // Display an error message
+        }
       } catch (error) {
         console.error(error);
       }
     };
+    
 
 
   return (
-    <div>
+    <div> 
       <Header restaurantId={location.state.restaurantId} restaurantName={location.state.restaurantName}/>
       <UserProfileContainer>
         <UserProfileHeader>

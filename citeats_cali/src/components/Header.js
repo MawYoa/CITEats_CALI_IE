@@ -54,6 +54,7 @@ const CITEatsLogo = styled.img`
 const Header = ({userType, userId, restaurantId, restaurantName}) => {
 
   const navigate = useNavigate();
+  const location = useLocation();
     
 
   return (
@@ -72,8 +73,10 @@ const Header = ({userType, userId, restaurantId, restaurantName}) => {
           <NavLink to={`/UserProfile/${userId}`} state={{ userId: userId, userType: userType }}>Profile</NavLink>
         )}
 
-        {restaurantName && restaurantId && (
-          <NavLink to={`/EditRestaurant/${restaurantId}`} state={{ restaurantId: restaurantId, restaurantName:restaurantName }}>Restaurant</NavLink>
+        {!location.state?.userId && restaurantName && restaurantId && (
+          <NavLink to={`/EditRestaurant/${restaurantId}`} state={{ restaurantId, restaurantName }}>
+            Restaurant
+          </NavLink>
         )}
       </Navigation>
     </HeaderContainer>
