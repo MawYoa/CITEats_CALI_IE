@@ -399,6 +399,9 @@ const Home = () => {
           ))}
         </div>
       </HomeContainer>
+      <br/>
+      <br/>
+      <br/>
       <FAQ />
       <Footer />
     </div>

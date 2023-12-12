@@ -15,6 +15,7 @@ const Member = ({ name, imageSrc }) => (
         borderRadius: '50%',
         marginBottom: '5px',
         border: '2px solid gold',
+        margin:'50px'
       }}
     />
     <p style={{ margin: 0, color: 'maroon' }}>{name}</p>
@@ -63,11 +64,17 @@ const AboutUs = () => {
         </p>
       </div>
       <h2 style={{ color: 'maroon', marginTop: '20px', fontSize: '24px' }}>Members</h2>
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <div style={{ display: 'flex', justifyContent: 'center',padding:'10px' }}>
         <Member name="James Ruther I. Ilustrisimo" imageSrc="org1.png" />
         <Member name="Therese Marianne Leyva" imageSrc="org2.png" />
         <Member name="Mikkel Alphonse Y. Alfante" imageSrc="org3.png" />
         <Member name="Earl Joseph Claro" imageSrc="org4.png" />
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'center' ,textAlign:'center',padding:'5px'}}>
+        <p style={{width:'200px',margin:'10px'}}>“When life gives you lemons, make lemonade.”</p>
+        <p style={{width:'200px',margin:'10px'}}>“Life doesn't have to be perfect to be wonderful.”</p>
+        <p style={{width:'200px',margin:'10px'}}>“The journey of a thousand miles begins with one step.” </p>
+        <p style={{width:'200px',margin:'10px'}}>“All things are difficult before they are easy.”</p>
       </div>
       <p style={{ color: 'black', textAlign: 'center', fontSize: '18px', marginTop: '20px' ,width:'1000px'}}>
       <br/>

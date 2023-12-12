@@ -39,10 +39,10 @@ const FavoriteButton = styled.button`
   color: #e21b70;
   border: 2px solid #e21b70;
   border-radius: 10%;
-  width: 80px;
+  width: 180px;
   height: 50px;
   cursor: pointer;
-  margin-left: auto;
+  
   display: block;
   &:hover {
     background-color: #e21b70;
@@ -208,7 +208,7 @@ const ReviewTextarea = styled.textarea`
   border-radius: 15px;
   height: 190px;
   width: 550px; /* Adjust the width as needed */
-  margin-left: 150px; /* Set margin-left to 0 to align with the left */
+  margin-left: 200px; /* Set margin-left to 0 to align with the left */
   background-color: #f0f0f0; /* Set the background color to grey */
 `;
 
@@ -216,16 +216,16 @@ const WriteReviewButton = styled.button`
   width: 40%;
   height: 50px;
   margin-left: 300px;
-  background-color: #e21b70;c
+  background-color: #e21b70;
   color: white;
-  
+  border-color:#e21b70;
   border-radius: 25px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 
   &:hover {
     background-color: white;
-    color: #e21b70;
+    color: black;
   }
 `;
 
@@ -255,8 +255,8 @@ const FoodIcon = styled.img`
 
 const InfoContainer = styled.div`
   position: absolute;
-  top: 760px; /* Adjust the negative top value to move it up */
-  margin-top: 20px;
+  top: 860px; /* Adjust the negative top value to move it up */
+  margin-top: 10px;
   width: 22.5%;
   padding: 20px;
   margin: 0 auto;
@@ -296,7 +296,7 @@ const SecondIconImage = styled.img`
 const RatingAndReviewContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-right: 780px;
+  margin-right: 680px;
 `;
 
 const imageMapping = {
@@ -609,6 +609,8 @@ const RestaurantDetails = () => {
         <>
           <Star>★</Star> {restaurant.rating}
           <span style={{ color: 'grey' }}>({ratingDetails[0]?.numberOfRatings })</span></>
+          <br/>
+          <br/>
           <FavoriteButton onClick={addToFavorites}>Add to Favorites</FavoriteButton>
       </RestaurantDetailsContainer>
       
@@ -720,6 +722,9 @@ const RestaurantDetails = () => {
       </Container>
          </RatingAndReviewContainer>
       </Container>
+        <br></br>
+        <br></br>
+        <br></br>
         <br></br>
       <Footer />
     </div>
