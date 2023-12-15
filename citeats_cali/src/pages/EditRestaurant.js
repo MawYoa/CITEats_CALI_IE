@@ -155,7 +155,7 @@ const Review = styled.div`
   padding: 10px;
 `;
 const CuisineTypeDropdown = styled.select`
-  width: 100%;
+  width: 150px; // Adjust the width as needed
   padding: 10px;
 `;
 const Star = styled.span`
@@ -229,6 +229,24 @@ const AddMenuItemContainer = styled.div`
     const location = useLocation('');
     const [selectedCuisineType, setSelectedCuisineType] = useState('');
     const [cuisineTypes, setCuisineTypes] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await axios.get('http://localhost:8080/cuisinetypes/getAllCuisineTypes');
+        
+        // Extract the 'typeName' values from the response data
+        const cuisineTypeNames = result.data.map((cuisineType) => cuisineType.typeName);
+
+        // Set the cuisineTypeNames to your state
+        setCuisineTypes(cuisineTypeNames);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
 
     useEffect(() => {
@@ -552,25 +570,24 @@ const AddMenuItemContainer = styled.div`
           </UserProfileInfoItem>
           
           <UserProfileInfoItem>
-          <UserProfileInfoLabel>CuisineType:</UserProfileInfoLabel>
-          {editMode ? (
-            <CuisineTypeDropdown
-            value={selectedCuisineType}
-            onChange={handleCuisineTypeChange}
-          >
-            <option value="" disabled>Select Cuisine Type</option>
-            
-            {cuisineTypes && Object.values(cuisineTypes).map((cuisineType) => (
-              <option key={cuisineType.cuisineTypeId} value={cuisineType.typeName}>
-                {cuisineType.typeName}
-              </option>
-            ))}
-          </CuisineTypeDropdown>
-
-          ) : (
-            <UserProfileInfoValue>{restaurantData.cuisineType}</UserProfileInfoValue>
-          )}
-        </UserProfileInfoItem>
+            <UserProfileInfoLabel>CuisineType:</UserProfileInfoLabel>
+            {editMode ? (
+              <CuisineTypeDropdown
+                value={cuisineType}
+                onChange={(e) => handleCuisineTypeChange(e)}
+              >
+                <option value="" disabled>Select Cuisine Type</option>
+                
+                {cuisineTypes.map((cuisineType) => (
+                  <option key={cuisineType} value={cuisineType}>
+                    {cuisineType}
+                  </option>
+                ))}
+              </CuisineTypeDropdown>
+            ) : (
+              <UserProfileInfoValue>{restaurantData.cuisineType}</UserProfileInfoValue>
+            )}
+          </UserProfileInfoItem>
               <UserProfileInfoItem>
                 <UserProfileInfoLabel>Opening Hours:</UserProfileInfoLabel>
                 {editMode ? (
