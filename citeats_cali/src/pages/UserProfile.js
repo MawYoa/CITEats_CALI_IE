@@ -12,6 +12,7 @@ const UserProfileContainer = styled.div`
   justify-content: space-between;
   background-color: #fff;
   margin-top: 10px;
+  margin-left:120px;
   font-family: 'Kumbh Sans';
   padding: 20px;
 `;
@@ -102,78 +103,36 @@ const ReviewsHeader = styled.h1`
   font-weight: bold;
   margin-bottom: 15px;
   text-align: left;
-  border-bottom: 2px solid black; /* Added a 2px black border below Your Reviews */
-  padding-bottom: 10px; /* Added padding for spacing */
 `;
 
-const Review = styled.div`
-  margin-bottom: 15px;
-  border-radius: 20px;
-  background-color: white;
-  border: 2px solid black;
+const UserReviewsTable = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+`;
+
+const ReviewRow = styled.tr`
+  border-bottom: 2px solid black;
+`;
+
+const ReviewCell = styled.td`
   padding: 15px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;;
+`;
 
 const Star = styled.span`
   font-size: 26px;
   margin-right: 10px;
-  color: yellow; /* Set the color to gold or any other color you prefer */
+  color: yellow;
 `;
 
 const ReviewRating = styled.span`
   font-size: 20px;
-  margin-right: 100px;
-  text-align: right;
+  margin-right: 10px;
 `;
-
-const ReviewText = styled.p`
-  font-size: 20px;
-`;
-
-const AdditionalTextBelowUserProfile = styled.p`
-  font-size: 26px;
-  text-align: Left;
-`;
-const AdditionalTextContainer = styled.div`
-  margin-top: -550px;
-  position: absolute;
-  left: 50px; /* Adjust the value as needed */
-  font-weight: bold;
-`;
-
-const UserReviewsContainer = styled.div`
-  width: 100%;
-  text-align: left;
-  max-height: 500px;
-  overflow-y: auto;
-  padding: 0 20px; /* Adjusted padding for spacing */
-  height: 500px;
-  width: 100%;
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-`;
-
-// ... (Other styled components remain unchanged)
 
 const ReviewButtonsContainer = styled.div`
   display: flex;
   align-items: center;
-`;
-
-const ReviewCancelButton = styled.button`
-  background-color: blue;
-  color: white;
-  padding: 8px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: darkblue; /* Change the color on hover */
-  }
 `;
 
 const ReviewUpdateButton = styled.button`
@@ -185,7 +144,19 @@ const ReviewUpdateButton = styled.button`
   margin-right: 10px;
 
   &:hover {
-    background-color: #4a7c47; /* Change the color on hover */
+    background-color: #4a7c47;
+  }
+`;
+
+const ReviewCancelButton = styled.button`
+  background-color: blue;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: darkblue;
   }
 `;
 
@@ -197,9 +168,10 @@ const ReviewDeleteButton = styled.button`
   cursor: pointer;
 
   &:hover {
-    background-color: darkred; /* Change the color on hover */
+    background-color: darkred;
   }
 `;
+
 
 const ReviewRestaurantId = styled.span`
   font-size: 20px;
@@ -385,9 +357,7 @@ const UserProfile = () => {
     <div>
       <Header userId={location.state.userId}/>
       <UserProfileContainer>
-        <UserProfileHeader>
-          <UserProfileImage src="user.png" alt="User Profile Image" />
-        </UserProfileHeader>
+        
             <UserProfileInfo>
             <UserProfileInfoContainer>
             <UserProfileInfoHeader>General Information </UserProfileInfoHeader>
@@ -428,80 +398,78 @@ const UserProfile = () => {
                   Save Profile
                 </UserProfileButton>
               )}
-          <ReviewsHeader>Your Reviews</ReviewsHeader>
-          <UserReviewsContainer>
-                {userReviews.map((review) => (
-                  <Review key={review.reviewId}>
-                    <div>
-                    <ReviewRestaurantId>
-                          <b>Restaurant ID:</b> {review.restaurantId}
-                        </ReviewRestaurantId>
-                      <ReviewText>
-                        <b>User ID: </b>
-                        {review.userId}
-                      </ReviewText>
-                      {editableReview.reviewId === review.reviewId ? (
-                        <>
-                          <ReviewRating>
-                            <Star>⭐</Star>
-                            <input
-                              type="number"
-                              value={editedRating}
-                              onChange={(e) => setEditedRating(e.target.value)}
-                            />
-                          </ReviewRating>
-                          <ReviewText>
-                            <b>Comment:</b>
-                            <textarea
-                              value={editedComment}
-                              onChange={(e) => setEditedComment(e.target.value)}
-                            />
-                          </ReviewText>
-                          <ReviewButtonsContainer>
-                            <ReviewUpdateButton onClick={() => handleSaveReviewUpdate()}>
-                              Save
-                            </ReviewUpdateButton>
-                            <ReviewCancelButton onClick={() => handleCancelUpdate()}>
-                              Cancel
-                            </ReviewCancelButton>
-                          </ReviewButtonsContainer>
-                        </>
-                      ) : (
-                        <>
-                          <ReviewRating>
-                            <Star>⭐</Star> {review.rating}
-                          </ReviewRating>
-                          <ReviewText>
-                            <b>Comment:</b> {review.comment}
-                          </ReviewText>
-                          <ReviewText>
-                            <b>Date Posted: </b>
-                            {new Date(review.datePosted).toLocaleString()}
-                          </ReviewText>
-                          <ReviewButtonsContainer>
-                            <ReviewUpdateButton onClick={() => handleUpdateReview(review)}>
-                              Edit
-                            </ReviewUpdateButton>
-                            <ReviewDeleteButton onClick={() => handleDeleteReview(review.reviewId)}>
-                              Delete
-                            </ReviewDeleteButton>
-                          </ReviewButtonsContainer>
-                        </>
-                      )}
-                    </div>
-                  </Review>
-                ))}
-              </UserReviewsContainer>
+           <ReviewsHeader>Your Reviews</ReviewsHeader>
+        <UserReviewsTable>
+          <thead>
+            <ReviewRow>
+              <ReviewCell>Restaurant ID</ReviewCell>
+              <ReviewCell>User ID</ReviewCell>
+              <ReviewCell>Rating</ReviewCell>
+              <ReviewCell>Comment</ReviewCell>
+              <ReviewCell>Date Posted</ReviewCell>
+              <ReviewCell>Actions</ReviewCell>
+            </ReviewRow>
+          </thead>
+          <tbody>
+            {userReviews.map((review) => (
+              <ReviewRow key={review.reviewId}>
+                <ReviewCell>{review.restaurantId}</ReviewCell>
+                <ReviewCell>{review.userId}</ReviewCell>
+                <ReviewCell>
+                  {editableReview.reviewId === review.reviewId ? (
+                    <>
+                      <Star>⭐</Star>
+                      <input
+                        type="number"
+                        value={editedRating}
+                        onChange={(e) => setEditedRating(e.target.value)}
+                      />
+                    </>
+                  ) : (
+                    <Star>⭐ {review.rating}</Star>
+                  )}
+                </ReviewCell>
+                <ReviewCell>
+                  {editableReview.reviewId === review.reviewId ? (
+                    <textarea
+                      value={editedComment}
+                      onChange={(e) => setEditedComment(e.target.value)}
+                    />
+                  ) : (
+                    review.comment
+                  )}
+                </ReviewCell>
+                <ReviewCell>
+                  {new Date(review.datePosted).toLocaleString()}
+                </ReviewCell>
+                <ReviewCell>
+                  {editableReview.reviewId === review.reviewId ? (
+                    <ReviewButtonsContainer>
+                      <ReviewUpdateButton onClick={() => handleSaveReviewUpdate()}>
+                        Save
+                      </ReviewUpdateButton>
+                      <ReviewCancelButton onClick={() => handleCancelUpdate()}>
+                        Cancel
+                      </ReviewCancelButton>
+                    </ReviewButtonsContainer>
+                  ) : (
+                    <ReviewButtonsContainer>
+                      <ReviewUpdateButton onClick={() => handleUpdateReview(review)}>
+                        Edit
+                      </ReviewUpdateButton>
+                      <ReviewDeleteButton onClick={() => handleDeleteReview(review.reviewId)}>
+                        Delete
+                      </ReviewDeleteButton>
+                    </ReviewButtonsContainer>
+                  )}
+                </ReviewCell>
+              </ReviewRow>
+            ))}
+          </tbody>
+        </UserReviewsTable>
         </UserProfileInfo>
       </UserProfileContainer>
-      <AdditionalTextContainer>
-        <AdditionalTextBelowUserProfile>
-          Feedback
-        </AdditionalTextBelowUserProfile>
-        <AdditionalTextBelowUserProfile>
-          Contact Support
-        </AdditionalTextBelowUserProfile>
-      </AdditionalTextContainer>
+
       <Footer />
     </div>
   );

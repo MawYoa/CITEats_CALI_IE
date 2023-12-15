@@ -3,7 +3,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import styled from 'styled-components';
 import "@fontsource/kumbh-sans"; 
-import './GetStarted.css';  // Import the CSS file
+import './GetStarted.css';  
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 

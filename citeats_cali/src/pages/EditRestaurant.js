@@ -5,6 +5,7 @@ import Footer from '../components/Footer';
 import axios from 'axios';
 import { useState, useEffect } from "react";
 import { useLocation, useParams } from "react-router";
+
 const UserProfileContainer = styled.div`
   width: 85%;
   display: flex;
@@ -12,195 +13,191 @@ const UserProfileContainer = styled.div`
   background-color: #fff;
   margin-top: 10px;
   font-family: 'Kumbh Sans';
-  padding: 20px;
+  padding: 10px;
 `;
 
 const UserProfileHeader = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center; /* Add this line to center the content horizontally */
+  justify-content: center;
   background-color: maroon;
   color: #fff;
-  padding: 20px;
+  padding: 10px;
   border-radius: 0px;
-  height: 250px;
-  width: 300px;
+  height: 200px;
+  width: 200px;
   margin-right: 10px;
 `;
 
 const UserProfileImage = styled.img`
-  width: 150px;
-  height: 150px;
-  border-radius: 50%; /* Change the border-radius to 50% for a perfect circle */
-  margin-right: 20px;
-  align-self: center; /* Add this line to center the image vertically */
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-right: 10px;
+  align-self: center;
 `;
 
 const UserProfileButton = styled.button`
-  width: 150px;
-  height: 40px;
+  width: 170px;
+  height: 30px;
   font-weight: bold;
-  font-size: 16px; /* Adjust the font size as needed */
+  font-size: 14px;
   background-color: gold;
   color: black;
-  border: 2px solid black; /* Add a black border with 2 pixels width */
-  border-radius: 90px;
-  margin-top: 10px;
+  border: 2px solid black;
+  border-radius: 5px;
+  margin-top: 5px;
   cursor: pointer;
 
   &:hover {
-    background-color: #FFC78F; /* Change the color on hover */
+    background-color: #FFC78F;
   }
 `;
-
 
 const UserProfileInfoContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid black; /* Added a 2px black border below General Information */
-  margin-bottom: 15px; /* Added margin-bottom for spacing */
+  border-bottom: 2px solid black;
+  margin-bottom: 10px;
 `;
 
 const UserProfileInfo = styled.div`
-  flex: 1;
-  margin-left: 50px;
+  
+  margin-left: 250px;
   padding: 20px;
-  width: 1400px; /* Increase the width */
+  width: 1800px;
   background-color: white;
   border: 2px solid black;
-  border-radius: 10px;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  display: flex;
-  flex-direction: column;
+  border-radius: 5px;
+
 `;
 
-
 const UserProfileInfoHeader = styled.h2`
-  font-size: 42px;
+  font-size: 24px;
   font-weight: bold;
-  margin-bottom: 15px;
-  text-align: left;
+  margin-bottom: 10px;
 `;
 
 const UserProfileInfoItem = styled.div`
-  margin-bottom: 15px;
-  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-top: 5px;
 `;
 
 const UserProfileInfoLabel = styled.span`
-  font-size: 26px;
+  font-size: 18px;
   font-weight: bold;
-  margin-right: 10px;
+  margin-right: 5px;
 `;
 
 const UserProfileInfoValue = styled.div`
-  font-size: 26px;
-  max-height: 500px; /* Set a maximum height for the container */
-  overflow-y: auto; /* Enable vertical scrollbar when content exceeds the height */
+  font-size: 18px;
+  max-height: 300px;
+  overflow-y: auto;
 `;
 
 const MenuItemContainer = styled.div`
-  margin-bottom: 15px;
-  border-radius: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
   background-color: white;
   border: 2px solid black;
-  padding: 15px;
-  max-height: 250px; /* Increase the maximum height */
-  overflow-y: auto; /* Enable vertical scrollbar when content exceeds the height */
+  padding: 10px;
+  max-height: 150px;
+  overflow-y: auto;
 `;
 
 const CommonBorder = styled.div`
   border: 2px solid black;
-  border-radius: 20px;
+  border-radius: 10px;
   background-color: white;
-  padding: 15px;
-  margin-bottom: 15px;
+  padding: 10px;
+  margin-bottom: 10px;
 `;
 
 const UserProfileInfoItemContainer = styled.div`
-  border: 1px solid #ccc; /* Add a border around each menu item */
-  padding: 10px; /* Add some padding for spacing */
-  margin-bottom: 10px; /* Add margin between menu items */
+  border: 1px solid #ccc;
+  padding: 5px;
+  margin-bottom: 5px;
 `;
 
 const UserReviewsContainer = styled.div`
   width: 100%;
   text-align: left;
-  max-height: 500px; /* Set a maximum height */
+  max-height: 300px;
   overflow-y: auto;
-  padding: 0 0px;
-  height: 500px;
+  padding: 0 10px;
+  height: 300px;
   width: 100%;
-  margin-top: 20px;
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
 `;
 
 const Line = styled.div`
   border-bottom: 2px solid black;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 `;
 
 const ReviewsHeader = styled.h1`
-  font-size: 42px;
+  font-size: 28px;
   font-weight: bold;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   text-align: left;
-  border-bottom: 2px solid black; /* Added a 2px black border below Your Reviews */
-  padding-bottom: 10px; /* Added padding for spacing */
+  border-bottom: 2px solid black;
+  padding-bottom: 5px;
 `;
 
 const Review = styled.div`
-  margin-bottom: 15px;
-  border-radius: 20px;
+  margin-bottom: 10px;
+  border-radius: 10px;
   background-color: white;
-  border: 2px solid black; /* Add yellow borders */
-  padding: 15px;
+  border: 2px solid black;
+  padding: 10px;
 `;
-
+const CuisineTypeDropdown = styled.select`
+  width: 100%;
+  padding: 10px;
+`;
 const Star = styled.span`
-  font-size: 26px;
-  color: yellow; /* Set the color to gold or any other color you prefer */
-  
+  font-size: 18px;
+  color: yellow;
 `;
-
 
 const ReviewRating = styled.span`
-  font-size: 20px;
-  margin-right: 100px;
+  font-size: 16px;
+  margin-right: 50px;
   text-align: left;
 `;
 
 const ReviewText = styled.p`
-  font-size: 20px;
+  font-size: 16px;
 `;
 
 const AdditionalTextBelowUserProfile = styled.p`
-  font-size: 26px;
-  text-align: Left;
+  font-size: 18px;
+  text-align: left;
 `;
+
 const AdditionalTextContainer = styled.div`
-  margin-top: -550px;
+  margin-top: -350px;
   position: absolute;
-  left: 50px; /* Adjust the value as needed */
+  left: 10px;
   font-weight: bold;
 `;
 
 const AddMenuItemButton = styled.button`
   width: 150px;
-  height: 40px;
+  height: 30px;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 14px;
   background-color: gold;
   color: black;
   border: 2px solid black;
-  border-radius: 90px;
+  border-radius: 5px;
   cursor: pointer;
 
   &:hover {
-    background-color: #FFC78F; /* Change the color on hover */
+    background-color: #FFC78F;
   }
 `;
 
@@ -208,9 +205,8 @@ const AddMenuItemContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 `;
-
 
   
   const EditRestaurant = () => {
@@ -231,7 +227,8 @@ const AddMenuItemContainer = styled.div`
     const [editedPrice, setEditedPrice] = useState('');
     const [editingMenuItem, setEditingMenuItem] = useState(null);
     const location = useLocation('');
-   
+    const [selectedCuisineType, setSelectedCuisineType] = useState('');
+    const [cuisineTypes, setCuisineTypes] = useState([]);
 
 
     useEffect(() => {
@@ -307,6 +304,25 @@ const AddMenuItemContainer = styled.div`
     };
   
     console.log(reviews);
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const result = await axios.get('http://localhost:8080/cuisinetypes/getAllCuisineTypes');
+          
+          // Extract the 'typeName' values from the response data
+          const cuisineTypeNames = result.data.map((cuisineType) => cuisineType.typeName);
+    
+          // Set the cuisineTypeNames to your state
+          setCuisineTypes(cuisineTypeNames);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+    
+      fetchData();
+    }, []);
+    
 
     useEffect(() => {
       const fetchData = async () => {
@@ -480,9 +496,7 @@ const AddMenuItemContainer = styled.div`
     <div> 
       <Header restaurantId={location.state.restaurantId} restaurantName={location.state.restaurantName}/>
       <UserProfileContainer>
-        <UserProfileHeader>
-          <UserProfileImage src="user.png" alt="User Profile Image" />
-        </UserProfileHeader>
+   
         <UserProfileInfo>
         <UserProfileInfoContainer>
             <UserProfileInfoHeader>General Information</UserProfileInfoHeader>
@@ -536,32 +550,27 @@ const AddMenuItemContainer = styled.div`
             <UserProfileInfoValue>{restaurantData.address}</UserProfileInfoValue>
           )}
           </UserProfileInfoItem>
+          
           <UserProfileInfoItem>
-                <UserProfileInfoLabel>CuisineType:</UserProfileInfoLabel>
-                {editMode ? (
-                  <input
-                    type="text"
-                    value={cuisineType}
-                    placeholder={restaurantData.cuisineType}
-                    onChange={handleCuisineTypeChange}
-                  />
-                ) : (
-                  <UserProfileInfoValue>{restaurantData.cuisineType}</UserProfileInfoValue>
-                )}
-              </UserProfileInfoItem>
-              <UserProfileInfoItem>
-                <UserProfileInfoLabel>PhoneNumber:</UserProfileInfoLabel>
-                {editMode ? (
-                  <input
-                    type="text"
-                    value={phoneNumber}
-                    placeholder={restaurantData.phoneNumber}
-                    onChange={handlePhoneNumberChange}
-                  />
-                ) : (
-                  <UserProfileInfoValue>{restaurantData.phoneNumber}</UserProfileInfoValue>
-                )}
-              </UserProfileInfoItem>
+          <UserProfileInfoLabel>CuisineType:</UserProfileInfoLabel>
+          {editMode ? (
+            <CuisineTypeDropdown
+            value={selectedCuisineType}
+            onChange={handleCuisineTypeChange}
+          >
+            <option value="" disabled>Select Cuisine Type</option>
+            
+            {cuisineTypes && Object.values(cuisineTypes).map((cuisineType) => (
+              <option key={cuisineType.cuisineTypeId} value={cuisineType.typeName}>
+                {cuisineType.typeName}
+              </option>
+            ))}
+          </CuisineTypeDropdown>
+
+          ) : (
+            <UserProfileInfoValue>{restaurantData.cuisineType}</UserProfileInfoValue>
+          )}
+        </UserProfileInfoItem>
               <UserProfileInfoItem>
                 <UserProfileInfoLabel>Opening Hours:</UserProfileInfoLabel>
                 {editMode ? (
@@ -618,135 +627,141 @@ const AddMenuItemContainer = styled.div`
                 </form>
               </UserProfileInfoItemContainer>
               <h1>Your Menu Items</h1>
-              <Line />
-              <UserProfileInfoItem>
-                <UserProfileInfoLabel>Menu:</UserProfileInfoLabel>
-                <UserProfileInfoValue>
-                    {menuItems.length === 0 ? (
-                      <p>No menu items available</p>
-                    ) : (
-                      menuItems.map((menuItem) => (
-                        <CommonBorder key={menuItem.menuItemId}>
-                          {editableMenuItemId === menuItem.menuItemId ? (
-                            <div>
-                              <div>
-                                <label>Name:</label>
-                                <input
-                                  type="text"
-                                  value={editedName}
-                                  onChange={(e) => setEditedName(e.target.value)}
-                                />
-                              </div>
-                              <div>
-                                <label>Description:</label>
-                                <textarea
-                                  value={editedDescription}
-                                  onChange={(e) => setEditedDescription(e.target.value)}
-                                />
-                              </div>
-                              <div>
-                                <label>Price:</label>
-                                <input
-                                  type="number"
-                                  value={editedPrice}
-                                  onChange={(e) => setEditedPrice(e.target.value)}
-                                />
-                              </div>
-                              <button
-                                  style={{
-                                    backgroundColor: 'green',
-                                    color: 'white',
-                                    padding: '8px 15px',
-                                    borderRadius: '5px',
-                                    cursor: 'pointer',
-                                    marginTop: '10px',
-                                  }}
-                                  onClick={handleSaveMenuItemUpdate}
-                                >
-                                  Save
-                                </button>
-                                <button
-                                  style={{
-                                    backgroundColor: 'red',
-                                    color: 'white',
-                                    padding: '8px 15px',
-                                    borderRadius: '5px',
-                                    cursor: 'pointer',
-                                    marginLeft: '5px',
-                                  }}
-                                  onClick={handleCancelUpdate}
-                                >
-                                  Cancel
-                                </button>
-                              </div>
-                              ) : (
-                            <div>
-                              <p><b>Menu Item Id:</b> {menuItem.menuItemId}</p>
-                              <p><b>Item Name: </b>{menuItem.name}</p>
-                              <p><b>Description: </b>{menuItem.description}</p>
-                              <p><b>Price: </b>{menuItem.price}</p>
-                              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
-                                <div>
-                                  <button
-                                    style={{
-                                      backgroundColor: '#4a7c47',
-                                      color: 'white',
-                                      padding: '8px 15px',
-                                      borderRadius: '5px',
-                                      cursor: 'pointer',
-                                      marginRight: '5px',
-                                    }}
-                                    onClick={() => handleUpdateMenuItem(menuItem)}
-                                  >
-                                    Update
-                                  </button>
-                                  <button
-                                    style={{
-                                      backgroundColor: 'red',
-                                      color: 'white',
-                                      padding: '8px 15px',
-                                      borderRadius: '5px',
-                                      cursor: 'pointer',
-                                    }}
-                                    onClick={() => handleDeleteMenuItem(menuItem.menuItemId)}
-                                  >
-                                    Delete
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          )}
-                        </CommonBorder>
-                      ))
-                    )}
-                  </UserProfileInfoValue>
-              </UserProfileInfoItem>
+            <Line />
+            <table style={{ width: '100%', borderCollapse: 'collapse' ,fontSize:'12px'}}>
+              <thead>
+                <tr>
+                  <th>Menu Item Id</th>
+                  <th>Item Name</th>
+                  <th>Description</th>
+                  <th>Price</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {menuItems.map((menuItem) => (
+                  <tr key={menuItem.menuItemId}>
+                    <td>{menuItem.menuItemId}</td>
+                    <td>{menuItem.name}</td>
+                    <td>{menuItem.description}</td>
+                    <td>{menuItem.price}</td>
+                    <td>
+                      {editableMenuItemId === menuItem.menuItemId ? (
+                        <div>
+                          <div>
+                            <label>Name:</label>
+                            <input
+                              type="text"
+                              value={editedName}
+                              onChange={(e) => setEditedName(e.target.value)}
+                            />
+                          </div>
+                          <div>
+                            <label>Description:</label>
+                            <textarea
+                              value={editedDescription}
+                              onChange={(e) => setEditedDescription(e.target.value)}
+                            />
+                          </div>
+                          <div>
+                            <label>Price:</label>
+                            <input
+                              type="number"
+                              value={editedPrice}
+                              onChange={(e) => setEditedPrice(e.target.value)}
+                            />
+                          </div>
+                          <button
+                            style={{
+                              backgroundColor: 'green',
+                              color: 'white',
+                              padding: '8px 15px',
+                              borderRadius: '5px',
+                              cursor: 'pointer',
+                              marginTop: '10px',
+                            }}
+                            onClick={handleSaveMenuItemUpdate}
+                          >
+                            Save
+                          </button>
+                          <button
+                            style={{
+                              backgroundColor: 'red',
+                              color: 'white',
+                              padding: '8px 15px',
+                              borderRadius: '5px',
+                              cursor: 'pointer',
+                              marginLeft: '5px',
+                            }}
+                            onClick={handleCancelUpdate}
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      ) : (
+                        <div>
+                          <button
+                            style={{
+                              backgroundColor: '#4a7c47',
+                              color: 'white',
+                              padding: '8px 15px',
+                              borderRadius: '5px',
+                              cursor: 'pointer',
+                              marginRight: '5px',
+                            }}
+                            onClick={() => handleUpdateMenuItem(menuItem)}
+                          >
+                            Update
+                          </button>
+                          <button
+                            style={{
+                              backgroundColor: 'red',
+                              color: 'white',
+                              padding: '8px 15px',
+                              borderRadius: '5px',
+                              cursor: 'pointer',
+                            }}
+                            onClick={() => handleDeleteMenuItem(menuItem.menuItemId)}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
 
             <ReviewsHeader>Your Restaurant Reviews</ReviewsHeader>
             <UserReviewsContainer>
-              {reviews.map((review) => (
-                <Review key={review.reviewId}>
-                    <ReviewText><b>User ID: </b>{review.userId}</ReviewText>
-                  <ReviewRating>
-                    <Star>⭐</Star> {review.rating}
-                  </ReviewRating>
-                  <ReviewText><b>Comment:</b></ReviewText>
-                  <ReviewText>{review.comment}</ReviewText>
-                  <ReviewText><b>Date Posted: </b>{new Date(review.datePosted).toLocaleString()}</ReviewText>
-                </Review>
-              ))}
+              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                <thead>
+                  <tr>
+                    <th>User ID</th>
+                    <th>Rating</th>
+                    <th>Comment</th>
+                    <th>Date Posted</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {reviews.map((review) => (
+                    <tr key={review.reviewId}>
+                      <td>{review.userId}</td>
+                      <td>
+                        <Star>⭐</Star> {review.rating}
+                      </td>
+                      <td>{review.comment}</td>
+                      <td>{new Date(review.datePosted).toLocaleString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </UserReviewsContainer>
 
         </UserProfileInfo>
       </UserProfileContainer>
-      <AdditionalTextContainer>
-        <AdditionalTextBelowUserProfile>
-          Feedback
-        </AdditionalTextBelowUserProfile>
-        <AdditionalTextBelowUserProfile>
-          Contact Support
-        </AdditionalTextBelowUserProfile>
-      </AdditionalTextContainer>
+
       <Footer />
     </div>
   );

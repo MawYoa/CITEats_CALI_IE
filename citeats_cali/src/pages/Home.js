@@ -22,7 +22,7 @@ const HomeContainer = styled.div`
 
 const HeroImage = styled.img`
   width: 100%;
-  max-height: 600px;
+  max-height: 700px;
   object-fit: cover;
 `;
 
@@ -76,21 +76,30 @@ const SquareButton = styled.button`
   padding: 10px;
   margin-top: 10px;
   border: none;
-  border-radius: 4px;
+  border-radius: 50%; /* Make the button circular */
   cursor: pointer;
+  overflow: hidden; /* Hide overflow content (to make it circular) */
+  width: 100px; /* Set a fixed width for circular appearance */
+  height: 100px; /* Set a fixed height for circular appearance */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 const FoodImage = styled.img`
-  width: 100px;
-  height: 100px;
+  width: 80px; /* Adjust the size of the image */
+  height: 80px; /* Adjust the size of the image */
   object-fit: cover;
   border-radius: 50%;
 `;
 
 const FoodCategory = ({ category, imageSrc, onClick }) => (
   <FoodCategoryContainer onClick={onClick}>
-    <FoodImage src={imageSrc} alt={category} />
-    <SquareButton>{category}</SquareButton>
+    <SquareButton>
+      <FoodImage src={imageSrc} alt={category} />
+      {category}
+    </SquareButton>
   </FoodCategoryContainer>
 );
 

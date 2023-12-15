@@ -1,63 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-
-import { FaCamera } from 'react-icons/fa'; // Import the camera icon from react-icons/fa
-
-const FoodInputContainer = styled.div`
-  position: relative;
-  width: 500px;
-  margin-bottom: 20px;
-  font-family: 'Kumbh Sans';
-`;
-
-
-const FoodInput = styled.input`
-  padding-left: 40px; /* Add padding for the icon */
-  /* Your other styles */
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 7c-2.761 0-5 2.239-5 5s2.239 5 5 5 5-2.239 5-5-2.239-5-5-5zm0 8c-1.654 0-3-1.346-3-3s1.346-3 3-3 3 1.346 3 3-1.346 3-3 3zM22 6h-4l-2-2h-4l-2 2H2v14h20V6zm-2 12H4V8h3l2-2h6l2 2h3v10z"/></svg>');
-  background-repeat: no-repeat;
-  background-position: 500px center; /* Adjust the position of the icon */
-  background-size: 24px 24px; /* Adjust the size of the icon */
-`;
-
-const AmbienceInputContainer = styled.div`
-  position: relative;
-  width: 500px;
-  margin-bottom: 20px;
-`;
-
-const AmbienceInput = styled.input`
-  padding-left: 40px; /* Add padding for the icon */
-  /* Your other styles */
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 7c-2.761 0-5 2.239-5 5s2.239 5 5 5 5-2.239 5-5-2.239-5-5-5zm0 8c-1.654 0-3-1.346-3-3s1.346-3 3-3 3 1.346 3 3-1.346 3-3 3zM22 6h-4l-2-2h-4l-2 2H2v14h20V6zm-2 12H4V8h3l2-2h6l2 2h3v10z"/></svg>');
-  background-repeat: no-repeat;
-  background-position: 500px center; /* Adjust the position of the icon */
-  background-size: 24px 24px; /* Adjust the size of the icon */
-`;
-const MenuInputContainer = styled.div`
-  position: relative;
-  width: 500px;
-  margin-bottom: 20px;
-`;
-
-const MenuInput = styled.input`
-  padding-left: 40px; /* Add padding for the icon */
-  /* Your other styles */
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 7c-2.761 0-5 2.239-5 5s2.239 5 5 5 5-2.239 5-5-2.239-5-5-5zm0 8c-1.654 0-3-1.346-3-3s1.346-3 3-3 3 1.346 3 3-1.346 3-3 3zM22 6h-4l-2-2h-4l-2 2H2v14h20V6zm-2 12H4V8h3l2-2h6l2 2h3v10z"/></svg>');
-  background-repeat: no-repeat;
-  background-position: 500px center; /* Adjust the position of the icon */
-  background-size: 24px 24px; /* Adjust the size of the icon */
-`;
-
-const AccountImage = styled.img`
-  width: 150px;
-  height: 150px;
-  margin-right: 20px;
-  align-self: left; /* Add this line to center the image vertically */
-`;
-
+import { Link } from 'react-router-dom';
 
 // Styled components for layout
 const Layout = styled.div`
@@ -77,94 +22,124 @@ const ImageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: right;
-  margin-left: 200px;
-  align-self: left;
-  margin-right: 30px;
+  margin-left: 20px;
+  margin-right: 20px;
+`;
+
+const AccountImage = styled.img`
+  width: 100px;
+  height: 100px;
+  margin-bottom: 10px;
 `;
 
 const ImageText = styled.p`
-  margin-top: 10px;
-  text-align: right; /* Align the text to the right */
-  margin-right: 10px; /* Set left margin to push the text to the right */
-  font-weight: bold; /* Make the text bold */
+  text-align: right;
+  font-weight: bold;
+  margin: 0;
+  font-size: 0.8rem;
 `;
 
 const Container = styled.div`
-  border: 2px solid black; /* Border style */
-  padding: 20px; /* Padding around the content */
+  border: 2px solid black;
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  margin-left: -10px; /* Space between image and content container */
-  width: 800px;
+  margin-left: -10px;
+  width: 100%;
 `;
 
 const Title = styled.h1`
-  font-size: 1.5rem; /* Adjust the font size as needed */
-  margin-bottom: 20px; /* Additional spacing between title and content */
+  font-size: 1.2rem;
+  margin-bottom: 15px;
   display: flex;
   align-items: center;
-  border-bottom: 2px solid black; /* Add black line below the title */
+  border-bottom: 2px solid black;
 `;
 
 const EditButton = styled.button`
   margin-left: auto;
-  /* Define oblong shape */
-  border-radius: 100px; /* Adjust border radius */
-  background-color: #ffb413; /* Button color */
-  color: black; /* Text color */
-  border: none; /* Remove default button border */
+  border-radius: 100px;
+  background-color: #ffb413;
+  color: black;
+  border: none;
   cursor: pointer;
-  width:80px;
-  height:30px;
-  font-weight: bold; /* Make the text bold */
-  transition: background-color 0.3s ease; /* Add transition effect */
-  font-family: 'Kumbh Sans';
+  width: 60px;
+  height: 25px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  font-size: 0.8rem;
   &:hover {
-    background-color: maroon; /* Change color on hover */
-    color:white;
+    background-color: maroon;
+    color: white;
   }
 `;
 
 const RestaurantName = styled.h1`
-  font-size: 1rem; /* Adjust the font size as needed */
-  /* Additional styles as needed */
+  font-size: 1rem;
+  margin: 5px 0;
 `;
 
-const EmailText = styled.h1`
-  font-size: 1rem; /* Adjust the font size as needed */
-  /* Additional styles as needed */
+const EmailText = styled.p`
+  font-size: 0.8rem;
+  margin: 0;
 `;
 
-const RestaurantIdText = styled.h1`
-  font-size: 1rem; /* Adjust the font size as needed */
-  /* Additional styles as needed */
+const RestaurantIdText = styled.p`
+  font-size: 0.8rem;
+  margin: 0;
 `;
 
 const BoldLabel = styled.label`
-  font-weight: bold; /* Making the label text bold */
-  /* Additional styles as needed */
+  font-weight: bold;
+  margin: 5px 0;
+  font-size: 0.9rem;
 `;
 
-const RestaurantReviews = styled.h2`
-  font-size: 1.2rem; /* Adjust the font size for reviews */
-  border-bottom: 2px solid black; /* Add black line below the reviews */
-  padding-bottom: 10px; /* Optional padding below the line */
-  /* Additional styles as needed */
+const Input = styled.input`
+  border-radius: 10px;
+  height: 30px;
+  width: calc(100% - 20px);
+  margin-left: 10px;
+  background-color: #F7F7F7;
+  border: none;
+  font-size: 0.8rem;
+`;
+
+const InputContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+`;
+
+const ReviewsTitle = styled.h2`
+  font-size: 1rem;
+  border-bottom: 2px solid black;
+  padding-bottom: 10px;
+  margin-top: 20px;
 `;
 
 const NoReviewsText = styled.p`
-  font-size: 1rem;
+  font-size: 0.8rem;
   margin-top: 10px;
   font-style: italic;
 `;
 
 const RestaurantProfile = () => {
+  const [authenticated, setAuthenticated] = useState(false);
+
+  useEffect(() => {
+    // Check authentication status when the component mounts
+    if (!authenticated) {
+      // Redirect to login page if not authenticated
+      // You can use the Redirect component from react-router-dom
+      return <Link to="/login" />;
+    }
+  }, [authenticated]);
+
   const restaurant = {
-    name: '', // Empty string for the name
-    description: '', // Empty string for the description
-    address: '', // Empty string for the address
-    contact: '', // Empty string for the contact
-    phoneNumber: '', // Empty string for the phone number
+    name: 'Unknown',
+    email: 'Unknown',
+    restaurantId: 'R#01',
     // Add more restaurant details as needed
   };
 
@@ -173,119 +148,78 @@ const RestaurantProfile = () => {
     console.log('Edit clicked');
   };
 
+  const handleLogout = () => {
+    // Logic for handling logout
+    setAuthenticated(false);
+    alert('Logged out successfully!');
+  };
+
+  if (!authenticated) {
+    return (
+      <Layout>
+        <Header />
+        <Content>
+          <Container>
+            <Title>Authentication Required</Title>
+            <p>Please login to view the restaurant profile.</p>
+          </Container>
+        </Content>
+        <Footer />
+      </Layout>
+    );
+  }
+
   return (
     <Layout>
       <Header />
       <Content>
         <ImageContainer>
-          <AccountImage src="account.png" alt="" /> {/* Image here */}
+          <AccountImage src="account.png" alt="" />
           <ImageText>Feedback</ImageText>
           <ImageText>Contact Support</ImageText>
         </ImageContainer>
         <Container>
           <Title>
             General Information
-            <br/>
             <EditButton onClick={handleEdit}>Edit</EditButton>
           </Title>
-          <RestaurantName>Restaurant Name: Unknown</RestaurantName>
-          <EmailText>Email: Unknown</EmailText>
-          <br></br>
-          <RestaurantIdText>RestaurantID: R#01</RestaurantIdText>
-          <br />
-          <br />
-          <div className='ad-input'>
-          <BoldLabel>Address</BoldLabel>
-          <input className='input-address' style={{borderRadius: "40px", marginLeft:"80px", width: "500px", backgroundColor: "#F7F7F7", border: "none"}}></input>
-          </div>
-          
-          <br />
-          <br />
-          <div className='c-type'>
-          <BoldLabel>CuisineType</BoldLabel>
-          <input className='input-type' style={{borderRadius: "40px", marginLeft:"55px", width: "500px", backgroundColor: "#F7F7F7", border: "none"}}></input>
-          </div>
-        
-            <br />
-            <br />
-            <div className='ad-input'>
-          <BoldLabel>PhoneNumber</BoldLabel>
-          <input className='input-address' style={{borderRadius: "40px", marginLeft:"40px", width: "500px", backgroundColor: "#F7F7F7", border: "none"}}></input>
-          </div>
-        
-            <br />
-            <br />
-            <div className='ad-input'>
-          <BoldLabel>OpeningHours</BoldLabel>
-          <input className='input-address' style={{borderRadius: "40px", marginLeft:"40px", width: "500px", backgroundColor: "#F7F7F7", border: "none"}}></input>
-          </div>
-    
-            <br />
-            <br />
-            <div className='ad-input'>
-          <BoldLabel>RestaurantLink</BoldLabel>
-          <input className='input-address' style={{borderRadius: "40px", marginLeft:"40px", width: "500px", backgroundColor: "#F7F7F7", border: "none"}}></input>
-          </div>
-    
-            <br />
-            <br />
-            <MenuInputContainer>
-            <BoldLabel>Menu</BoldLabel>
-            <MenuInput
-            className='input-address'
-            style={{
-              borderRadius: "20px",
-              height: "70px",
-              width: "500px",
-              backgroundColor: "#F7F7F7",
-              marginLeft: "150px",
-              border: "none"
-            }}
-          />
-            </MenuInputContainer>
-            
-            
-            
-            <br />
-            <br />
+          <RestaurantName>Restaurant Name: {restaurant.name}</RestaurantName>
+          <EmailText>Email: {restaurant.email}</EmailText>
+          <RestaurantIdText>RestaurantID: {restaurant.restaurantId}</RestaurantIdText>
 
-            <BoldLabel>Ambience</BoldLabel>
-            <AmbienceInputContainer>
-                <AmbienceInput 
-                className='input-address'
-                style={{
-                  borderRadius: "20px",
-                  height: "70px",
-                  width: "500px",
-                  backgroundColor: "#F7F7F7",
-                  border: "none",
-                  marginLeft: "150px"
-                }}
-              />
-            </AmbienceInputContainer>
-            
-            <br />
-            <br />
-            <BoldLabel>Food</BoldLabel>
-            <FoodInputContainer>
-                <FoodInput 
-                className='input-address'
-                style={{
-                  borderRadius: "20px",
-                  height: "70px",
-                  width: "500px",
-                  backgroundColor: "#F7F7F7",
-                  border: "none",
-                  marginLeft: "150px"
-                }}
-              />
-            </FoodInputContainer>
-        
-            <br />
-            <br />
-          <RestaurantReviews>Your Restaurant Reviews</RestaurantReviews>
+          <InputContainer>
+            <BoldLabel>Address</BoldLabel>
+            <Input className='input-address' />
+          </InputContainer>
+
+          <InputContainer>
+            <BoldLabel>CuisineType</BoldLabel>
+            <Input className='input-type' />
+          </InputContainer>
+
+          <InputContainer>
+            <BoldLabel>PhoneNumber</BoldLabel>
+            <Input className='input-address' />
+          </InputContainer>
+
+          <InputContainer>
+            <BoldLabel>OpeningHours</BoldLabel>
+            <Input className='input-address' />
+          </InputContainer>
+
+          <InputContainer>
+            <BoldLabel>RestaurantLink</BoldLabel>
+            <Input className='input-address' />
+          </InputContainer>
+
+          <InputContainer>
+            <BoldLabel>Menu</BoldLabel>
+            <Input className='input-address' />
+          </InputContainer>
+
+
+          <ReviewsTitle>Your Restaurant Reviews</ReviewsTitle>
           <NoReviewsText>You have no reviews as of yet...</NoReviewsText>
-          
         </Container>
       </Content>
       <Footer />
