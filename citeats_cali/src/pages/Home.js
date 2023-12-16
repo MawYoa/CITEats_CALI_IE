@@ -211,6 +211,7 @@ const Home = () => {
   const [cuisineCategories, setCuisineCategories] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
   const [latestReviews, setLatestReviews] = useState([]);
+  const [users, setUsers] = useState([]); // New state to store user data
   const location = useLocation();
   const userId = location.state && location.state.userId;
   
@@ -259,15 +260,33 @@ const Home = () => {
 
     const fetchLatestReviews = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/reviews/getAllReviews');
-        const sortedReviews = response.data.sort((a, b) => new Date(a.postedDate) - new Date(b.postedDate));
+        const reviewsResponse = await axios.get('http://localhost:8080/reviews/getAllReviews');
+        const sortedReviews = reviewsResponse.data.sort((a, b) => new Date(a.postedDate) - new Date(b.postedDate));
         const latestReviewsData = sortedReviews.slice(0, 3);
-        setLatestReviews(latestReviewsData);
+
+        const usersResponse = await axios.get('http://localhost:8080/users/getAllUsers');
+        const usersData = usersResponse.data.reduce((acc, user) => {
+          acc[user.userId] = user;
+          return acc;
+        }, {});
+
+        const restaurantsResponse = await axios.get('http://localhost:8080/restaurants/getAllRestaurants');
+        const restaurantsData = restaurantsResponse.data.reduce((acc, restaurant) => {
+          acc[restaurant.restaurantId] = restaurant;
+          return acc;
+        }, {});
+
+        const reviewsWithUserAndRestaurantData = latestReviewsData.map((review) => ({
+          ...review,
+          user: usersData[review.userId] || { username: 'N/A' },
+          restaurant: restaurantsData[review.restaurantId] || { restaurant_name: 'N/A' },
+        }));
+
+        setLatestReviews(reviewsWithUserAndRestaurantData);
       } catch (error) {
         alert('Error fetching latest reviews:', error);
       }
     };
-    
 
     fetchCuisineCategories();
     fetchRestaurants();
@@ -398,14 +417,14 @@ const Home = () => {
           <br></br>
 
           {latestReviews.map((review) => (
-            <ReviewCard key={review.reviewId}>
-              <p style={{ color: 'maroon', fontWeight: 'bold' }}>UserId:{review.userId}</p>
-              <p style={{ color: 'maroon', fontWeight: 'bold' }}>RestaurantId:{review.restaurantId}</p>
-              <p style={{ color: 'gold' }}>{review.rating}/5</p>
-              <p>{formatDate(review.datePosted)}</p>
-              <p>{review.comment}</p>
-            </ReviewCard>
-          ))}
+        <ReviewCard key={review.reviewId}>
+          <p style={{ color: 'maroon', fontWeight: 'bold' }}>Username: {review.user.username}</p>
+          <p style={{ color: 'maroon', fontWeight: 'bold' }}>Restaurant Name: {review.restaurant.restaurantName}</p>
+          <p style={{ color: 'gold' }}>{review.rating}/5</p>
+          <p>{formatDate(review.datePosted)}</p>
+          <p>{review.comment}</p>
+        </ReviewCard>
+      ))}
         </div>
       </HomeContainer>
       <br/>

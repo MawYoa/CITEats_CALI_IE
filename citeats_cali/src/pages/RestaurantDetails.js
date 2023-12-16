@@ -422,6 +422,7 @@ const RestaurantDetails = () => {
   const [rating, setRating] = useState(null);
   const [favorites, setFavorites] = useState([]);
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+  const [userDetails, setUserDetails] = useState([]);
 
   const [comment, setComment] = useState("");
   const [star, setStar] = useState(0);
@@ -529,6 +530,8 @@ const RestaurantDetails = () => {
     fetchMenuItems();
     fetchReviews();
   }, [restaurantId]);
+
+  
 
   const addToFavorites = async () => {
     try {
@@ -669,18 +672,18 @@ const RestaurantDetails = () => {
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <RestaurantDetailsName>Review Highlights</RestaurantDetailsName>
           <p style={{ color: 'black', fontWeight: 'bold', fontSize: '20px' }}>
-            <Star>★</Star>4.4
+            
           </p>
         </div>
-        <SeeAllReviewsButton>
-          <StyledLink to="/Reviews">See All Reviews</StyledLink>
-        </SeeAllReviewsButton>
 
+      <br/>
+      
         {/* Dynamic Reviews */}
         {reviews.map((review) => (
           <div key={review.reviewId}>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <p style={{ color: 'black', fontWeight: 'bold' }}>{review.userName}</p>
+            
+            <br/>
               <p style={{ color: 'black', position:'relative', left:'-97%'  }}>
                 <Star>★</Star>
                 {review.rating}
