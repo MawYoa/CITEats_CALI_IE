@@ -112,7 +112,7 @@ const imageMapping = {
   // Add more mappings as needed
 };
 
-const BrowseRestaurants = () => {
+const BrowseRestaurants = ({loginHandler,restoLoginHandler}) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCuisines, setSelectedCuisines] = useState([]);
   const [cuisineTypes, setCuisineTypes] = useState([]);
@@ -259,7 +259,7 @@ const BrowseRestaurants = () => {
 
   return (
     <div>
-      <Header userId={location.state.userId} restaurantId={location.state.restaurantId} restaurantName={location.state.restaurantName}/>
+      <Header loginHandler={loginHandler} restoLoginHandler={restoLoginHandler} userId={location.state.userId} restaurantId={location.state.restaurantId} restaurantName={location.state.restaurantName}/>
       <div style={{ display: "flex", fontFamily: "Kumbh Sans" }}>
         <RestaurantSection style={{ width: "20%" }}>
           <FilterSection>

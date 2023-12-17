@@ -5,9 +5,9 @@ import Footer from '../components/Footer';
 import FAQ from '../components/FAQ';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { LoginContext } from './Rando';
 
 import './Home.css';
-import { LoginContext } from './Rando';
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -208,9 +208,7 @@ const StyledText = styled.h2`
   font-size: 30px;
 `;
 
-const Home = () => {
-  const loggedIn = useContext(LoginContext)
-
+const Home = ({loginHandler,restoLoginHandler}) => {
   const [cuisineCategories, setCuisineCategories] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
   const [latestReviews, setLatestReviews] = useState([]);
@@ -221,6 +219,8 @@ const Home = () => {
 
   useEffect(() => {
 
+    
+   
     
     const fetchCuisineCategories = async () => {
       try {
@@ -358,10 +358,10 @@ const Home = () => {
     }
   };
   
-  if(loggedIn === true){
+  
     return (
       <div>
-        <Header userId={location.state.userId} restaurantId={location.state.restaurantId} restaurantName={location.state.restaurantName}/>
+        <Header loginHandler={loginHandler} restoLoginHandler={restoLoginHandler} userId={location.state.userId} restaurantId={location.state.restaurantId} restaurantName={location.state.restaurantName}/>
   
         <HomeContainer>
           <HeroImage src="/heropic.jpg" alt="hero pic" />
@@ -438,11 +438,8 @@ const Home = () => {
         <Footer />
       </div>
     );
-  }
-  else{
-    // alert("You must Log In to Proceed")
-    nav("/Login")
-  }
+  
+
   
 };
 

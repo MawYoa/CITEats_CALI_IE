@@ -52,13 +52,7 @@ const StyledLink = styled(Link)`
                   </Link>
                 </div>
 
-                <div className="button-container">
-                  <Link to="/Login">
-                    <button className="maroon-button" >
-                      Sign in as Admin
-                    </button>
-                  </Link>
-                </div>
+                
               </div>
 
               <h4 style={{ textAlign: 'center', alignItems: 'center' }}>Or</h4>

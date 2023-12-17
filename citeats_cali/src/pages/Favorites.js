@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
 import Header from '../components/Header';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation,useNavigate } from 'react-router-dom';
+import { LoginContext } from './Rando';
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -72,13 +73,22 @@ const imageMapping = {
   20: "mongol.jpg",
 };
 
-const Favorites = ({restaurantId, restaurantName}) => {
+const Favorites = ({restaurantId, restaurantName,loginHandler,restoLoginHandler}) => {
   const [userId, setUserId] = useState('');
   const [favoritesList, setFavoritesList] = useState([]);
   const location = useLocation();
   const [restaurants, setRestaurants] = useState([]);
+  const loggedIn = useContext(LoginContext);
+  const nav = useNavigate();
 
   useEffect(() => {
+    if (!loggedIn.userLoggedIn) {
+      alert('You must be logged in to enter this page');
+      nav('/');
+      return null; 
+    }
+
+    
     const fetchData = async () => {
       try {
         // Check if location is available before accessing location.state.userId
@@ -99,7 +109,7 @@ const Favorites = ({restaurantId, restaurantName}) => {
   }, [location]);
   return (
     <div>
-      <Header userId={location.state.userId} restaurantId={location.state.restaurantId} restaurantName={location.state.restaurantName}/>
+      <Header loginHandler={loginHandler} restoLoginHandler={restoLoginHandler} userId={location.state.userId} restaurantId={location.state.restaurantId} restaurantName={location.state.restaurantName}/>
       <FavoriteContainer>
         <h1 style={{color:'gold', textAlign:'left', padding:'0 110px',width:'200px'}}>My Favorites</h1>
      <br/>

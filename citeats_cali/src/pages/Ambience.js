@@ -46,7 +46,7 @@ const AmbienceImage = styled.img`
 const Ambience = () => {
   return (
     <div>
-      <Header />
+      
       <br></br>
       <AmbienceContainer>
         <AmbienceHeader>

@@ -154,21 +154,7 @@ const RestaurantProfile = () => {
     alert('Logged out successfully!');
   };
 
-  if (!authenticated) {
-    return (
-      <Layout>
-        <Header />
-        <Content>
-          <Container>
-            <Title>Authentication Required</Title>
-            <p>Please login to view the restaurant profile.</p>
-          </Container>
-        </Content>
-        <Footer />
-      </Layout>
-    );
-  }
-
+  
   return (
     <Layout>
       <Header />

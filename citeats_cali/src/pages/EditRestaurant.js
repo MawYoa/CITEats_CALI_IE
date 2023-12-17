@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from 'react';
 import styled from "styled-components";
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import axios from 'axios';
-import { useState, useEffect } from "react";
-import { useLocation, useParams } from "react-router";
+import { useLocation, useParams,useNavigate } from "react-router";
+import { LoginContext } from './Rando';
 
 const UserProfileContainer = styled.div`
   width: 85%;
@@ -209,7 +209,7 @@ const AddMenuItemContainer = styled.div`
 `;
 
   
-  const EditRestaurant = () => {
+  const EditRestaurant = ({loginHandler, restoLoginHandler}) => {
     const [restaurantData, setRestaurantData] = useState({});
     const [editMode, setEditMode] = useState(false);
     const [restaurantName, setrestaurantName] = useState('');
@@ -229,8 +229,16 @@ const AddMenuItemContainer = styled.div`
     const location = useLocation('');
     const [selectedCuisineType, setSelectedCuisineType] = useState('');
     const [cuisineTypes, setCuisineTypes] = useState([]);
+    const loggedIn = useContext(LoginContext);
+    const nav = useNavigate();
 
   useEffect(() => {
+    if (!loggedIn.restoLoggedIn) {
+      alert('You must be logged in to enter this page');
+      nav('/Login');
+      return null; 
+    }
+
     const fetchData = async () => {
       try {
         const result = await axios.get('http://localhost:8080/cuisinetypes/getAllCuisineTypes');
@@ -512,7 +520,7 @@ const AddMenuItemContainer = styled.div`
 
   return (
     <div> 
-      <Header restaurantId={location.state.restaurantId} restaurantName={location.state.restaurantName}/>
+      <Header restoLoginHandler={restoLoginHandler} loginHandler={loginHandler} restaurantId={location.state.restaurantId} restaurantName={location.state.restaurantName}/>
       <UserProfileContainer>
    
         <UserProfileInfo>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useUserContext } from '../components/UserContext';
 
 import './main.css';
@@ -7,7 +7,8 @@ import { useNavigate, Link} from 'react-router-dom';
 import Header from '../components/Header';
 import "@fontsource/kumbh-sans"; 
 
-const RestaurantOwnerLogin = () => {
+const RestaurantOwnerLogin = ({restoLoginHandler}) => {
+  
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -29,7 +30,7 @@ const RestaurantOwnerLogin = () => {
         // Login successful
         setIsLoggedIn(true);
         setUserData(restaurantOwner); // Set user data in state
-  
+        restoLoginHandler(true);
         alert(`Restaurant Owner ${restaurantOwner.restaurantId} logged in`);
   
         // You can store user data in state or any other necessary logic
@@ -51,8 +52,8 @@ const RestaurantOwnerLogin = () => {
     }
   }, [isLoggedIn, navigate, userData]);
 
-  console.log("This is the restaurantOwnerLogin");
 
+  
   return (
     <div>
       <Header />

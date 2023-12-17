@@ -1,10 +1,10 @@
-import React from "react";
 import styled from "styled-components";
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { useLocation, useParams } from "react-router";
+import { useLocation, useParams,useNavigate } from "react-router";
+import { LoginContext } from './Rando';
 
 const UserProfileContainer = styled.div`
   width: 85%;
@@ -179,7 +179,7 @@ const ReviewRestaurantId = styled.span`
 `;
 
 
-const UserProfile = () => {
+const UserProfile = ({loginHandler}) => {
   const [userData, setUserData] = useState({});
   const [editMode, setEditMode] = useState(false);
   const [username, setUsername] = useState('');
@@ -197,30 +197,44 @@ const UserProfile = () => {
   const [editedRating, setEditedRating] = useState(0);
   const [editedComment, setEditedComment] = useState('');
 
-  const { userId } = useParams() ?? {};
+  const { userId } = useParams() || {};
   const location = useLocation();
 
-  useEffect(() => {
+  const nav = useNavigate()
+  const userLoggedIn = useContext(LoginContext)
+
+
     console.log("User ID:", userId); // Add this line for debugging
-    const fetchData = async () => {
-      try {
-        const result = await axios.get(`http://localhost:8080/users/${userId}`);
-        setUserData(result.data);
+    useEffect(() => {
 
-        // Set the initial name, handling the case where it might be null or undefined
-        setUsername(result.data.username ?? '');
-        setEmail(result.data.email ?? '');
-
-        const reviewsResult = await axios.get(`http://localhost:8080/reviews/getReviewsByUserId/${userId}`);
-        setUserReviews(reviewsResult.data);
-
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
-  }, [userId]);
+      const fetchData = async () => {
+        try {
+          console.log(userLoggedIn.userLoggedIn)
+          // Check if the user is logged in
+          if (!userLoggedIn.userLoggedIn) {
+            alert('You must be logged in to access this page');
+            nav('/');
+            
+            return null;
+          }
+    
+          console.log("User ID:", userId);
+          const result = await axios.get(`http://localhost:8080/users/${userId}`);
+          setUserData(result.data);
+    
+          setUsername(result.data.username ?? '');
+          setEmail(result.data.email ?? '');
+    
+          const reviewsResult = await axios.get(`http://localhost:8080/reviews/getReviewsByUserId/${userId}`);
+          setUserReviews(reviewsResult.data);
+    
+        } catch (error) {
+          console.error(error);
+        }
+      };
+    
+      fetchData();
+    }, [userId, userLoggedIn]);
 
   const handleEditClick = () => {
     setEditMode(!editMode);
@@ -355,7 +369,7 @@ const UserProfile = () => {
   
   return (
     <div>
-      <Header userId={location.state.userId}/>
+      <Header loginHandler={loginHandler} userId={location.state.userId}/>
       <UserProfileContainer>
         
             <UserProfileInfo>

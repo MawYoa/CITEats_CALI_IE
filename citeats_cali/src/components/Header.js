@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect ,useContext} from "react";
 import styled from "styled-components";
 import { NavLink as Link, useLocation, useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { LoginContext } from '../pages/Rando';
 
 const HeaderContainer = styled.div`
   width: 100%;
@@ -68,14 +69,15 @@ const LogoutButton = styled.button`
   }
 `;
 
-const Header = ({ userId, restaurantId, restaurantName, loginHandler}) => {
+const Header = ({ userId, restaurantId, restaurantName, loginHandler,restoLoginHandler}) => {
 
   const navigate = useNavigate();
   const location = useLocation();
   const [localUserId, setLocalUserId] = useState(null);
   const [localUserType, setLocalUserType] = useState(null);
   const [localRestaurantId, setLocalRestaurantId] = useState(null);
-
+  const userLoggedIn = useContext(LoginContext)
+  
     
   const handleLogout = () => {
     // Display a confirmation dialog
@@ -86,7 +88,9 @@ const Header = ({ userId, restaurantId, restaurantName, loginHandler}) => {
       setLocalUserId(null);
       setLocalUserType(null);
       setLocalRestaurantId(null);
-      loginHandler(false)
+      loginHandler(false);
+      restoLoginHandler(false);
+      
       // After logout, you can redirect to the home page or login page
       navigate("/");
     }

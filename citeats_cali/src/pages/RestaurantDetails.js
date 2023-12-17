@@ -411,7 +411,7 @@ const OverallRatingInput = ({ onChange }) => {
   );
 };
 
-const RestaurantDetails = () => {
+const RestaurantDetails = ({loginHandler}) => {
 
   const [restaurant, setRestaurant] = useState({}); 
   const { restaurantId } = useParams();
@@ -596,7 +596,7 @@ const RestaurantDetails = () => {
 
   return (
     <div style={{ fontFamily: "Kumbh Sans" }}>
-      <Header userId={location.state.userId} restaurantId={location.state.restaurantId} restaurantName={location.state.restaurantName} />
+      <Header  loginHandler={loginHandler} userId={location.state.userId} restaurantId={location.state.restaurantId} restaurantName={location.state.restaurantName} />
       <br />
       <RestaurantDetailsContainer>
         {[restaurant].map((restaurant, index) => (

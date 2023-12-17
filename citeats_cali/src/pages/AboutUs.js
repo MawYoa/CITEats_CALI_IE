@@ -35,13 +35,13 @@ const WidePicture = ({ imageSrc, height }) => (
   </div>
 );
 
-const AboutUs = () => {
+const AboutUs = ({loginHandler,restoLoginHandler}) => {
 
   const location = useLocation();
 
     return (
     <div> 
-      <Header userId={location.state.userId} userType={location.state.userType} restaurantId={location.state.restaurantId} restaurantName={location.state.restaurantName}/>
+      <Header loginHandler={loginHandler} restoLoginHandler={restoLoginHandler} userId={location.state.userId} userType={location.state.userType} restaurantId={location.state.restaurantId} restaurantName={location.state.restaurantName}/>
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' ,fontFamily: 'Kumbh Sans'}}>
       
       <WidePicture imageSrc="about.jpg" />
