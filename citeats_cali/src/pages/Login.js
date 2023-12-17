@@ -7,7 +7,7 @@ import { useNavigate, Link} from 'react-router-dom';
 import Header from '../components/Header';
 import "@fontsource/kumbh-sans"; 
 
-const Login = () => {
+const Login = ({loginHandler}) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -33,7 +33,7 @@ const Login = () => {
         // Login successful
         setIsLoggedIn(true);
         setUserData(user); // Set user data in state
-  
+        loginHandler(true);
         alert(`User ${user.userId} logged in`);
   
         // You can store user data in state or any other necessary logic

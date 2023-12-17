@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import FAQ from '../components/FAQ';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import './Home.css';
+import { LoginContext } from './Rando';
 
 const StyledLink = styled(Link)`
   text-decoration: none;
@@ -208,13 +209,16 @@ const StyledText = styled.h2`
 `;
 
 const Home = () => {
+  const loggedIn = useContext(LoginContext)
+
   const [cuisineCategories, setCuisineCategories] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
   const [latestReviews, setLatestReviews] = useState([]);
   const [users, setUsers] = useState([]); // New state to store user data
   const location = useLocation();
   const userId = location.state && location.state.userId;
-  
+  const nav = useNavigate()
+
   useEffect(() => {
 
     
@@ -354,86 +358,92 @@ const Home = () => {
     }
   };
   
-
-  return (
-    <div>
-      <Header userId={location.state.userId} restaurantId={location.state.restaurantId} restaurantName={location.state.restaurantName}/>
-
-      <HomeContainer>
-        <HeroImage src="/heropic.jpg" alt="hero pic" />
-        <br></br>
-        <br></br>
-        <br></br>
-        <BrowseButton >
-          <StyledLink to="/BrowseRestaurants" state={{ userId:userId }}>BROWSE NOW </StyledLink>
-        </BrowseButton>
-        <br></br>
-        <br></br>
-        <div style={{ display: 'inline-block', whiteSpace: 'nowrap' }}>
-          <StyledText style={{ color: 'gold', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)' }}>Discover,</StyledText>
-          <StyledText style={{ color: 'maroon', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)' }}> Dine,</StyledText>
-          <StyledText style={{ color: 'orange', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)' }}> Delight:</StyledText>
-          <StyledText style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)' }}> Your Culinary</StyledText>
-          <StyledText style={{ fontFamily: 'cursive', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)' }}> JOURNEY</StyledText>
-          <StyledText style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)' }}> Begins Here at CIT Eats!</StyledText>
-        </div>
-
-        <p>Explore Local Campus Flavors, Experience The Pinoy Tastes - Where Every Meal is a Memorable Adventure!</p>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <h2>Your Favorite Delicacies</h2>
-        <ButtonsContainer>
-          {cuisineCategories.map(({ typeName, imageSrc }) => (
-            <StyledLink to="/BrowseRestaurants" key={typeName}>
-              <FoodCategory
-                category={typeName}
-                imageSrc={imageSrc}
-                onClick={() => handleSquareButtonClick(typeName)}
-              />
-            </StyledLink>
-          ))}
-        </ButtonsContainer>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <h2>Popular near you</h2>
-        <PopularNearYou  restaurants={restaurants} />
-        <br></br>
-        <div>
-          <div style={{ alignItems: 'left', marginTop: 0, marginBottom: 0 }}>
-            <h3> Latest Reviews</h3>
-            <h4 style={{ color: 'gold' }}> 4.4 overall rating</h4>
+  if(loggedIn === true){
+    return (
+      <div>
+        <Header userId={location.state.userId} restaurantId={location.state.restaurantId} restaurantName={location.state.restaurantName}/>
+  
+        <HomeContainer>
+          <HeroImage src="/heropic.jpg" alt="hero pic" />
+          <br></br>
+          <br></br>
+          <br></br>
+          <BrowseButton >
+            <StyledLink to="/BrowseRestaurants" state={{ userId:userId }}>BROWSE NOW </StyledLink>
+          </BrowseButton>
+          <br></br>
+          <br></br>
+          <div style={{ display: 'inline-block', whiteSpace: 'nowrap' }}>
+            <StyledText style={{ color: 'gold', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)' }}>Discover,</StyledText>
+            <StyledText style={{ color: 'maroon', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)' }}> Dine,</StyledText>
+            <StyledText style={{ color: 'orange', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)' }}> Delight:</StyledText>
+            <StyledText style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)' }}> Your Culinary</StyledText>
+            <StyledText style={{ fontFamily: 'cursive', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)' }}> JOURNEY</StyledText>
+            <StyledText style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)' }}> Begins Here at CIT Eats!</StyledText>
           </div>
-
-          <SeeAllReviewsButton>
-            <StyledLink to="/Reviews">See All Reviews</StyledLink>
-          </SeeAllReviewsButton>
+  
+          <p>Explore Local Campus Flavors, Experience The Pinoy Tastes - Where Every Meal is a Memorable Adventure!</p>
           <br></br>
           <br></br>
-
-          {latestReviews.map((review) => (
-        <ReviewCard key={review.reviewId}>
-          <p style={{ color: 'maroon', fontWeight: 'bold' }}>Username: {review.user.username}</p>
-          <p style={{ color: 'maroon', fontWeight: 'bold' }}>Restaurant Name: {review.restaurant.restaurantName}</p>
-          <p style={{ color: 'gold' }}>{review.rating}/5</p>
-          <p>{formatDate(review.datePosted)}</p>
-          <p>{review.comment}</p>
-        </ReviewCard>
-      ))}
-        </div>
-      </HomeContainer>
-      <br/>
-      <br/>
-      <br/>
-      <FAQ />
-      <Footer />
-    </div>
-  );
+          <br></br>
+          <br></br>
+          <br></br>
+          <h2>Your Favorite Delicacies</h2>
+          <ButtonsContainer>
+            {cuisineCategories.map(({ typeName, imageSrc }) => (
+              <StyledLink to="/BrowseRestaurants" key={typeName}>
+                <FoodCategory
+                  category={typeName}
+                  imageSrc={imageSrc}
+                  onClick={() => handleSquareButtonClick(typeName)}
+                />
+              </StyledLink>
+            ))}
+          </ButtonsContainer>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <h2>Popular near you</h2>
+          <PopularNearYou  restaurants={restaurants} />
+          <br></br>
+          <div>
+            <div style={{ alignItems: 'left', marginTop: 0, marginBottom: 0 }}>
+              <h3> Latest Reviews</h3>
+              <h4 style={{ color: 'gold' }}> 4.4 overall rating</h4>
+            </div>
+  
+            <SeeAllReviewsButton>
+              <StyledLink to="/Reviews">See All Reviews</StyledLink>
+            </SeeAllReviewsButton>
+            <br></br>
+            <br></br>
+  
+            {latestReviews.map((review) => (
+          <ReviewCard key={review.reviewId}>
+            <p style={{ color: 'maroon', fontWeight: 'bold' }}>Username: {review.user.username}</p>
+            <p style={{ color: 'maroon', fontWeight: 'bold' }}>Restaurant Name: {review.restaurant.restaurantName}</p>
+            <p style={{ color: 'gold' }}>{review.rating}/5</p>
+            <p>{formatDate(review.datePosted)}</p>
+            <p>{review.comment}</p>
+          </ReviewCard>
+        ))}
+          </div>
+        </HomeContainer>
+        <br/>
+        <br/>
+        <br/>
+        <FAQ />
+        <Footer />
+      </div>
+    );
+  }
+  else{
+    // alert("You must Log In to Proceed")
+    nav("/Login")
+  }
+  
 };
 
 

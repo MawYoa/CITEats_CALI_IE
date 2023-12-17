@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
+
 import './index.css';
 import { BrowserRouter , Route ,Routes} from 'react-router-dom'; // Update this line
+import reportWebVitals from './reportWebVitals';
 
 import Home from './pages/Home';
 import BrowseRestaurants from './pages/BrowseRestaurants';
@@ -22,13 +24,14 @@ import RestaurantProfile from './pages/RestaurantProfile';
 import EditRestaurant from './pages/EditRestaurant';
 import RestaurantOwnerLogin from './pages/RestaurantOwnerLogin'
 import ForgotPasswordResto from './pages/ForgotPasswordResto';
+import { App } from './pages/Rando';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Routes>
+      {/* <Routes>
         <Route path="/" element={<GetStarted/>} />
         <Route path="/Login" element={<Login/>} />
         <Route path="/Home" element={<Home/>} />
@@ -49,9 +52,11 @@ root.render(
         <Route path="/EditRestaurant/:restaurantId" element={<EditRestaurant/>} /> 
         <Route path="/GetStarted" element={<GetStarted/>} /> 
         <Route path="/RestaurantOwnerLogin" element={<RestaurantOwnerLogin/>}/> 
-
-      </Routes>
+      </Routes> */}
+      <App/>
+      {/* <App/> */}
     </BrowserRouter>
   </React.StrictMode>
 );
  
+reportWebVitals();

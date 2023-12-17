@@ -68,7 +68,7 @@ const LogoutButton = styled.button`
   }
 `;
 
-const Header = ({ userId, restaurantId, restaurantName}) => {
+const Header = ({ userId, restaurantId, restaurantName, loginHandler}) => {
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -86,7 +86,7 @@ const Header = ({ userId, restaurantId, restaurantName}) => {
       setLocalUserId(null);
       setLocalUserType(null);
       setLocalRestaurantId(null);
-  
+      loginHandler(false)
       // After logout, you can redirect to the home page or login page
       navigate("/");
     }
