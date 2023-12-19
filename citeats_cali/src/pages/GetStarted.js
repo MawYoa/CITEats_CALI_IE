@@ -20,7 +20,7 @@ const StyledLink = styled(Link)`
         <div style={{ display: 'flex'}}>
           <div>
             <br />
-            <img src="GetStarted.png" alt="GetStarted" style={{ width: '480px', height: '600px', marginLeft: '300px', marginTop:'40px'}} />
+            <img src="GetStarted.png" alt="GetStarted" style={{ width: '480px', height: '600px', marginLeft: '300px', marginTop:'10px'}} />
           </div>
 
 
